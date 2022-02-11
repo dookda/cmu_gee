@@ -15,14 +15,65 @@ Earth Engine สามารถเลือกใช้แบบภาษา Pyt
 ![This is an image](https://developers.google.com/earth-engine/images/Code_editor_diagram.png)
 ที่มาของภาพ https://developers.google.com/earth-engine
 
-### การเขียน JavaScript เบื้องต้น
-
+### การเขียน JavaScript เบื้องต้น สำหรับ Earth Engine
+๋JavaScript 
+การประกาศตัวแปรของ JavaScript จะขึ้นต้น var โดยสามารถกำหนดตัวแปรเป็นประเภทต่างๆ ดังนี้
 ```js
-var x; // undefined
-var length = 16; // Number
-var lastName = "Homhuan"; // String
+// undefined
+var x;
+// Number
+var length = 16; 
+// String
+var lastName = "Homhuan"; 
+// Boolean
+var isTrue = true; 
+// Array
+var array = [0,1,2,3,4,5,6,7,8,9]
+// Object
 var x = {
     firstName: "Sakda",
     lastName: "Homhuan"
-}; // Object
+}; 
 ```
+การเขียน function 
+การเขียนฟังก์ชันต้องระบุคำว่า function ก่อนเสมอ ที่ไม่มี parameter
+```js
+function showMessage() {
+    userName = "Bob"; // (1) changed the outer variable
+
+    let message = 'Hello, ' + userName;
+    alert(message);
+}
+```
+
+การเรียกใช้งานฟังก์ชัน 
+```js
+showMessage();
+```
+ฟังก์ชัน return
+```js
+function add(){
+    return 1 + 2;
+}
+```
+การเรียกใช้งาน
+```js
+add()
+```
+หรือกำหนดเป็นตัวแปร
+```js
+var addData = add()
+console.log(addData)
+```
+ฟังก์ชันแบบต้องการ parameter
+```js
+function sum(a, b) {
+    return a + b;
+}
+```
+เรียกใช้งาน
+```js
+var result = sum(1, 2);
+console.log(result); // 3
+```
+
