@@ -16,7 +16,7 @@ Earth Engine สามารถเลือกใช้แบบภาษา Pyt
 ที่มาของภาพ https://developers.google.com/earth-engine
 
 ### การเขียน JavaScript เบื้องต้น สำหรับ Earth Engine
-JavaScript 
+#### การประกาศตัวแปร
 การประกาศตัวแปรของ JavaScript จะขึ้นต้น var โดยสามารถกำหนดตัวแปรเป็นประเภทต่างๆ ดังนี้
 ```js
 // undefined
@@ -35,6 +35,7 @@ var x = {
     lastName: "Homhuan"
 }; 
 ```
+#### การเขียนฟังก์ชัน
 การเขียนฟังก์ชันต้องระบุคำว่า function ก่อนเสมอ และระบุชื่อให้กับฟังก์ชั่นหลังก่อน () ซึ่งฟังก์ชั่นสามารถแบ่งออกเป็นแบบต้องการ parameter และแบบไม่ต้องการ parameter
 การเขัยนฟังก์ชันแบบไม่ต้องการ parameter เขียนได้ ดังนี้
 ```js
@@ -44,7 +45,6 @@ function showMessage() {
     alert(firstName + " " + lastName);
 }
 ```
-
 การเรียกใช้งานฟังก์ชันทำได้ ดังนี้
 ```js
 showMessage();
@@ -54,9 +54,7 @@ showMessage();
 function add(){
     return 1 + 2;
 }
-```
-ทดลองการเรียกใช้งาน ดังนี้
-```js
+
 add();
 ```
 เราสามารถกำหนดการใช้งานฟังก์ชันแบบตัวแปรได้ ดังนี้
@@ -74,5 +72,66 @@ function sum(a, b) {
 ```js
 var result = sum(1, 2);
 console.log(result); // 3
+```
+#### การกำหนดเงื่อนไข
+ใช้คำสั่ง if เพื่อกำหนดเงื่อนไข
+```js
+if (year == 2020) {
+    alert("That's correct!");
+    alert("You're so smart!");
+}
+```
+หากต้องการกำหนดเงื่อนไขเพิ่ม สามารถใช้ else if ดังนี้
+```js
+if (year < 2020) {
+    alert('Too early...');
+} else if (year > 2020) {
+    alert('Too late');
+} else {
+    alert('Exactly!');
+}
+```
+สามารถใช้ switch ในการกำหนดเงื่อนไข ได้ ดังนี้
+```js
+var a = 2 + 2;
+
+switch (a) {
+    case 3:
+        alert('Too small');
+        break;
+    case 4:
+        alert('Exactly!');
+        break;
+    case 5:
+        alert('Too large');
+        break;
+    default:
+        alert("I don't know such values");
+}
+```
+#### การทำซ้ำ
+สามารถใช้คำสั่ง while หรือ for เพื่อการทำซ้ำ (loop)
+การใช้ “while” loop
+```js
+while (condition) {
+  // code
+  // so-called "loop body"
+}
+
+let i = 0;
+while (i < 3) { // shows 0, then 1, then 2
+    alert(i);
+    i++;
+}
+```
+การใช้ “for” loop
+```js
+for (begin; condition; step) {
+  // ... loop body ...
+}
+
+for (let i = 0; i < 3; i++) { // shows 0, then 1, then 2
+    alert(i);
+}
 ```
 
