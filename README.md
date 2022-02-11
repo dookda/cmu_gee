@@ -181,39 +181,74 @@ var roi = ee.FeatureCollection([
 สร้าง dataset ของภาพที่ต้องการนำมาใช้
 ```js
 var dataset = ee.ImageCollection('COPERNICUS/S2_SR')
+```
+เลือกข้อมูลจากการปกคลุมของเมฆ
+```js
   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 30))
+```
+เลือกวันที่ของข้อมูลที่ต้อง
+```js
   .filter(ee.Filter.date('2022-01-01', '2022-01-31'))
+```
+เลือกขอบเขตของข้อมูลจาก FeatureCollection ของพื้นที่ศึกษา 
+```js
   .filter(ee.Filter.bounds(study_area))
+```
+เลือก band ของข้อมูลภาพที่ต้องการใช้งาน
+```js  
   .select('B.*')
-
+```
+ตัดข้อมูลตามขนาดของพื้นที่ศึกษา
+```js
 var composite = dataset.median().clip(study_area)
 print(composite);
-
-// select band for classify
+```
+สร้างตัวแปร array เพื่อกำหนด band สำหรับใช้ classify
+```js
 var bands = ['B2', 'B8', 'B11'];
-// var bands = ['B2', 'B4','B5', 'B7', 'B8', 'B11'];
-
-// create trainning 
+```
+สรา้งตัวแปร trainning เพื่อให้เครื่องเรียนรู้ตัวอย่างข้อมูลจาก training area
+```js
 var training = composite.sampleRegions({
   collection: roi, 
   properties: ['class'], 
   scale: 30
 });
-
-// create Classifier
+```
+เลือกวิธีการสำหรับ classify ข้อมูล แบบ [Random Forest classifier](https://developers.google.com/earth-engine/apidocs/ee-classifier-smilerandomforest) และระบุพารามิเตอร์ที่จำเป็นลงไป
+```js
 var smileRandomForest = ee.Classifier.smileRandomForest({
   numberOfTrees : 100
 });
-
+```
+เลือกวิธีการสำหรับ classify ข้อมูล แบบ [Support Vector Machine](https://developers.google.com/earth-engine/apidocs/ee-classifier-libsvm) และระบุพารามิเตอร์ที่จำเป็นลงไป
+```js
 var libsvm = ee.Classifier.libsvm({
   kernelType: 'RBF',
   gamma: 0.5,
   cost: 10
 });
-    
-// classify
+```    
+ฝึกให้เครื่องเรียนรู้ด้วยเมธอด train()
+```js
 var trained = smileRandomForest.train(training, 'class', bands);
+```
+จำแนกข้อมูลด้วยเมธอด classify()
+```js
 var classified = composite.classify(trained);
+```
+กำหนดตำแหน่งการแสดงผล
+```js
+Map.centerObject(study_area, 14);
+```
+กำหนดค่าสีเพื่อใช้ในการแสดงผลค่าที่ classify ได้
+```js
+var palette = ['#c9995c', '#c7d270', '#8add60', '#097210', '#8bc4f9'];
+```
+แสดงผลค่าที่ classify ได้
+```js
+Map.addLayer(classified, {min: 1, max: 5, palette: palette}, 'Classified'); 
+```
 
 
 // scale data to float
@@ -228,7 +263,7 @@ var visualization = {
   max: 0.3,
   bands: ['B4', 'B3', 'B2'],
 };
-var palette = ['#c9995c', '#c7d270', '#8add60', '#097210', '#8bc4f9']
+
 
 var style = {
   color: 'red',
@@ -239,10 +274,9 @@ var style = {
   // pointShape: 'circle'
 }
 // add to display
-Map.centerObject(study_area, 14);
+
 Map.addLayer(s2.median(), visualization, 'RGB:432');
 // Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B11', 'B8', 'B2']}, 'RGB:1182');
-Map.addLayer(classified, {min: 1, max: 5, palette: palette}, 'Classified'); 
 Map.addLayer(roi,{color:'red', fillColor:'00000000'},"Trainning area");
 
 // print(ee.Algorithms.ObjectType(classified));
@@ -303,4 +337,3 @@ Export.image.toDrive({
   scale: 12.5,
   crs: 'EPSG:32647'
 });
-```
