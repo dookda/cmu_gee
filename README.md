@@ -111,6 +111,8 @@ switch (a) {
 ```
 #### การทำซ้ำ
 สามารถใช้คำสั่ง while หรือ for เพื่อการทำซ้ำ (loop)
+
+
 การใช้ “while” loop
 ```js
 while (condition) {
