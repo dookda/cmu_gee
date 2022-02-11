@@ -5,7 +5,7 @@ Earth Engine เป็นระบบบริการการประมว�
 
 ### หน้าต่างการทำงาน 
 Earth Engine สามารถเลือกใช้แบบภาษา Python หรือ JavaScript ซึ่งการทำงานแบบ JavaScript จะมี Code Editor ที่สามารถทำงานแบบ web-based บน browser เช่น google chrome 
-เข้าใช้งานได้ที่ [https://code.earthengine.google.com/](https://code.earthengine.google.com/).
-
+โดยเข้าใช้งานได้ที่ [https://code.earthengine.google.com/](https://code.earthengine.google.com/) สำหรับผู้ที่เข้าใช้งานเป็นครั้งแรก
+![This is an image](./img/regis.png)
  
 ![This is an image](https://developers.google.com/earth-engine/images/Code_editor_diagram.png)
