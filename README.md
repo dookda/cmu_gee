@@ -16,7 +16,7 @@ Earth Engine สามารถเลือกใช้แบบภาษา Pyt
 ที่มาของภาพ https://developers.google.com/earth-engine
 
 ### การเขียน JavaScript เบื้องต้น สำหรับ Earth Engine
-๋JavaScript 
+JavaScript 
 การประกาศตัวแปรของ JavaScript จะขึ้นต้น var โดยสามารถกำหนดตัวแปรเป็นประเภทต่างๆ ดังนี้
 ```js
 // undefined
@@ -35,43 +35,42 @@ var x = {
     lastName: "Homhuan"
 }; 
 ```
-การเขียน function 
-การเขียนฟังก์ชันต้องระบุคำว่า function ก่อนเสมอ ที่ไม่มี parameter
+การเขียนฟังก์ชันต้องระบุคำว่า function ก่อนเสมอ และระบุชื่อให้กับฟังก์ชั่นหลังก่อน () ซึ่งฟังก์ชั่นสามารถแบ่งออกเป็นแบบต้องการ parameter และแบบไม่ต้องการ parameter
+การเขัยนฟังก์ชันแบบไม่ต้องการ parameter เขียนได้ ดังนี้
 ```js
 function showMessage() {
-    userName = "Bob"; // (1) changed the outer variable
-
-    let message = 'Hello, ' + userName;
-    alert(message);
+    var firstName = "sakda"; 
+    var lastName = "homhuan";
+    alert(firstName + " " + lastName);
 }
 ```
 
-การเรียกใช้งานฟังก์ชัน 
+การเรียกใช้งานฟังก์ชันทำได้ ดังนี้
 ```js
 showMessage();
 ```
-ฟังก์ชัน return
+ใช้ return หากต้องการค่ากลับคืนจากฟังก์ชัน ดังนี้
 ```js
 function add(){
     return 1 + 2;
 }
 ```
-การเรียกใช้งาน
+ทดลองการเรียกใช้งาน ดังนี้
 ```js
-add()
+add();
 ```
-หรือกำหนดเป็นตัวแปร
+เราสามารถกำหนดการใช้งานฟังก์ชันแบบตัวแปรได้ ดังนี้
 ```js
-var addData = add()
-console.log(addData)
+var addData = add();
+console.log(addData);
 ```
-ฟังก์ชันแบบต้องการ parameter
+การเขียนฟังก์ชันแบบต้องการ parameter
 ```js
 function sum(a, b) {
     return a + b;
 }
 ```
-เรียกใช้งาน
+เรียกใช้งานฟังก์ชันแบบต้องการ parameter ดังนี้
 ```js
 var result = sum(1, 2);
 console.log(result); // 3
