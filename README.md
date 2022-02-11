@@ -17,7 +17,7 @@ Earth Engine สามารถเลือกใช้แบบภาษา Pyt
 
 ### การเขียน JavaScript เบื้องต้น
 
-```
+```js
 var x; // undefined
 var length = 16; // Number
 var lastName = "Homhuan"; // String
