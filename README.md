@@ -26,6 +26,8 @@ Earth Engine สามารถเลือกใช้แบบภาษา Pyt
 ที่มาของภาพ https://developers.google.com/earth-engine
 
 ### การเขียน JavaScript เบื้องต้น สำหรับ Earth Engine
+google ให้ใช้ JavaScript เขียนบน Code Editor รูปแบบการเขียน JavaScript ที่กูเกิ้ลแนะนำไว้ใน [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
+ซึ่งไม่ครอบคลุมกับมาตรฐานของ JavaScript รุ่นใหม่ (ECMAScript(ES6,ES7,ES8,ES9)) บทความนี้ได้นำเอาตัวอย่างที่อาจนำมาใช้ได้กับ Earth Engine ดังนี้
 #### การประกาศตัวแปร
 การประกาศตัวแปรของ JavaScript จะขึ้นต้น var โดยสามารถกำหนดตัวแปรเป็นประเภทต่างๆ ดังนี้
 ```js
