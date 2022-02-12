@@ -359,5 +359,5 @@ Export.image.toDrive({
 ผลการทำงาน
 ![This is an image](./img/output.png)
 
-ลิ้งค์ดูผลการทำงานที่[https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae](https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae)
+ลิ้งค์ดูผลการทำงานที่ [https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae](https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae)
 
