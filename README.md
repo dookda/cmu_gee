@@ -155,27 +155,7 @@ var extent = ee.Geometry.Rectangle(98.60050309407558,18.600060979081825,98.64058
 สร้าง FeatureCollection จาก Geometry
 ```js
 var study_area = ee.FeatureCollection([
-  ee.Feature(bnd_MA, {'name': 'bnd_MA'})
-])
-```
-สรา้ง Training area เพื่อเก็บข้อมูลให้เครื่องฝึกเรียนรู้ แบบ Rectangle
-```js
-var bareSoil = ee.Geometry.Rectangle(98.62616882242132,18.58225882687881,98.6265443316834,18.581953741275164);
-var cropLand = ee.Geometry.Rectangle(98.62591102622285, 18.58020150995087, 98.62627580664888, 18.579876081359373);
-var forest1 = ee.Geometry.Rectangle(98.62741594658405,18.58581682027496,98.62795238838703,18.585267677260802);
-var forest2 = ee.Geometry.Rectangle(98.63757900964077,18.579358673749272,98.63837294350918,18.578545097082692);
-var building = ee.Geometry.Rectangle(98.6232372413925,18.583705967136666,98.62355374205626,18.583156817320013); 
-var building2 = ee.Geometry.Rectangle(98.62373812203315,18.585700781799776,98.62391514782813,18.585522818858564);
-```
-สร้าง FeatureCollection ของ Training area โดยกำหนดเป็น class แบบต่าง ๆ
-```js
-var names = ['Bare Soil','Crop Land','Deciduous Forest','Evergreen Forest','Building'];
-var roi = ee.FeatureCollection([
-  ee.Feature(bareSoil, {'class': 1}),  
-  ee.Feature(cropLand, {'class': 2}),  
-  ee.Feature(forest2, {'class': 3}),  
-  ee.Feature(forest1, {'class': 4}),  
-  ee.Feature(building, {'class': 5}), 
+  ee.Feature(extent, {'name': 'bnd_MA'})
 ]);
 ```
 สร้าง dataset ของภาพที่ต้องการนำมาใช้
@@ -198,10 +178,52 @@ var dataset = ee.ImageCollection('COPERNICUS/S2_SR')
 ```js  
   .select('B.*')
 ```
-ตัดข้อมูลตามขนาดของพื้นที่ศึกษา
+สร้างฟังก์ชันตัดข้อมูลตามขนาดของพื้นที่ศึกษาและ scale ข้อมูลจาก int to float
 ```js
-var composite = dataset.median().clip(study_area)
-print(composite);
+var scalData = function (img) {
+  return img.clip(study_area).divide(10000);
+}
+```
+เรีกฟังก์ชัน scalData
+```js
+var s2 = dataset.map(scalData)
+```
+กำหนดตำแหน่งการแสดงผล
+```js
+Map.centerObject(study_area, 14);
+```
+แสดงผลโดยการผสมแบบ true color composite และ false color composite
+```js
+Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B4', 'B3', 'B2']}, 'RGB:432');  
+Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B11', 'B8', 'B2']}, 'RGB:1182');
+```
+
+สรา้ง Training area เพื่อเก็บข้อมูลให้เครื่องฝึกเรียนรู้ แบบ Rectangle
+```js
+var bareSoil = ee.Geometry.Rectangle(98.62616882242132,18.58225882687881,98.6265443316834,18.581953741275164);
+var cropLand = ee.Geometry.Rectangle(98.62591102622285, 18.58020150995087, 98.62627580664888, 18.579876081359373);
+var forest1 = ee.Geometry.Rectangle(98.62741594658405,18.58581682027496,98.62795238838703,18.585267677260802);
+var forest2 = ee.Geometry.Rectangle(98.63757900964077,18.579358673749272,98.63837294350918,18.578545097082692);
+var building = ee.Geometry.Rectangle(98.6232372413925,18.583705967136666,98.62355374205626,18.583156817320013); 
+var building2 = ee.Geometry.Rectangle(98.62373812203315,18.585700781799776,98.62391514782813,18.585522818858564);
+```
+สร้าง FeatureCollection ของ Training area โดยกำหนดเป็น class แบบต่าง ๆ
+```js
+var roi = ee.FeatureCollection([
+  ee.Feature(bareSoil, {'class': 1}),  
+  ee.Feature(cropLand, {'class': 2}),  
+  ee.Feature(forest2, {'class': 3}),  
+  ee.Feature(forest1, {'class': 4}),  
+  ee.Feature(building, {'class': 5}), 
+]);
+```
+สร้าง label ของ class
+```js
+var names = ['Bare Soil','Crop Land','Deciduous Forest','Evergreen Forest','Building'];
+```
+แสดง Training area
+```js
+Map.addLayer(roi,{color:'red', fillColor:'00000000'},"Trainning area");
 ```
 สร้างตัวแปร array เพื่อกำหนด band สำหรับใช้ classify
 ```js
@@ -237,10 +259,7 @@ var trained = smileRandomForest.train(training, 'class', bands);
 ```js
 var classified = composite.classify(trained);
 ```
-กำหนดตำแหน่งการแสดงผล
-```js
-Map.centerObject(study_area, 14);
-```
+
 กำหนดค่าสีเพื่อใช้ในการแสดงผลค่าที่ classify ได้
 ```js
 var palette = ['#c9995c', '#c7d270', '#8add60', '#097210', '#8bc4f9'];
@@ -249,47 +268,17 @@ var palette = ['#c9995c', '#c7d270', '#8add60', '#097210', '#8bc4f9'];
 ```js
 Map.addLayer(classified, {min: 1, max: 5, palette: palette}, 'Classified'); 
 ```
-
-
-// scale data to float
-var scalData = function (img) {
-  return img.clip(study_area).divide(10000);
-}
-
-var s2 = dataset.map(scalData)
-
-var visualization = {
-  min: 0.0,
-  max: 0.3,
-  bands: ['B4', 'B3', 'B2'],
-};
-
-
-var style = {
-  color: 'red',
-  width: 2,
-  fillColor: '#00000000',  // with alpha set for partial transparency
-  lineType: 'dotted',
-  // pointSize: 10,
-  // pointShape: 'circle'
-}
-// add to display
-
-Map.addLayer(s2.median(), visualization, 'RGB:432');
-// Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B11', 'B8', 'B2']}, 'RGB:1182');
-Map.addLayer(roi,{color:'red', fillColor:'00000000'},"Trainning area");
-
-// print(ee.Algorithms.ObjectType(classified));
-
-// set position of panel
+สร้าง legend panel
+```js
 var legend = ui.Panel({
   style: {
     position: 'bottom-left',
     padding: '8px 15px'
   }
 });
- 
-// Create legend title
+```
+กำหนด legend title
+```js
 var legendTitle = ui.Label({
   value: 'Landuse',
   style: {
@@ -299,9 +288,13 @@ var legendTitle = ui.Label({
     padding: '0'
     }
 });
- 
-// Add the title to the panel
+```
+ใส่ title ไปใน panel
+```js
 legend.add(legendTitle);
+```
+สร้าง template ของ legend item
+```js
 var makeRow = function(color, name) {
       var colorBox = ui.Label({
         style: {
@@ -321,14 +314,20 @@ var makeRow = function(color, name) {
         layout: ui.Panel.Layout.Flow('horizontal')
       });
 };
-
-var items = [1,2,3,4,5]
+```
+เพิ่มข้อมูลเข้าไปยัง legend panel
+```js
+var items = [1,2,3,4,5];
 for(var i in items) {
   legend.add(makeRow(palette[i], names[i]));
 }  
- 
+``` 
+เพิ่ม legend เข้าไปยังแผนที่
+```js
 Map.add(legend);
-
+```
+ส่งข้อมูลไปยัง google drive
+```js
 Export.image.toDrive({
   image: classified,
   description: 'classify_MA',
@@ -337,3 +336,7 @@ Export.image.toDrive({
   scale: 12.5,
   crs: 'EPSG:32647'
 });
+```
+
+
+
