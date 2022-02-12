@@ -160,6 +160,8 @@ for (let x in numbers) {
 }
 ```
 ### ตัวอย่าง การจำแนกข้อมูลภาพ (Classification) 
+ตัวอย่างนี้เป็นการจำแนกข้อมูลของดาวเทียม Sentinel 2 แบบ Supervised classification ด้วยวิธี Random Forest และ Support Vector Machine โดยมีขั้นตอนดังนี้
+![This is an image](./img/EE_classify.drawio.svg)
 กำหนด extent ของพื้นที่ศึกษา
 ```js
 var extent = ee.Geometry.Rectangle(98.60050309407558,18.600060979081825,98.64058599185445,18.568655533373086);
