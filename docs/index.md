@@ -216,7 +216,7 @@ Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B4', 'B3', 'B2']}, 'RGB:43
 Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B11', 'B8', 'B2']}, 'RGB:1182');
 ```
 ผลการทำงาน
-![This is an image](./img/false_composite.png)
+![This is an image](./assets/false_composite.png)
 สร้าง Training area เพื่อเก็บข้อมูลให้เครื่องฝึกเรียนรู้ แบบ Rectangle
 ```js
 var bareSoil = ee.Geometry.Rectangle(98.62616882242132,18.58225882687881,98.6265443316834,18.581953741275164);
