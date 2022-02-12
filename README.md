@@ -215,8 +215,9 @@ Map.centerObject(study_area, 14);
 Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B4', 'B3', 'B2']}, 'RGB:432');  
 Map.addLayer(s2.median(), {min:0.0, max:0.4, bands: ['B11', 'B8', 'B2']}, 'RGB:1182');
 ```
-
-สรา้ง Training area เพื่อเก็บข้อมูลให้เครื่องฝึกเรียนรู้ แบบ Rectangle
+ผลการทำงาน
+![This is an image](./img/false_composite.png)
+สร้าง Training area เพื่อเก็บข้อมูลให้เครื่องฝึกเรียนรู้ แบบ Rectangle
 ```js
 var bareSoil = ee.Geometry.Rectangle(98.62616882242132,18.58225882687881,98.6265443316834,18.581953741275164);
 var cropLand = ee.Geometry.Rectangle(98.62591102622285, 18.58020150995087, 98.62627580664888, 18.579876081359373);
@@ -358,4 +359,5 @@ Export.image.toDrive({
 ผลการทำงาน
 ![This is an image](./img/output.png)
 
+ลิ้งค์ดูผลการทำงานที่[https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae](https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae)
 
