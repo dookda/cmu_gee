@@ -337,6 +337,7 @@ Export.image.toDrive({
   crs: 'EPSG:32647'
 });
 ```
-
+ผลการทำงาน
+![This is an image](./img/output.png)
 
 
