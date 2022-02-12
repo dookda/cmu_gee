@@ -163,7 +163,7 @@ for (let x in numbers) {
 ตัวอย่างนี้เป็นการจำแนกข้อมูลของดาวเทียม Sentinel 2 แบบ Supervised classification ด้วยวิธี Random Forest และ Support Vector Machine โดยมีขั้นตอนดังนี้
 
 
-![This is an image](./../img/EE_classify.drawio.svg)
+![This is an image](./assets/EE_classify.drawio.svg)
 
 
 กำหนด extent ของพื้นที่ศึกษา
@@ -357,6 +357,6 @@ Export.image.toDrive({
 });
 ```
 ผลการทำงาน
-![This is an image](./../img/output.png)
+![This is an image](./assets/output.png)
 
 ลิ้งค์ดูผลการทำงานที่ [https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae](https://code.earthengine.google.com/3fc1b468753afad9a474a6ca1a9c73ae)
