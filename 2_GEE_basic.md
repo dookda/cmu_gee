@@ -1,7 +1,7 @@
-print("hello")
+### การใช้งาน google earth engine เบื้อต้น 
 
-data type 
-  Reducer, Chart, Join and Array.
+
+data type ใน google earth engine
 
 geographic data structures
     Images are composed of bands and a dictionary of properties. 
@@ -14,44 +14,15 @@ Other fundamental data structures
     Dictionary, List, Array, Date, Number and String
 
 
-image
-
+Image
+Image เป็นข้อมูลที่มีอย่างน้อย 1 band ซึ่งแต่ละ band จะมี ชื่อ datatype, scale, map projection เป็นของตนเอง มี metadata ที่ถูกเก็บไว้ใน properties
+ตัวอย่างของ Image 
 # Surface Reflectance
 ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
 # Top of Atmosphere
 ee.ImageCollection("LANDSAT/LC08/C01/T1_TOA")
 # raw images
 ee.ImageCollection("LANDSAT/LC08/C01/T1")
-
-```js
-var image = ee.Image('LANDSAT/LC08/C01/T1/LC08_131047_20140318');
-
-
-// Define visualization parameters in an object literal.
-var vizParams = {bands: ['B5', 'B4', 'B3'], min: 5000, max: 15000, gamma: 1.3};
-Map.centerObject(image, 9);
-Map.addLayer(image, vizParams, 'Landsat 8 false color');
-print(image)
-```
-
-
-image collections
-
-ข้อมูลที่ถูกจัดเก็บใน google earth engine ส่วนใหญ่เป็น collections ประกอบด้วยด้วยชุดข้อมูลภาพที่มีหลายช่วงเวลา 
-เราสามารถเข้าถึง collection ของข้อมูลได้จาก https://developers.google.com/earth-engine/datasets 
-ซึ่งมีทั้งข้อมูลจาก Landsat MODIS และ Sentinel
-
-ImageCollection
-```js
-
-```
-
-fillter
-```js
-
-```
-
-
 
 การเรียก image
 ```js
@@ -88,7 +59,7 @@ Map.centerObject(image, 9);
 Map.addLayer(image, vizParams, 'True color (432)');
 ```
 
-false color
+การผสมแบบ false color
 ```js
 var vizParams = {
   bands: ['B5', 'B4', 'B3'],
@@ -98,7 +69,7 @@ var vizParams = {
 };
 ```
 
-Masking
+การทำ Masking
 ```js
 var image = ee.Image('LANDSAT/LC09/C02/T1_TOA/LC09_131047_20211212');
 var ndwi = image.normalizedDifference(['B4', 'B5']);
@@ -109,7 +80,7 @@ var ndwiMasked = ndwi.updateMask(ndwi.gte(0.01));
 Map.addLayer(ndwiMasked, ndwiViz, 'NDWI masked');
 ```
 
-Clipping
+การทำ Clipping
 ```js
 var geometry = 
     /* color: #d63000 */
@@ -127,7 +98,7 @@ var ndviViz = {min: 0.5, max: 1, palette: ['f7fcb9','addd8e','31a354']};
 Map.addLayer(ndvi.clip(geometry), ndviViz, 'NDVI masked');
 ```
 
-get Metadata 
+การเรียกดู Metadata 
 ```js 
 var bandNames = image.bandNames();
 print('Band names:', bandNames);
@@ -139,7 +110,7 @@ var cloudiness = image.get('CLOUD_COVER');
 print('CLOUD_COVER:', cloudiness);  
 ```
 
-Expressions
+การทำ Expressions
 ```js
 var image = ee.Image('LANDSAT/LC09/C02/T1_TOA/LC09_131047_20211212');
 var ndvi = image.normalizedDifference(['B5', 'B3']);
@@ -157,7 +128,10 @@ Map.centerObject(image, 9);
 Map.addLayer(evi, ndviViz, "evi"); 
 ```
 
-ImageCollection 
+Image collections
+ข้อมูลที่ถูกจัดเก็บใน google earth engine ส่วนใหญ่เป็น collections ประกอบด้วยด้วยชุดข้อมูลภาพที่มีหลายช่วงเวลา 
+เราสามารถเข้าถึง collection ของข้อมูลได้จาก https://developers.google.com/earth-engine/datasets 
+ซึ่งมีทั้งข้อมูลจาก Landsat MODIS และ Sentinel
 
 ```js
 var dataset = ee.ImageCollection('COPERNICUS/S2_SR')
@@ -172,7 +146,7 @@ Map.setCenter(98.986107,18.788300, 10);
 Map.addLayer(dataset, vizParams, 'True Color (432)');
 ```
 
-filter
+การทำ Filter
 ```js
 .filterDate('2022-01-01', '2022-02-01')
 .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 50))
@@ -180,7 +154,7 @@ filter
 .select('B.*')
 ```
 
-Iterating 
+การทำ Iterating 
 ```js
 var dataset = ee.ImageCollection('LANDSAT/LC09/C02/T1_L2')
     .filterDate('2022-01-01', '2022-02-01');
@@ -203,7 +177,8 @@ Map.setCenter(98.986107,18.788300, 10);
 Map.addLayer(dataset, vizParams, 'True Color (432)');
 ```
 
-Reduce
+การทำ Reducetion
+https://developers.google.com/earth-engine/guides/reducers_image_collection
 ```js
 var dataset = ee.ImageCollection('LANDSAT/LC09/C02/T1_L2')
     .filterDate('2022-01-01', '2022-02-01');
