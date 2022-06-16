@@ -1,10 +1,11 @@
+### JavaScript 
 * [การเขียน JavaScriptเบื้องต้น สำหรับ Earth Engine](#การเขียน-JavaScript-เบื้องต้น-สำหรับ-Earth-Engine)
     * [การประกาศตัวแปร](#การประกาศตัวแปร)
     * [การเขียนฟังก์ชัน](#การเขียนฟังก์ชัน)
     * [การกำหนดเงื่อนไข](#การกำหนดเงื่อนไข)
     * [การทำซ้ำ](#การทำซ้ำ)
 
-    
+
 ### การเขียน JavaScript เบื้องต้น สำหรับ Earth Engine
 google ให้ใช้ JavaScript เขียนบน Code Editor รูปแบบการเขียน JavaScript ที่กูเกิ้ลแนะนำไว้ใน [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
 ซึ่งไม่ครอบคลุมกับมาตรฐานของ JavaScript รุ่นใหม่ (ECMAScript(ES6,ES7,ES8,ES9)) บทความนี้ได้นำเอาตัวอย่างที่อาจนำมาใช้ได้กับ Earth Engine ดังนี้
