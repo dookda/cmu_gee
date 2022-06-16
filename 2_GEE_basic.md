@@ -1,4 +1,4 @@
-### การใช้งาน google earth engine เบื้อต้น 
+## การใช้งาน google earth engine เบื้อต้น 
 
 
 data type ใน google earth engine
@@ -17,11 +17,11 @@ Other fundamental data structures
 Image
 Image เป็นข้อมูลที่มีอย่างน้อย 1 band ซึ่งแต่ละ band จะมี ชื่อ datatype, scale, map projection เป็นของตนเอง มี metadata ที่ถูกเก็บไว้ใน properties
 ตัวอย่างของ Image 
-# Surface Reflectance
+### Surface Reflectance
 ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
-# Top of Atmosphere
+### Top of Atmosphere
 ee.ImageCollection("LANDSAT/LC08/C01/T1_TOA")
-# raw images
+### raw images
 ee.ImageCollection("LANDSAT/LC08/C01/T1")
 
 การเรียก image

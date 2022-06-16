@@ -1,5 +1,5 @@
 
-### ตัวอย่าง การจำแนกข้อมูลภาพ (Classification) 
+## ตัวอย่าง การจำแนกข้อมูลภาพ (Classification) 
 ตัวอย่างนี้เป็นการจำแนกข้อมูลของดาวเทียม Sentinel 2 แบบ Supervised classification ด้วยวิธี Random Forest และ Support Vector Machine โดยมีขั้นตอนดังนี้
 
 
