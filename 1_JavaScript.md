@@ -147,3 +147,9 @@ for (let x in numbers) {
   txt += numbers[x];
 }
 ```
+
+การใช้ map
+```js
+var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+numbers.map(i=>console.log(i))
+```
