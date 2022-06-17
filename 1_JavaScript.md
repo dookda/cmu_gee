@@ -1,3 +1,10 @@
+### Table of content
+* [การเข้าใช้งาน](#การเข้าใช้งาน)
+* [การเขียน JavaScriptเบื้องต้น สำหรับ Earth Engine](./1_JavaScript.md)
+* [การใช้ Earth Engine เบื้องต้น](./2_GEE_basic.md)
+* [ตัวอย่าง การจำแนกข้อมูลภาพ (Classification)](./3_Classification.md)
+
+
 ## การเขียน JavaScriptเบื้องต้น
 * [การเขียน JavaScriptเบื้องต้น สำหรับ Earth Engine](#การเขียน-JavaScript-เบื้องต้น-สำหรับ-Earth-Engine)
     * [การประกาศตัวแปร](#การประกาศตัวแปร)
