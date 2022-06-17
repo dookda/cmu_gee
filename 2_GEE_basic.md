@@ -9,15 +9,23 @@
 
 data type ใน google earth engine
 
-geographic data structures
-    Images are composed of bands and a dictionary of properties. 
-    Image, ImageCollection,
+### geographic data structures
+Raster
+* Image 
+* ImageCollection
 
-    Features are composed of a Geometry and a dictionary of properties.
-    Feature, FeatureCollection, Geometry,
+### Vector
+* Feature
+* FeatureCollection
+* Geometry
 
-Other fundamental data structures 
-    Dictionary, List, Array, Date, Number and String
+### Other fundamental data structures 
+* Dictionary 
+* List
+* Array
+* Date
+* Number
+* String
 
 
 Image
