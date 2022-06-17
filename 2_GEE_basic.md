@@ -14,12 +14,12 @@ Raster
 * Image 
 * ImageCollection
 
-### Vector
+Vector
 * Feature
 * FeatureCollection
 * Geometry
 
-### Other fundamental data structures 
+Other fundamental data structures 
 * Dictionary 
 * List
 * Array
