@@ -5,7 +5,7 @@
 * [ตัวอย่าง การจำแนกข้อมูลภาพ (Classification)](./3_Classification.md)
 
 
-## การใช้งาน google earth engine เบื้อต้น 
+## การใช้งาน google earth engine เบื้องต้น 
 
 data type ใน google earth engine
 
