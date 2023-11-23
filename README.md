@@ -3,7 +3,7 @@
 * [การเขียน JavaScriptเบื้องต้น สำหรับ Earth Engine](./1_JavaScript.md)
 * [การใช้ Earth Engine เบื้องต้น](./2_GEE_basic.md)
 * [ตัวอย่าง การจำแนกข้อมูลภาพ (Classification)](./3_Classification.md)
-
+* [ตัวอย่าง export ไปใน google drive](./4_export.md)
 
 # การใช้งาน google earth engine
 Earth Engine เป็นระบบบริการข้อมูลและเครื่องมือประมวลผลข้อมูลภูมิสารสนเทศ (geospatial processing service) บนระบบคลาวด์ที่พัฒนาโดย google เป็นคลังข้อมูลจากการสำรวจระยะไกลหลายเพตะไบต์และชุดเครื่องมือที่ใช้ประมวลผลข้อมูลเชิงพื้นที่ที่หลากหลาย
