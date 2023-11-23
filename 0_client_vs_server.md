@@ -45,8 +45,9 @@ var serverList = ee.List(clientList);
 3. **Looping and Conditionals (การวนซ้ำและเงื่อนไข)**: ฟังก์ชัน JavaScript เช่น for-loops และเงื่อนไขไม่สามารถทำงานโดยตรงกับ Earth Engine object เพราะว่าไคลเอนต์ไม่รู้จักข้อมูลของออบเจ็คต์ Earth Engine ดังนั้นเราต้องใช้ฟังก์ชันฝั่งเซิร์ฟเวอร์ เช่น `map()` 
 
 ตัวอย่าง: 
-```javascript
-ee.List.sequence(0, 7).map(function(n) { return ee.Number(n).add(1); })```
+`
+ee.List.sequence(0, 7).map(function(n) { return ee.Number(n).add(1); })
+`
 
 อีกตัวอย่าง :
 ```javascript
