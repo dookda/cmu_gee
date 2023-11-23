@@ -19,6 +19,13 @@ var images = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
 
 เลือกพื้นที่ศึกษาโดยใช้เมธอด clip() เพื่อให้ไฟล์ไม่ใหญ่มาก
 ```js
+// สร้าง polygon พื้นที่ศึกษาของเรา 
+var geometry =  ee.Geometry.Polygon(
+        [[[98.7133550571096, 19.086090280538922],
+          [98.7133550571096, 18.519291323359845],
+          [99.2626714633596, 18.519291323359845],
+          [99.2626714633596, 19.086090280538922]]], null, false);
+ 
 var clipImage = images.median().clip(geometry)
 ```
 
