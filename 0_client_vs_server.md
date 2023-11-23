@@ -42,7 +42,7 @@ var serverList = ee.List(clientList);
 ```
 จากตัวอย่างข้างบน `clientList` ถูกสร้างขึ้นฝั่งไคลเอนต์ (บนเครื่องของเรา) และจากนั้นถูกแปลงเป็นออบเจ็คต์ฝั่งเซิร์ฟเวอร์ชื่อ `serverList` 
 
-3. **Looping and Conditionals (การวนซ้ำและเงื่อนไข)**: ฟังก์ชัน JavaScript เช่น for-loops และเงื่อนไขไม่สามารถทำงานโดยตรงกับ Earth Engine object (เช่น `ee.Thing`) เพราะว่าไคลเอนต์ไม่รู้จักข้อมูลของออบเจ็คต์เหล่านี้ ดังนั้นเราต้องใช้ฟังก์ชันฝั่งเซิร์ฟเวอร์ เช่น `map()`. ตัวอย่างเช่น, `ee.List.sequence(0, 7).map(function(n) { return ee.Number(n).add(1); })` 
+3. **Looping and Conditionals (การวนซ้ำและเงื่อนไข)**: ฟังก์ชัน JavaScript เช่น for-loops และเงื่อนไขไม่สามารถทำงานโดยตรงกับ Earth Engine object เพราะว่าไคลเอนต์ไม่รู้จักข้อมูลของออบเจ็คต์ Earth Engine ดังนั้นเราต้องใช้ฟังก์ชันฝั่งเซิร์ฟเวอร์ เช่น `map()`. ตัวอย่างเช่น, `ee.List.sequence(0, 7).map(function(n) { return ee.Number(n).add(1); })` 
 
 ตัวอย่าง :
 ```javascript
