@@ -1,5 +1,6 @@
 ### Table of content
 * [การเข้าใช้งาน](#การเข้าใช้งาน)
+* [Client vs. Server](./0_client_vs_server.md)
 * [การเขียน JavaScriptเบื้องต้น สำหรับ Earth Engine](./1_JavaScript.md)
 * [การใช้ Earth Engine เบื้องต้น](./2_GEE_basic.md)
 * [ตัวอย่าง การจำแนกข้อมูลภาพ (Classification)](./3_Classification.md)
