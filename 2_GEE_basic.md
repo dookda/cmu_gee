@@ -3,7 +3,7 @@
 * [การเขียน JavaScriptเบื้องต้น สำหรับ Earth Engine](./1_JavaScript.md)
 * [การใช้ Earth Engine เบื้องต้น](./2_GEE_basic.md)
 * [ตัวอย่าง การจำแนกข้อมูลภาพ (Classification)](./3_Classification.md)
-
+* [ตัวอย่าง export ไปใน google drive](./4_export.md)
 
 ## การใช้งาน google earth engine เบื้องต้น 
 
