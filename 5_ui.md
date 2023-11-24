@@ -9,19 +9,21 @@
 
 ###
 # การสร้าง UI ใน earth engine
-เราสามารถใช้ ee.ui ใน Google Earth Engine เพื่อสร้างส่วนติดต่อผู้ใช้ (User Interface - UI)  ใน ee.ui มีวิดเจ็ตต่างๆ เช่น ปุ่ม (Buttons), แผงควบคุม (Panels), แถบเลื่อน (Sliders), ป้ายกำกับ (Labels), แผนภูมิ (Charts) และอื่นๆ ให้เราได้ใช้งาน มาดูตัวอย่างกันใช้งาน
+เราสามารถใช้ ee.ui ใน Google Earth Engine เพื่อสร้างส่วนติดต่อผู้ใช้ (User Interface - UI)  ใน ee.ui มีวิดเจ็ตต่างๆ เช่น ปุ่ม (Buttons), แผงควบคุม (Panels), แถบเลื่อน (Sliders), ป้ายกำกับ (Labels), แผนภูมิ (Charts) และอื่นๆ ให้เราได้ใช้งาน มาดูตัวอย่างกัน
 
+เราสามารถสร้างปุ่มด้วย `ui.Button()`
 ```js
-// การสร้างใช้ปุ่ม 
+// ฟังก์ชัน
 function onclick(){
   print("a");
 }
-
-var btn = ui.Button("aa");
+// การสร้างใช้ปุ่ม 
+var btn = ui.Button("หวัดดี");
 btn.onClick(onclick);
 Map.add(btn);
 ```
 
+เราสามารถสร้างตัวเลือกวันที่ด้วย `ui.DateSlider()`
 ```js
 // การใช ้date slide
 function getdate(){
@@ -34,7 +36,7 @@ dateSlider.onChange(getdate);
 Map.add(dateSlider);
 ```
 
-
+เราสามารถสร้างกราฟด้วย `ui.Chart()`
 ```js
 // การสร้าง chart
 var s2 = ee.ImageCollection("COPERNICUS/S2_SR")
@@ -53,7 +55,7 @@ Map.add(chart);
 // print(chart);
 ```
 
-
+เราสามารถสร้าง drop down list ด้วย `ui.Select()`
 ```js
 // การใช้ drop down 
 function onSelected(e){
@@ -70,7 +72,7 @@ select.onChange(onSelected)
 Map.add(select);
 ```
 
-
+เราสามารถสร้าง checkbox ด้วย `ui.Checkbox()`
 ```js
 // การใช้ checkbox 
 function onChange(e){
@@ -93,7 +95,7 @@ chkAnt.onChange(onChange);
 // Map.add(chkBat);
 ```
 
-
+เราสามารถสร้าง panel ด้วย `ui.Panel()`
 ```js
 // การใช้ panel
 var panel = ui.Panel({
@@ -107,7 +109,7 @@ var panel = ui.Panel({
 Map.add(panel);
 ```
 
-
+เราสามารถสร้างแผนที่น้อยๆ ด้วย `ui.Map()`
 ```js
 // ui.Map
 function onMapclick(e){
@@ -119,15 +121,6 @@ map.onClick(onMapclick);
 Map.add(map);
 ```
 
-```js
-// add to map
-var visParams = {
-  band: ['B4', 'B3', 'B2'],
-  max: 3500
-}
 
-Map.addLayer(s2.median(), visParams, "s2", 1)
-Map.centerObject(geom, 12)  
-```
         
 
