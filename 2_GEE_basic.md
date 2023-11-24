@@ -28,8 +28,7 @@ Other fundamental data structures
 * Number
 * String
 
-
-Image
+### Image
 Image เป็นข้อมูลที่มีอย่างน้อย 1 band ซึ่งแต่ละ band จะมี ชื่อ datatype, scale, map projection เป็นของตนเอง มี metadata ที่ถูกเก็บไว้ใน properties
 ตัวอย่างของ Image 
 ### Surface Reflectance
