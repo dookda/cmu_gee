@@ -38,9 +38,7 @@
     ```javascript
     var points = ee.FeatureCollection([
       ee.Feature(ee.Geometry.Point([102.0, 15.0]), {name: 'Point 1'}),
-      ee.Feature(ee.Geometry.Point([103.0, 16.0
-
-]), {name: 'Point 2'})
+      ee.Feature(ee.Geometry.Point([103.0, 16.0]), {name: 'Point 2'})
     ]);
     ```
 
