@@ -43,4 +43,54 @@
     ```
 
 การทำงานกับข้อมูล vector
-... เดี๋ยวมาเขียนต่อ
+```js
+var geom1 = ee.Geometry.Point([99.049, 18.7748]);
+var geom2 = ee.Geometry.Point([99.06376, 18.77703]);
+var geom3 = ee.Geometry.Point([99.05252, 18.76257]);
+var geom4 = ee.Geometry.Point([99.0338, 18.77005]);
+var geom5 = ee.Geometry.LineString(
+        [[99.06762525939946, 18.771468154734528],
+         [99.06891271972661, 18.774881263695924],
+         [99.0700285186768, 18.779919536317664],
+         [99.07011434936528, 18.783738771632613],
+         [99.06942770385747, 18.788776779388485],
+         [99.06805441284185, 18.792108282382678],
+         [99.06685278320317, 18.794708434043358]]);
+
+var feat = ee.Feature(geom1, {id: 1})
+// print(feat);
+
+// สร้าง FeaturCollection 
+var featCollection = ee.FeatureCollection([geom1,geom2,geom5]);
+
+// กำหนดการแสดงผล
+var fs = featCollection.style({
+  color:'red', 
+  pointShape: 'plus', 
+  pointSize: 10,
+  fillColor: 'yellow'
+})
+
+Map.addLayer(fs, {}, "featCollection", true)
+
+// แปลงเป็น GeoJSON
+print(geom1.toGeoJSON());
+
+// สร้าง buffer
+var buffer = feat.buffer(1000);
+
+// หาระยะห่าง
+var distance = feat.distance(geom2);
+
+// หา within
+var within = feat.withinDistance(geom2, 1576);
+
+print(distance, within);
+
+var symbol = {
+  color: "#eb345e",
+}
+
+Map.addLayer(buffer, symbol, "feature", 1)
+Map.centerObject(geom1, 14);
+```
