@@ -42,8 +42,9 @@
     ]);
     ```
 
-การทำงานกับข้อมูล vector
+ตัวอย่างการทำงานกับข้อมูล vector
 ```js
+// สร้าง Geometry
 var geom1 = ee.Geometry.Point([99.049, 18.7748]);
 var geom2 = ee.Geometry.Point([99.06376, 18.77703]);
 var geom3 = ee.Geometry.Point([99.05252, 18.76257]);
@@ -57,8 +58,8 @@ var geom5 = ee.Geometry.LineString(
          [99.06805441284185, 18.792108282382678],
          [99.06685278320317, 18.794708434043358]]);
 
+// สร้าง Feature
 var feat = ee.Feature(geom1, {id: 1})
-// print(feat);
 
 // สร้าง FeaturCollection 
 var featCollection = ee.FeatureCollection([geom1,geom2,geom5]);
