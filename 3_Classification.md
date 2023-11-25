@@ -6,6 +6,7 @@
 * [ตัวอย่าง การจำแนกข้อมูลภาพ (Classification)](./3_Classification.md)
 * [ตัวอย่าง export ไปใน google drive](./4_export.md)
 * [ตัวอย่าง การสร้าง UI](./5_ui.md)
+* [ตัวอย่าง การทำงานกับข้อมูล Vector](./6_vector.md)
 
 ## ตัวอย่าง การจำแนกข้อมูลภาพ (Classification) 
 ตัวอย่างนี้เป็นการจำแนกข้อมูลของดาวเทียม Sentinel 2 แบบ Supervised classification ด้วยวิธี Random Forest และ Support Vector Machine โดยมีขั้นตอนดังนี้
