@@ -116,3 +116,16 @@ Export.image.toDrive({
     scale: 12.5,
     crs: 'EPSG:32647'
 });
+
+
+var vector = seg.select(["clusters"])
+    .reduceToVectors({
+        reducer: ee.Reducer.countEvery(),
+        scale: 2,
+        geometryType: "polygon",
+    })
+    .style({
+        color: 'yellow',
+        fillColor: '00000000',
+        width: 1
+    })

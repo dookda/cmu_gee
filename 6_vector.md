@@ -94,4 +94,5 @@ var symbol = {
 
 Map.addLayer(buffer, symbol, "feature", 1)
 Map.centerObject(geom1, 14);
+
 ```
