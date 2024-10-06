@@ -5,15 +5,12 @@
 ## สารบัญ
 
 1. [การแนะนำ Google Earth Engine](#1-การแนะนำ-google-earth-engine)
-2. [เริ่มต้นใช้งาน GEE](#2-เริ่มต้นใช้งาน-gee)
+2. [การเริ่มต้นใช้งาน GEE](#2-การเริ่มต้นใช้งาน-gee)
 3. [การทำงานกับชุดข้อมูล](#3-การทำงานกับชุดข้อมูล)
 4. [เทคนิคการแสดงผล](#4-เทคนิคการแสดงผล)
-5. [การประมวลผลและวิเคราะห์ภาพ](#5-การประมวลผลและวิเคราะห์ภาพ-(Image-Processing-and-Analysis))
-6. [ข้อมูลเวกเตอร์และกลุ่มคุณลักษณะ](#6-ข้อมูลเวกเตอร์และกลุ่มคุณลักษณะ)
-7. [การส่งออกข้อมูล](#7-การส่งออกข้อมูล)
-8. [กรณีศึกษาและการประยุกต์ใช้](#8-กรณีศึกษาและการประยุกต์ใช้)
-9. [หัวข้อขั้นสูง](#9-หัวข้อขั้นสูง)
-10. [ทรัพยากรและการเรียนรู้เพิ่มเติม](#10-ทรัพยากรและการเรียนรู้เพิ่มเติม)
+5. [การประมวลผลและวิเคราะห์ภาพ](#5-การประมวลผลและวิเคราะห์ภาพ)
+ุ6. [การส่งออกข้อมูล](#6-การส่งออกข้อมูล)
+7. [กรณีศึกษาและการประยุกต์ใช้](#7-กรณีศึกษาและการประยุกต์ใช้)
 
 ---
 
@@ -42,7 +39,7 @@ Google Earth Engine เป็นแพลตฟอร์มบนคลาวด
 
 ---
 
-## 2. เริ่มต้นใช้งาน GEE
+## 2. การเริ่มต้นใช้งาน GEE
 
 ### การเข้าถึง GEE
 
@@ -324,47 +321,7 @@ var cloudCover = image.get('CLOUD_COVER');
 print('เมฆปกคลุม (%):', cloudCover);
 ```
 
-### 3.6 การทำงานกับ Image Collections
-
-#### 3.6.1 การคำนวณ Composite Images
-
-เราสามารถรวมภาพหลาย ๆ ภาพเข้าด้วยกันเพื่อสร้างข้อมูลภาพที่มีคุณภาพดีกว่า
-
-**ตัวอย่าง: การสร้างค่าเฉลี่ยจาก Composite Images**
-
-```javascript
-var composite = finalCollection.mean();
-Map.addLayer(composite, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'Composite Image');
-```
-
-#### 3.6.2 การลดข้อมูลภาพ (Image Collection Reduction)
-
-ใช้ฟังก์ชันลด (Reducers) เพื่อสรุปข้อมูลจากกลุ่มภาพ เช่น ค่าเฉลี่ย ค่าสูงสุด ค่าต่ำสุด
-
-**ตัวอย่าง: การหาค่าสูงสุดของ NDVI ในปี 2020**
-
-```javascript
-var ndviCollection = finalCollection.map(function(image) {
-  var ndvi = image.normalizedDifference(['B5', 'B4']).rename('NDVI');
-  return ndvi.copyProperties(image, image.propertyNames());
-});
-
-var maxNdvi = ndviCollection.qualityMosaic('NDVI');
-Map.addLayer(maxNdvi, {min: 0, max: 1, palette: ['white', 'green']}, 'Max NDVI');
-```
-
-### 3.7 การผสานชุดข้อมูล (Data Fusion)
-
-การผสานชุดข้อมูลช่วยให้เราสามารถรวมข้อมูลจากแหล่งต่าง ๆ เพื่อการวิเคราะห์ที่ครอบคลุมมากขึ้น
-
-**ตัวอย่าง: การรวมข้อมูลภูมิประเทศกับภาพดาวเทียม**
-
-```javascript
-var dem = ee.Image('USGS/SRTMGL1_003');
-var imageWithDem = image.addBands(dem.rename('elevation'));
-```
-
-### 3.8 การสร้างชุดข้อมูลใหม่
+### 3.6 การสร้างชุดข้อมูลใหม่
 
 เราสามารถสร้างชุดข้อมูลใหม่โดยการคำนวณหรือประมวลผลจากชุดข้อมูลที่มีอยู่
 
@@ -375,9 +332,9 @@ var ndwi = image.normalizedDifference(['B3', 'B5']).rename('NDWI');
 Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
 ```
 
-### 3.9 การจัดเก็บและแชร์ชุดข้อมูล
+### 3.7 การจัดเก็บและแชร์ชุดข้อมูล
 
-#### 3.9.1 การนำเข้าชุดข้อมูล
+#### 3.7.1 การนำเข้าชุดข้อมูล
 
 เราสามารถอัปโหลดชุดข้อมูลไปยัง GEE Assets เพื่อใช้ในการวิเคราะห์
 
@@ -401,14 +358,14 @@ Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
 var myFeatureCollection = ee.FeatureCollection('users/sakdahomhuan/cm_pro_4326');
 ```
 
-#### 3.9.2 การแชร์ชุดข้อมูล
+#### 3.7.2 การแชร์ชุดข้อมูล
 
 - เราสามารถแชร์ Assets กับผู้ใช้ GEE คนอื่น ๆ โดยตั้งค่าการอนุญาต (Permissions)
 -  ในแท็บ **Assets** แล้วเลือก **Anyone can read**
 
 ![Anyone can read](./img/share_asset.png)
 
-### 3.10 เคล็ดลับและแนวทางปฏิบัติที่ดี
+### 3.8 เคล็ดลับและแนวทางปฏิบัติที่ดี
 
 - **ใช้การกรองให้มากที่สุดเท่าที่เป็นไปได้:** เพื่อลดปริมาณข้อมูลและเพิ่มประสิทธิภาพ
 - **ตรวจสอบข้อมูลเมตา:** เพื่อเข้าใจคุณสมบัติของภาพและความเหมาะสมในการใช้งาน
@@ -744,7 +701,7 @@ print(chart);
 
 ---
 
-## 5. การประมวลผลและวิเคราะห์ภาพ (Image Processing and Analysis)
+## 5. การประมวลผลและวิเคราะห์ภาพ
 
 การประมวลผลและวิเคราะห์ภาพเป็นหัวใจสำคัญของการใช้งาน GEE เนื่องจากช่วยให้คุณสามารถสกัดข้อมูลที่มีความหมายจากภาพถ่ายดาวเทียมและข้อมูลราสเตอร์อื่น ๆ ในส่วนนี้ เราจะสำรวจเทคนิคและเครื่องมือต่าง ๆ สำหรับการประมวลผลและวิเคราะห์ภาพใน GEE อย่างละเอียด
 
@@ -930,6 +887,8 @@ Reducers ใช้ในการสรุปข้อมูล เช่น ก
 
 **ตัวอย่าง: การคำนวณค่าเฉลี่ย NDVI ในพื้นที่เฉพาะ**
 
+![reduceRegion](https://developers.google.com/static/earth-engine/images/Reduce_region_diagram.png)
+
 ```javascript
 var meanNdvi = ndvi.reduceRegion({
   reducer: ee.Reducer.mean(),
@@ -944,6 +903,8 @@ print('Mean NDVI:', meanNdvi.get('NDVI'));
 #### 5.4.2 การใช้ Reducers ในกลุ่มภาพ (Reducing Image Collections)
 
 **ตัวอย่าง: การหาค่าสูงสุดของ NDVI ในกลุ่มภาพ**
+
+![Reducer](https://developers.google.com/static/earth-engine/images/Reduce_ImageCollection.png)
 
 ```javascript
 var maxNdvi = ndviCollection.max();
@@ -1126,16 +1087,13 @@ Map.addLayer(slope, {min: 0, max: 60}, 'Slope');
 Map.addLayer(aspect, {min: 0, max: 360}, 'Aspect');
 ```
 
-### 5.9 เคล็ดลับและแนวทางปฏิบัติที่ดีที่สุด
+### 5.9 เคล็ดลับและแนวทางปฏิบัติที่ดี
 
 - **เข้าใจคุณสมบัติของดาวเทียมแต่ละชนิด:** แถบสี ความละเอียด เวลาการโคจร
 - **ใช้ฟังก์ชันการแมปเพื่อประมวลผลกลุ่มภาพอย่างมีประสิทธิภาพ**
 - **ตรวจสอบและจัดการค่าที่ขาดหาย (NoData) และค่าผิดปกติ**
 - **ใช้การแสดงผลที่เหมาะสมเพื่อเน้นข้อมูลที่ต้องการ**
 - **ทำความเข้าใจกับข้อจำกัดของข้อมูล เช่น เมฆปกคลุม ความละเอียดเชิงพื้นที่**
-
-### 5.10 การทำงานกับข้อมูลขนาดใหญ่
-
 - **ใช้การกรองเชิงพื้นที่และเวลาเพื่อลดปริมาณข้อมูล**
 - **ใช้ฟังก์ชัน `clip()` เพื่อจำกัดพื้นที่ของภาพ**
 - **ระวังการใช้ฟังก์ชันที่ต้องการการคำนวณสูง เช่น `getInfo()` หรือ `reduceRegion()` ในพื้นที่ใหญ่
@@ -1144,182 +1102,346 @@ Map.addLayer(aspect, {min: 0, max: 360}, 'Aspect');
 
 ---
 
-## 6. ข้อมูลเวกเตอร์และกลุ่มคุณลักษณะ
+## 6. การส่งออกข้อมูล
 
-### การสร้างและนำเข้าข้อมูลเวกเตอร์
+เราสามารถนำผลลัพธ์ของการวิเคราะห์ไปใช้ในโปรแกรมหรือแพลตฟอร์มอื่น ๆ เช่น การสร้างแผนที่ การวิเคราะห์เพิ่มเติม หรือการนำเสนอผลลัพธ์ วิธีการส่งออกข้อมูลจาก GEE แบบต่าง ๆ มีดังนี้
 
-- **เครื่องมือการวาด:** ใช้เครื่องมือการวาดใน Code Editor เพื่อสร้างเรขาคณิต
-- **การนำเข้าไฟล์ Shapefile:** อัปโหลดไฟล์ Shapefile ไปยังสินทรัพย์ของคุณเพื่อใช้ในสคริปต์
+### 6.1 ภาพรวมของการส่งออกข้อมูล
 
-**ตัวอย่าง: การสร้างเรขาคณิตรูปหลายเหลี่ยม**
+GEE สนับสนุนการส่งออกข้อมูลหลายประเภท:
+
+- **การส่งออกภาพ (Images)**
+- **การส่งออกกลุ่มภาพ (Image Collections)**
+- **การส่งออกกลุ่มคุณลักษณะ (Feature Collections)**
+- **การส่งออกตาราง (Tables)**
+- **การส่งออกวิดีโอ (Videos)**
+
+เราสามารถส่งออกข้อมูลไปยังปลายทางต่าง ๆ ได้แก่:
+
+- **Google Drive**
+- **Google Cloud Storage**
+- **Earth Engine (Assets)**
+
+### 6.2 การส่งออกภาพ
+
+การส่งออกภาพเป็นหนึ่งในวิธีที่ใช้บ่อยที่สุดในการนำข้อมูลออกจาก GEE คุณสามารถส่งออกภาพไปยัง Google Drive, Google Cloud Storage หรือสินทรัพย์ของคุณ
+
+#### 6.2.1 การส่งออกภาพไปยัง Google Drive
+
+**รูปแบบคำสั่ง:**
 
 ```javascript
-var polygon = ee.Geometry.Polygon([
-  [[100.495, 13.756], [100.495, 13.752],
-   [100.501, 13.752], [100.501, 13.756]]
-]);
-```
-
-### การดำเนินการเชิงพื้นที่
-
-- **การกรองคุณลักษณะ:** เลือกคุณลักษณะที่อยู่ภายในพื้นที่เฉพาะ
-- **การรวมเชิงพื้นที่:** รวมชุดข้อมูลตามความสัมพันธ์เชิงพื้นที่
-
-### การลดพื้นที่
-
-- รวมข้อมูลในพื้นที่โดยใช้ตัวลด
-
-**ตัวอย่าง: การคำนวณค่าเฉลี่ย NDVI ในรูปหลายเหลี่ยม**
-
-```javascript
-var meanNdvi = ndvi.reduceRegion({
-  reducer: ee.Reducer.mean(),
-  geometry: polygon,
-  scale: 30,
-  maxPixels: 1e9
+Export.image.toDrive({
+  image: ภาพที่ต้องการส่งออก,
+  description: 'คำอธิบายงานส่งออก',
+  folder: 'ชื่อโฟลเดอร์ใน Google Drive',
+  fileNamePrefix: 'ชื่อต้นของไฟล์',
+  region: ขอบเขตของพื้นที่,
+  scale: มาตราส่วนของภาพ (เช่น 30 สำหรับ Landsat),
+  crs: 'ระบบพิกัดอ้างอิง',
+  fileFormat: 'รูปแบบไฟล์' // เช่น 'GeoTIFF'
 });
-
-print('Mean NDVI:', meanNdvi.get('NDVI'));
 ```
-
-[กลับสู่สารบัญ](#สารบัญ)
-
----
-
-## 7. การส่งออกข้อมูล
-
-### การส่งออกภาพ
-
-- ใช้ `Export.image.toDrive()` เพื่อบันทึกภาพไปยัง Google Drive
 
 **ตัวอย่าง: การส่งออกภาพ NDVI**
 
 ```javascript
 Export.image.toDrive({
   image: ndvi.clip(polygon),
-  description: 'NDVI_Image',
+  description: 'Export_NDVI_Image',
   folder: 'GEE_Exports',
   fileNamePrefix: 'ndvi_image',
+  region: polygon.geometry(),
   scale: 30,
-  region: polygon,
-  maxPixels: 1e9
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
 });
 ```
 
-### การส่งออกกลุ่มคุณลักษณะ
+**หมายเหตุ:**
 
-- ใช้ `Export.table.toDrive()` เพื่อส่งออกข้อมูลเวกเตอร์
+- `maxPixels` เป็นพารามิเตอร์ที่กำหนดจำนวนพิกเซลสูงสุดที่อนุญาตในการส่งออก ค่าเริ่มต้นคือ `1e8` (100 ล้านพิกเซล) หากภาพของคุณมีขนาดใหญ่กว่า คุณต้องเพิ่มค่านี้
 
-**ตัวอย่าง: การส่งออกกลุ่มคุณลักษณะ**
+- หากไม่ระบุ `folder` ไฟล์จะถูกส่งออกไปยังโฟลเดอร์หลักใน Google Drive ของคุณ
+
+#### 6.2.2 การส่งออกภาพไปยัง Google Cloud Storage
+
+การส่งออกไปยัง Google Cloud Storage (GCS) เหมาะสำหรับการจัดการข้อมูลขนาดใหญ่
+
+**ตัวอย่าง:**
+
+```javascript
+Export.image.toCloudStorage({
+  image: ndvi.clip(polygon),
+  description: 'Export_NDVI_to_GCS',
+  bucket: 'ชื่อถังเก็บใน GCS',
+  fileNamePrefix: 'ndvi_image',
+  region: polygon.geometry(),
+  scale: 30,
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+});
+```
+
+#### 6.2.3 การส่งออกภาพไปยัง Assets
+
+การส่งออกภาพไปยังสินทรัพย์ของคุณช่วยให้คุณสามารถเก็บภาพไว้ใน GEE สำหรับการใช้งานในอนาคตหรือแชร์กับผู้ใช้คนอื่น ๆ
+
+**ตัวอย่าง:**
+
+```javascript
+Export.image.toAsset({
+  image: ndvi.clip(polygon),
+  description: 'Export_NDVI_to_Asset',
+  assetId: 'users/yourusername/ndvi_image',
+  region: polygon.geometry(),
+  scale: 30,
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+});
+```
+
+#### 6.2.4 การส่งออกข้อมูลภาพแบบหลายแบนด์ (Multiband Images)
+
+เราสามารถส่งออกภาพที่มีหลายแบนด์ได้ โดยการเลือกแบนด์ที่ต้องการ
+
+**ตัวอย่าง: การส่งออกภาพ RGB**
+
+```javascript
+var rgbImage = image.select(['B4', 'B3', 'B2']).clip(polygon);
+
+Export.image.toDrive({
+  image: rgbImage,
+  description: 'Export_RGB_Image',
+  folder: 'GEE_Exports',
+  fileNamePrefix: 'rgb_image',
+  region: polygon.geometry(),
+  scale: 30,
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+});
+```
+
+### 6.3 การส่งออกคอเล็กชันภาพ (Image Collections)
+
+การส่งออกออกคอเล็กชันภาพ หรือ ImageCollection ต้องใช้ฟังก์ชันเพิ่มเติม เนื่องจาก `Export.image.toDrive()` ไม่รองรับคอเล็กชันภาพโดยตรง แต่เราสามารถใช้ฟังก์ชัน `map()` เพื่อส่งออกแต่ละภาพได้
+
+**ตัวอย่าง: การส่งออกกลุ่มภาพ NDVI**
+
+```javascript
+var ndviCollection = cloudFreeCollection.map(function(image) {
+  var ndvi = image.normalizedDifference(['B5', 'B4']).rename('NDVI');
+  return ndvi.copyProperties(image, ['system:time_start']);
+});
+
+// ฟังก์ชันเพื่อส่งออกแต่ละภาพ
+var exportNDVI = function(image) {
+  var date = ee.Date(image.get('system:time_start')).format('YYYY-MM-dd').getInfo();
+  Export.image.toDrive({
+    image: image.clip(polygon),
+    description: 'NDVI_' + date,
+    folder: 'NDVI_Collection',
+    fileNamePrefix: 'ndvi_' + date,
+    region: polygon.geometry(),
+    scale: 30,
+    crs: 'EPSG:4326',
+    maxPixels: 1e13
+  });
+};
+
+// ใช้ฟังก์ชัน map เพื่อส่งออกทุกภาพในกลุ่ม (โปรดระวังข้อจำกัดในการส่งออกพร้อมกัน)
+ndviCollection.toList(ndviCollection.size()).getInfo().forEach(function(img) {
+  exportNDVI(ee.Image(img));
+});
+```
+
+**หมายเหตุ:**
+
+- GEE จำกัดการส่งออกข้อมูลภาพจำนวนมาก เราสามารถส่งออกงานได้สูงสุด 2 งานพร้อมกัน และมีคิวงานรอสูงสุด 7 งาน
+
+### 6.4 การส่งออกข้อมูลแบบ Vector (Feature Collections)
+
+เราสามารถส่งออกกลุ่มคุณลักษณะไปยังรูปแบบต่าง ๆ เช่น CSV, SHP, GeoJSON
+
+#### 6.4.1 การส่งออกไปยัง Google Drive
+
+**ตัวอย่าง: การส่งออกกลุ่มคุณลักษณะเป็น Shapefile**
 
 ```javascript
 Export.table.toDrive({
   collection: countries.filterBounds(geometry),
-  description: 'Countries_Export',
+  description: 'Export_Countries_SHP',
+  folder: 'GEE_Exports',
+  fileNamePrefix: 'countries_shapefile',
+  fileFormat: 'SHP'
+});
+```
+
+**ตัวอย่าง: การส่งออกกลุ่มคุณลักษณะเป็น CSV**
+
+```javascript
+Export.table.toDrive({
+  collection: countries.filterBounds(geometry),
+  description: 'Export_Countries_CSV',
+  folder: 'GEE_Exports',
+  fileNamePrefix: 'countries_data',
   fileFormat: 'CSV'
 });
 ```
 
-### การส่งออกกราฟและตาราง
+#### 6.4.2 การส่งออกไปยัง Google Cloud Storage
 
-- สามารถดาวน์โหลดกราฟได้ด้วยตนเองจากอินเทอร์เฟซ Code Editor
-- ตารางสามารถส่งออกในรูปแบบ CSV, SHP หรือ GeoJSON
-
-[กลับสู่สารบัญ](#สารบัญ)
-
----
-
-## 8. กรณีศึกษาและการประยุกต์ใช้
-
-### การติดตามการตัดไม้ทำลายป่า
-
-- วิเคราะห์การเปลี่ยนแปลงของพื้นที่ป่าโดยใช้ข้อมูลอนุกรมเวลา
-- ระบุพื้นที่การตัดไม้ทำลายป่าโดยใช้เทคนิคการกำหนดเกณฑ์
-
-**ตัวอย่าง: การตรวจจับการสูญเสียป่าไม้**
+**ตัวอย่าง:**
 
 ```javascript
-var hansenImage = ee.Image('UMD/hansen/global_forest_change_2020_v1_8');
-var lossImage = hansenImage.select('lossyear').gt(0);
-Map.addLayer(lossImage.updateMask(lossImage), {palette: ['red']}, 'Forest Loss');
+Export.table.toCloudStorage({
+  collection: countries.filterBounds(geometry),
+  description: 'Export_Countries_to_GCS',
+  bucket: 'ชื่อถังเก็บใน GCS',
+  fileNamePrefix: 'countries_data',
+  fileFormat: 'GeoJSON'
+});
 ```
 
-### การวิเคราะห์การขยายตัวของเมือง
+#### 6.4.3 การส่งออกไปยัง Assets
 
-- ใช้อัลกอริทึมการจำแนกเพื่อทำแผนที่พื้นที่เมือง
-- ติดตามรูปแบบการเติบโตของเมืองตามเวลา
-
-### การจัดการทรัพยากรน้ำ
-
-- ทำแผนที่แหล่งน้ำโดยใช้ดัชนีเช่น ดัชนีความแตกต่างของน้ำปกติ (NDWI)
-- ติดตามการเปลี่ยนแปลงของพื้นที่น้ำเนื่องจากการเปลี่ยนแปลงตามฤดูกาลหรือการเปลี่ยนแปลงสภาพภูมิอากาศ
-
-[กลับสู่สารบัญ](#สารบัญ)
-
----
-
-## 9. หัวข้อขั้นสูง
-
-### ฟังก์ชันกำหนดเองและการแมปบนกลุ่มภาพ
-
-- **ฟังก์ชันกำหนดเอง:** กำหนดฟังก์ชันที่ใช้ซ้ำได้สำหรับการประมวลผล
-- **การแมปฟังก์ชัน:** ใช้ฟังก์ชันกับแต่ละองค์ประกอบในกลุ่ม
-
-**ตัวอย่าง: การใช้ฟังก์ชันบนกลุ่มภาพ**
+เราสามารถส่งออกกลุ่มคุณลักษณะไปยัง Assets
 
 ```javascript
-var addNDVI = function(image) {
-  var ndvi = image.normalizedDifference(['B5', 'B4']).rename('NDVI');
-  return image.addBands(ndvi);
-};
-
-var collectionWithNDVI = cloudFreeCollection.map(addNDVI);
+Export.table.toAsset({
+  collection: myFeatureCollection,
+  description: 'Export_FeatureCollection_to_Asset',
+  assetId: 'users/yourusername/my_feature_collection'
+});
 ```
 
-### การเรียนรู้ของเครื่องใน GEE
+### 6.5 การส่งออกกราฟและแผนภูมิ
 
-- ใช้การจำแนกแบบมีผู้สอนและไม่มีผู้สอน
-- ใช้อัลกอริทึมเช่น Random Forest, CART และ SVM
+แผนภูมิที่สร้างขึ้นใน GEE สามารถดาวน์โหลดได้ในรูปแบบภาพหรือข้อมูลตาราง
 
-**ตัวอย่าง: การจำแนกประเภทการใช้ที่ดิน**
+#### 6.5.1 การดาวน์โหลดแผนภูมิ
+
+- เมื่อแผนภูมิถูกพิมพ์ออกมาใน **Console** เราสามารถคลิกที่ไอคอนดาวน์โหลดเพื่อบันทึกแผนภูมิเป็นภาพหรือข้อมูลตาราง
+
+#### 6.5.2 การส่งออกข้อมูลตาราง
+
+- เราสามารถส่งออกข้อมูลตารางที่ใช้สร้างแผนภูมิไปยัง Google Drive
+
+**ตัวอย่าง: การส่งออกข้อมูลตารางของแผนภูมิ**
 
 ```javascript
-// ข้อมูลการฝึกอบรมจะถูกกำหนดที่นี่
-var trainedClassifier = ee.Classifier.smileRandomForest(10).train(trainingData, 'landcover', bands);
-var classifiedImage = image.classify(trainedClassifier);
-Map.addLayer(classifiedImage, {min: 0, max: 5, palette: ['red', 'green', 'blue', 'yellow', 'purple', 'cyan']}, 'Classified Image');
+var chartData = ndviCollection.map(function(image) {
+  var date = ee.Date(image.get('system:time_start'));
+  var meanNdvi = image.reduceRegion({
+    reducer: ee.Reducer.mean(),
+    geometry: polygon,
+    scale: 30,
+    maxPixels: 1e13
+  }).get('NDVI');
+  return ee.Feature(null, {
+    'date': date.format('YYYY-MM-dd'),
+    'NDVI': meanNdvi
+  });
+});
+
+Export.table.toDrive({
+  collection: chartData,
+  description: 'Export_NDVI_TimeSeries',
+  folder: 'GEE_Exports',
+  fileNamePrefix: 'ndvi_timeseries',
+  fileFormat: 'CSV'
+});
 ```
 
-### การรวมกับ Python API
+### 6.6 เคล็ดลับและข้อควรระวังในการส่งออก
 
-- ใช้ [Earth Engine Python API](https://developers.google.com/earth-engine/python_install) สำหรับเวิร์กโฟลว์ขั้นสูง
-- รวมกับไลบรารี Python อื่น ๆ เช่น TensorFlow และ Pandas
+- **ตรวจสอบขนาดข้อมูล:** การส่งออกข้อมูลขนาดใหญ่อาจใช้เวลานานหรือไม่สำเร็จ ตรวจสอบขอบเขตพื้นที่และมาตราส่วน
+
+- **หลีกเลี่ยงการใช้ `getInfo()`:** การใช้ `getInfo()` กับข้อมูลขนาดใหญ่จะทำให้สคริปต์หยุดทำงาน
+
+- **จัดการคิวงานส่งออก:** เราสามารถมีงานส่งออกที่กำลังดำเนินการได้สูงสุด 2 งาน และงานที่รอคิว 7 งาน
+
+- **ใช้การลดขนาดข้อมูล:** หากต้องการส่งออกข้อมูลขนาดใหญ่ ให้พิจารณาลดขนาดข้อมูลโดยการเพิ่ม `scale` หรือลดขอบเขตพื้นที่
+
+- **ตรวจสอบพารามิเตอร์การส่งออก:** ตรวจสอบว่าได้กำหนด `region`, `scale`, และ `crs` อย่างถูกต้อง
+
+### 6.7 การตรวจสอบสถานะงานส่งออก
+
+- เราสามารถตรวจสอบสถานะงานส่งออกได้ที่ **Tasks** แท็บใน Code Editor
+
+- งานส่งออกจะมีสถานะ:
+
+  - **READY:** พร้อมที่จะเริ่มต้น (ต้องคลิก **Run**)
+  - **RUNNING:** กำลังดำเนินการ
+  - **COMPLETED:** เสร็จสมบูรณ์
+  - **FAILED:** เกิดข้อผิดพลาด
 
 [กลับสู่สารบัญ](#สารบัญ)
 
 ---
 
-## 10. ทรัพยากรและการเรียนรู้เพิ่มเติม
+## 7. กรณีศึกษาและการประยุกต์ใช้
 
-- **เอกสารทางการ:** [GEE Developers Guide](https://developers.google.com/earth-engine)
-- **บทเรียนและตัวอย่าง:** [GEE Tutorials](https://developers.google.com/earth-engine/tutorials)
-- **ฟอรัมชุมชน:** [GEE Developers Forum](https://groups.google.com/g/earthengine-developers)
-- **ตัวอย่างใน Code Editor:** เข้าถึงตัวอย่างที่มีอยู่ใน Code Editor ภายใต้แท็บ **Scripts**
+### การติดตามสถานการณ์น้ำ
 
-### คำแนะนำสำหรับการฝึกฝน
+- ทำแผนที่แหล่งน้ำโดยใช้ค่าการสะท้อนของดาวเทียม Sentinel (S1)
+- วิเคราะห์ความแตกต่างของข้อมูลการสะท้อนใน 2 ช่วงเวลา
+- กำหนดข้อมูลที่เป็นพื้นที่น้ำ
 
-- **โครงการปฏิบัติ:** ลองทำการศึกษา或วิเคราะห์ที่เกี่ยวข้องกับความสนใจของคุณ
-- **เข้าร่วมสัมมนาออนไลน์และเวิร์กช็อป:** เข้าร่วมกิจกรรมออนไลน์เพื่อเรียนรู้จากผู้เชี่ยวชาญ
-- **ร่วมมือกัน:** มีส่วนร่วมกับชุมชน GEE เพื่อแบ่งปันความรู้และทรัพยากร
+```js
+// กำหนดขอบเขตพื้นที่ศึกษาโดยการวาด
+var aoi = ee.FeatureCollection(geometry);
+// กำหนดช่วงเวลาก่อนน้ำท่วม
+var before_start = '2024-01-01';
+var before_end = '2024-05-24';
+// กำหนดช่วงเวลาหลังน้ำท่วม
+var after_start = '2024-09-15';
+var after_end = '2024-10-10';
+// เลือกประเภทของข้อมูล
+var polarization = "VH"; // 'VV'  'VH' 
+var pass_direction = "DESCENDING"; // 'DESCENDING' หรือ 'ASCENDING'
+// Load and filter Sentinel-1 GRD  
+var collection = ee.ImageCollection('COPERNICUS/S1_GRD')
+    .filter(ee.Filter.eq('instrumentMode', 'IW'))
+    .filter(ee.Filter.listContains('transmitterReceiverPolarisation', polarization))
+    .filter(ee.Filter.eq('orbitProperties_pass', pass_direction))
+    .filter(ee.Filter.eq('resolution_meters', 10))
+    //.filter(ee.Filter.eq('relativeOrbitNumber_start',relative_orbit ))
+    .filterBounds(aoi)
+    .select(polarization);
+// Filter date
+var before_collection = collection.filterDate(before_start, before_end);
+var after_collection = collection.filterDate(after_start, after_end);
+// clip กับพื้นที่ศึกษา
+var before = before_collection.mosaic().clip(aoi);
+var after = after_collection.mosaic().clip(aoi);
+// ปรับให้ภาพ smooth 
+var smoothing_radius = 25;
+var before_filtered = before.focal_mean(smoothing_radius, 'circle', 'meters');
+var after_filtered = after.focal_mean(smoothing_radius, 'circle', 'meters');
+// วิเคราะห์ความแตกต่างของข้อมูลการสะท้อนใน 2 ช่วงเวลา
+var difference_threshold = -5.5;
+var difference_db = after_filtered.subtract(before_filtered);
+var difference_binary = difference_db.lte(difference_threshold);
+var flood_raw_mask = flood.updateMask(flood);
 
-[กลับสู่สารบัญ](#สารบัญ)
+// นำข้อมูลอื่นมาช่วยลบข้อมูล
+var swater = ee.Image('JRC/GSW1_0/GlobalSurfaceWater').select('seasonality');
+var swater_mask = swater.gte(5).updateMask(swater.gte(5));
+var flooded_mask = difference_binary.where(swater_mask, 0);
+var flooded = flooded_mask.updateMask(flooded_mask);
+var connections = flooded.connectedPixelCount();
+var flooded = flooded.updateMask(connections.gte(8));
+var dem = ee.Image('WWF/HydroSHEDS/03VFDEM');
+var terrain = ee.Algorithms.Terrain(dem);
+var slope = terrain.select('slope');
+var flooded = flooded.updateMask(slope.lt(5));
+// แสดงผล
+Map.centerObject(aoi, 14);
+Map.addLayer(before_filtered, { min: -25, max: 0 }, 'Before Flood', 0);
+Map.addLayer(after_filtered, { min: -25, max: 0 }, 'After Flood', 1);
+Map.addLayer(difference_db, { min: -5, max: 5 }, 'Difference (dB)', 0);
+Map.addLayer(flood_raw_mask, { palette: 'blue' }, 'Flooded (raw)', 0);
+Map.addLayer(flooded, { palette: 'blue' }, 'Flooded Areas', 1);
 
----
-
-## สรุป
-
-การอบรมเชิงปฏิบัติการนี้ได้ให้ภาพรวมของความสามารถของ Google Earth Engine ตั้งแต่การจัดการข้อมูลพื้นฐานไปจนถึงเทคนิคการวิเคราะห์ขั้นสูง ด้วยการฝึกฝนและการสำรวจ คุณสามารถใช้ GEE เพื่อแก้ปัญหาเชิงภูมิศาสตร์ที่ซับซ้อนและให้ข้อมูลเชิงลึกที่มีคุณค่าในสาขาของคุณ
-
----
-
-หากคุณมีคำถามหรือต้องการความช่วยเหลือเพิ่มเติมเกี่ยวกับ GEE โปรดอย่าลังเลที่จะติดต่อเรา!
+```
