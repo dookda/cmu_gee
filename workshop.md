@@ -52,6 +52,8 @@ Google Earth Engine เป็นแพลตฟอร์มบนคลาวด
 
 ### การนำทางใน Code Editor
 
+![แผนภาพ Code Editor](https://developers.google.com/static/earth-engine/images/Code_editor_diagram.png)
+
 - **แท็บ Scripts:** จัดการและจัดระเบียบสคริปต์ของคุณ
 - **แท็บ Docs:** เข้าถึงเอกสาร ตัวอย่าง และข้อมูลชุดข้อมูล
 - **แท็บ Assets:** ดูและจัดการชุดข้อมูลที่คุณอัปโหลด
