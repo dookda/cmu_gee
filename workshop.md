@@ -762,6 +762,10 @@ NDVI ใช้ในการวัดสุขภาพและความห
 \text{NDVI} = \frac{\text{NIR} - \text{Red}}{\text{NIR} + \text{Red}}
 \]
 
+$$
+NDVI = \frac{NIR - Red}{NIR + Red}
+$$
+
 **ตัวอย่าง: การคำนวณ NDVI จากภาพ Landsat 8**
 
 ```javascript
