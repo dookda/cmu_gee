@@ -112,21 +112,22 @@ Google Earth Engine ใช้ JavaScript เป็นภาษาสคริป
 
 #### ฝั่งเซิร์ฟเวอร์ (Server-side)
 
-- การดำเนินการส่วนใหญ่ใน GEE เกิดขึ้นบนเซิร์ฟเวอร์ของ Google ซึ่งฟังก์ชัน GEE มีคำนำหน้า `ee` แสดงถึงอ็อบเจ็กต์ของ Earth Engine
-- อ็อบเจ็กต์ Earth Engine เช่น `ee.Image`, `ee.Geometry`, `ee.FeatureCollection` เป็นอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์
-- การดำเนินการบนอ็อบเจ็กต์เหล่านี้เป็นแบบเลื่อนเวลา (Lazy Evaluation) และไม่เกิดขึ้นจนกว่าจะถูกเรียกใช้ [อ่านเพิ่มเติม](https://medium.com/scb-techx/%E0%B8%97%E0%B8%B3%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B9%83%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%9A%E0%B8%9A-lazy-evaluation-%E0%B9%83%E0%B8%99-pyspark-1d71bc33b831)
+- การดำเนินการส่วนใหญ่ใน GEE เกิดขึ้นบนเซิร์ฟเวอร์ของ Google 
+- อ็อบเจ็กต์ของ GEE มีคำนำหน้า `ee` เป็นอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์ เช่น `ee.Image`, `ee.Geometry`, `ee.FeatureCollection` 
+- การดำเนินการบนอ็อบเจ็กต์เหล่านี้เป็นแบบเลื่อนเวลา (Lazy Evaluation) และไม่เกิดขึ้นจนกว่าจะถูกเรียกใช้  
+[อ่านเพิ่มเติม](https://medium.com/scb-techx/%E0%B8%97%E0%B8%B3%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B9%83%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%9A%E0%B8%9A-lazy-evaluation-%E0%B9%83%E0%B8%99-pyspark-1d71bc33b831)
 
 #### ฝั่งลูกข่าย (Client-side)
 
 - ตัวแปรและฟังก์ชัน JavaScript มาตรฐานอยู่บนฝั่งลูกข่าย
-- คำสั่งที่ควบคุมการทำงานและการประมวลผลข้อมูลที่ไม่ใช่ Earth Engine เกิดขึ้นบนฝั่งลูกข่าย
+- คำสั่งที่ควบคุมการทำงานและการประมวลผลข้อมูลที่ไม่ใช่ GEE เกิดขึ้นบนฝั่งลูกข่าย
 - ค่า Client-side สามารถเข้าถึงและประมวลผลได้ทันที
 
 #### การสื่อสารระหว่าง Client และ Server
 
 - การสื่อสารระหว่างฝั่งลูกข่ายและเซิร์ฟเวอร์เกิดขึ้นเมื่อคุณร้องขอค่า (เช่น `getInfo()` หรือ `evaluate()`)
 - การเรียกใช้ `getInfo()` อาจทำให้สคริปต์ช้าลงหรือหยุดทำงาน เนื่องจากมันรอการตอบสนองจากเซิร์ฟเวอร์
-- ควรหลีกเลี่ยงการใช้ `getInfo()` เมื่อเป็นไปได้ และใช้การทำงานแบบ Asynchronous แทน
+- ควรหลีกเลี่ยงการใช้ `getInfo()` ควรใช้การทำงานแบบ Asynchronous แทน
 
 #### ตัวอย่างการทำงานระหว่าง Client-Server
 
@@ -147,9 +148,9 @@ filteredCollection.size().evaluate(function(count) {
 
 ### แนวทางปฏิบัติที่ดี
 
-- **หลีกเลี่ยงการใช้ `getInfo()`:** ใช้ `evaluate()` เพื่อป้องกันการหยุดทำงานของสคริปต์
-- **เข้าใจความแตกต่างของอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์และลูกข่าย:** อย่าพยายามใช้ค่าฝั่งเซิร์ฟเวอร์ในบริบทที่ต้องการค่าฝั่งลูกข่าย
-- **ใช้การแมปฟังก์ชันบนอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์:** เช่น การใช้ `map()` บน `ee.ImageCollection`
+- **หลีกเลี่ยงการใช้ `getInfo()` ควรใช้ `evaluate()` เพื่อป้องกันการหยุดทำงานของสคริปต์
+- **เข้าใจความแตกต่างของอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์และลูกข่าย อย่าพยายามใช้ค่าฝั่งเซิร์ฟเวอร์ในบริบทที่ต้องการค่าฝั่งลูกข่าย
+- **ใช้การแมปฟังก์ชันบนอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์ เช่น การใช้ `map()` บน `ee.ImageCollection`
 
 ### ตัวอย่างเพิ่มเติม
 
@@ -212,8 +213,8 @@ GEE มีคลังข้อมูล (Data Catalog) ขนาดใหญ่
 
 ใน GEE ชุดข้อมูลแบ่งออกเป็นสองประเภทหลัก:
 
-- **ภาพและกลุ่มภาพ (Image and Image Collections)**
-- **กลุ่มคุณลักษณะ (Feature Collections)**
+- **ภาพและคอลเลกชันภาพ (Image and Image Collections)**
+- **กลุ่มข้อมูลเวคเตอร์ (Feature Collections)**
 
 #### 3.2.1 Image and Image Collections
 
@@ -236,9 +237,9 @@ print('ข้อมูล Image Collections ของ Landsat 8:', landsat8);
 
 เมื่อรันคำสั่งนี้ เราจะเห็นข้อมูลเกี่ยวกับกลุ่มภาพ เช่น จำนวนภาพ ช่วงเวลาของข้อมูล และคุณสมบัติอื่น ๆ
 
-#### 3.2.2 กลุ่มคุณลักษณะ
+#### 3.2.2 Feature Collections
 
-- **FeatureCollection (ee.FeatureCollection):** เป็นชุดของคุณลักษณะเชิงภูมิศาสตร์ที่มีเรขาคณิต (Geometry) และคุณสมบัติ (Property) ที่เกี่ยวข้อง เช่น ขอบเขตประเทศ เส้นทางแม่น้ำ จุดสถานที่สำคัญ
+- **FeatureCollection (ee.FeatureCollection):** เป็นชุดของเรขาคณิต (Geometry) และคุณสมบัติ (Property) ทางด้านภูมิศาสตร์​ เช่น ขอบเขตประเทศ เส้นทางแม่น้ำ จุดสถานที่สำคัญ
 
 **ตัวอย่าง: การนำเข้าชุดข้อมูลขอบเขตประเทศ**
 
@@ -246,7 +247,7 @@ print('ข้อมูล Image Collections ของ Landsat 8:', landsat8);
 var countries = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');
 ```
 
-**การสำรวจข้อมูล FeatureCollection**
+**การแสดงรายละเอียดข้อมูล FeatureCollection**
 
 ```javascript
 print('ข้อมูล FeatureCollection ประเทศ:', countries);
@@ -300,7 +301,7 @@ var finalCollection = landsat8
 
 ### 3.4 การเลือกและจัดการแบนด์ (Bands)
 
-ภาพถ่ายดาวเทียมมักมีแบนด์ (Bands) หลายแถบที่แสดงถึงช่วงความยาวคลื่นต่าง ๆ เราสามารถเลือกแบนด์ที่ต้องการใช้ในการวิเคราะห์
+ภาพถ่ายดาวเทียมมักมีแบนด์ (Bands) ที่แสดงถึงช่วงความยาวคลื่นต่าง ๆ เราสามารถเลือกแบนด์ที่ต้องการใช้ในการวิเคราะห์
 
 **ตัวอย่าง: การเลือกแบนด์จากภาพ**
 
@@ -309,9 +310,9 @@ var image = finalCollection.first();
 var selectedBands = image.select(['B2', 'B3', 'B4']); // แบนด์ ของช่วงคลื่นสีน้ำเงิน เขียว แดง
 ```
 
-### 3.5 การประมวลผลข้อมูลเมตา (Metadata)
+### 3.5 การประมวลผลข้อมูล Metadata
 
-แต่ละภาพหรือคุณลักษณะใน GEE มีข้อมูลเมตาที่เกี่ยวข้อง เราสามารถเข้าถึงและใช้ข้อมูลเหล่านี้ในการวิเคราะห์
+แต่ละภาพหรือคุณลักษณะใน GEE มี Metadata มาด้วยซึ่งเราสามารถเข้าถึงและใช้ข้อมูลเหล่านี้ในการวิเคราะห์
 
 **ตัวอย่าง: การเข้าถึงข้อมูลเมตาของภาพ**
 
@@ -327,7 +328,7 @@ print('เมฆปกคลุม (%):', cloudCover);
 
 #### 3.6.1 การคำนวณ Composite Images
 
-เราสามารถรวมภาพหลาย ๆ ภาพเข้าด้วยกันเพื่อสร้างภาพประกอบที่มีคุณภาพดีกว่า
+เราสามารถรวมภาพหลาย ๆ ภาพเข้าด้วยกันเพื่อสร้างข้อมูลภาพที่มีคุณภาพดีกว่า
 
 **ตัวอย่าง: การสร้างค่าเฉลี่ยจาก Composite Images**
 
@@ -365,7 +366,7 @@ var imageWithDem = image.addBands(dem.rename('elevation'));
 
 ### 3.8 การสร้างชุดข้อมูลใหม่
 
-เราสามารถสร้างชุดข้อมูลใหม่ โดยการคำนวณหรือประมวลผลจากชุดข้อมูลที่มีอยู่
+เราสามารถสร้างชุดข้อมูลใหม่โดยการคำนวณหรือประมวลผลจากชุดข้อมูลที่มีอยู่
 
 **ตัวอย่าง: การคำนวณดัชนีความแตกต่างของน้ำ (NDWI)**
 
@@ -376,11 +377,11 @@ Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
 
 ### 3.9 การจัดเก็บและแชร์ชุดข้อมูล
 
-#### 3.9.1 การนำเข้าชุดข้อมูลส่วนบุคคล
+#### 3.9.1 การนำเข้าชุดข้อมูล
 
 เราสามารถอัปโหลดชุดข้อมูลไปยัง GEE Assets เพื่อใช้ในการวิเคราะห์
 
-- **การอัปโหลด Shapefile หรือ GeoJSON:** ไปที่แท็บ **Assets** ใน Code Editor แล้วคลิก **New** เพื่ออัปโหลดไฟล์
+- **การอัปโหลด Shapefile หรือ GeoJSON:** ไปที่แท็บ **Assets** ใน Code Editor แล้วคลิ๊ก **New** เพื่ออัปโหลดไฟล์
 - **การอัปโหลดภาพราสเตอร์:** สามารถอัปโหลดภาพ GeoTIFF
 
 **ตัวอย่าง: การนำเข้าไฟล์ Shapefile**
@@ -389,6 +390,7 @@ Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
 2. อัปโหลดไฟล์ไปยัง Assets
 
 ตัวอย่างการอัพโหลด shapefile
+
 ![asset](./img/asset.png)
 
 3. ใช้ในสคริปต์:
@@ -406,12 +408,12 @@ var myFeatureCollection = ee.FeatureCollection('users/sakdahomhuan/cm_pro_4326')
 
 ![Anyone can read](./img/share_asset.png)
 
-### 3.10 เคล็ดลับและแนวทางปฏิบัติที่ดีที่สุด
+### 3.10 เคล็ดลับและแนวทางปฏิบัติที่ดี
 
 - **ใช้การกรองให้มากที่สุดเท่าที่เป็นไปได้:** เพื่อลดปริมาณข้อมูลและเพิ่มประสิทธิภาพ
 - **ตรวจสอบข้อมูลเมตา:** เพื่อเข้าใจคุณสมบัติของภาพและความเหมาะสมในการใช้งาน
-- **ทำความเข้าใจกับแถบสีของภาพดาวเทียมต่าง ๆ:** แต่ละดาวเทียมมีแถบสีที่แตกต่างกัน
-- **ใช้ฟังก์ชันการแมป (Map Functions):** เพื่อประมวลผลกลุ่มภาพอย่างมีประสิทธิภาพ
+- **ทำความเข้าใจกับแบนด์ต่าง ๆ ของภาพดาวเทียม:** แต่ละดาวเทียมมีแบนด์ที่แตกต่างกัน
+- **ใช้ฟังก์ชันการแมป (Map Functions):** เพื่อประมวลผล ImageCollection อย่างมีประสิทธิภาพ
 - **จัดการและตั้งชื่อตัวแปรอย่างชัดเจน:** เพื่อความเข้าใจและการบำรุงรักษาโค้ด
 
 [กลับสู่สารบัญ](#สารบัญ)
@@ -420,44 +422,9 @@ var myFeatureCollection = ee.FeatureCollection('users/sakdahomhuan/cm_pro_4326')
 
 ## 4. เทคนิคการแสดงผล
 
-### การแสดงข้อมูลบนแผนที่
+การแสดงผลข้อมูลเชิงภูมิศาสตร์เป็นส่วนสำคัญในการวิเคราะห์และสื่อสารผลลัพธ์ใน GEE เทคนิคต่าง ๆ ในการแสดงผลข้อมูลบนแผนที่ การปรับแต่งการแสดงผล และการสร้างเครื่องมือช่วยในการแสดงผล มีดังนี้
 
-- ใช้ `Map.addLayer(image, visParams, 'ชื่อชั้นข้อมูล')` เพื่อแสดงข้อมูล
-
-**ตัวอย่าง: การแสดงภาพสีจริง**
-
-```javascript
-var image = filteredCollection.first();
-Map.centerObject(geometry, 12);
-Map.addLayer(image, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'True Color');
-```
-
-### การใช้พารามิเตอร์การแสดงผล
-
-- **Bands (แถบสี):** ระบุแถบสีที่จะแสดง
-- **Min/Max:** กำหนดช่วงการแสดงผลสำหรับค่าพิกเซล
-- **Palette:** กำหนดจานสีสำหรับภาพที่มีแถบสีเดียว
-
-**ตัวอย่าง: การแสดง NDVI ด้วยจานสี**
-
-```javascript
-var ndvi = image.normalizedDifference(['B5', 'B4']);
-Map.addLayer(ndvi, {min: -1, max: 1, palette: ['blue', 'white', 'green']}, 'NDVI');
-```
-
-### การสร้างคำอธิบายสี (Legend)
-
-- แม้ว่า GEE จะไม่มีฟังก์ชันสร้างคำอธิบายสีในตัว แต่คุณสามารถสร้างคำอธิบายสีแบบกำหนดเองโดยใช้โมดูล `ui`
-
-[กลับสู่สารบัญ](#สารบัญ)
-
----
-
-## 5. เทคนิคการแสดงผล
-
-การแสดงผลข้อมูลเชิงภูมิศาสตร์เป็นส่วนสำคัญในการวิเคราะห์และสื่อสารผลลัพธ์ใน Google Earth Engine (GEE) ในส่วนนี้ เราจะสำรวจเทคนิคต่าง ๆ ในการแสดงผลข้อมูลบนแผนที่ การปรับแต่งการแสดงผล และการสร้างเครื่องมือช่วยในการแสดงผล
-
-### 5.1 การแสดงข้อมูลบนแผนที่
+### 4.1 การแสดงข้อมูลบนแผนที่
 
 GEE อนุญาตให้คุณแสดงข้อมูลเชิงภูมิศาสตร์บนแผนที่ใน Code Editor โดยใช้ฟังก์ชัน `Map.addLayer()` ซึ่งมีรูปแบบดังนี้:
 
@@ -483,21 +450,21 @@ Map.centerObject(geometry, 12);
 Map.addLayer(image, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'True Color Image');
 ```
 
-### 5.2 การใช้พารามิเตอร์การแสดงผล (Visualization Parameters)
+### 4.2 การใช้พารามิเตอร์การแสดงผล (Visualization Parameters)
 
 พารามิเตอร์การแสดงผลช่วยให้คุณสามารถปรับแต่งวิธีการแสดงผลของข้อมูลบนแผนที่
 
-#### 5.2.1 การเลือกแถบสี (Bands)
+#### 4.2.1 การเลือกแบนด์ (Bands)
 
-สำหรับภาพหลายแถบสี คุณสามารถเลือกแถบสีที่ต้องการแสดงผลได้
+สำหรับข้อมูลภาพหลายแบนด์ สามารถเลือกแบนด์ที่ต้องการแสดงผลได้
 
-**ตัวอย่าง: การแสดงภาพอินฟราเรดเท็จ**
+**ตัวอย่าง: การแสดงภาพอินฟราเรด แบบผสมสีเท็จ**
 
 ```javascript
 Map.addLayer(image, {bands: ['B5', 'B4', 'B3'], min: 0, max: 3000}, 'False Color Image');
 ```
 
-#### 5.2.2 การกำหนดช่วงค่าขั้นต่ำและสูงสุด (Min and Max)
+#### 4.2.2 การกำหนดช่วงค่าขั้นต่ำและสูงสุด (Min and Max)
 
 กำหนดค่าขั้นต่ำ (`min`) และค่าสูงสุด (`max`) สำหรับการสเกลค่าพิกเซล
 
@@ -507,11 +474,11 @@ Map.addLayer(image, {bands: ['B5', 'B4', 'B3'], min: 0, max: 3000}, 'False Color
 Map.addLayer(image, {bands: ['B4', 'B3', 'B2'], min: 500, max: 3500}, 'Adjusted True Color');
 ```
 
-#### 5.2.3 การใช้จานสี (Palette)
+#### 4.2.3 การใช้ Palette
 
-สำหรับภาพที่มีแถบสีเดียว คุณสามารถกำหนดจานสีเพื่อแสดงค่าต่าง ๆ ด้วยสีที่แตกต่างกัน
+สำหรับข้อมูลภาพที่มีแบนด์เดียว เราสามารถกำหนดจานสีเพื่อแสดงค่าต่าง ๆ ด้วยสีที่แตกต่างกัน
 
-**ตัวอย่าง: การแสดง NDVI ด้วยจานสี**
+**ตัวอย่าง: การแสดง NDVI ด้วย palette**
 
 ```javascript
 var ndvi = image.normalizedDifference(['B5', 'B4']).rename('NDVI');
@@ -525,9 +492,9 @@ var ndviParams = {
 Map.addLayer(ndvi, ndviParams, 'NDVI');
 ```
 
-### 5.3 การสร้างคำอธิบายสี (Legend)
+### 4.3 การสร้างคำอธิบายสี (Legend)
 
-แม้ว่า GEE จะไม่มีฟังก์ชันสร้างคำอธิบายสีในตัว แต่คุณสามารถสร้างคำอธิบายสีแบบกำหนดเองโดยใช้โมดูล `ui`
+แม้ว่า GEE จะไม่มีฟังก์ชันสร้างคำอธิบายสีในตัว แต่เราสามารถสร้างคำอธิบายสีแบบกำหนดเองโดยใช้โมดูล `ui`
 
 **ตัวอย่าง: การสร้างคำอธิบายสีสำหรับ NDVI**
 
@@ -577,9 +544,9 @@ function createLegend(title, palette, min, max) {
 createLegend('NDVI Legend', ['blue', 'white', 'green'], -1, 1);
 ```
 
-### 5.4 การใช้แผงควบคุมผู้ใช้ (User Interface Panels)
+### 4.4 การสร้างส่วนติดต่อผู้ใช้ (User Interface Panels)
 
-GEE มีโมดูล `ui` ที่ช่วยให้คุณสามารถสร้างอินเทอร์เฟซผู้ใช้แบบกำหนดเอง เช่น ปุ่ม สไลเดอร์ และแผงควบคุม
+GEE มีโมดูล `ui` ที่ช่วยให้สามารถสร้างอินเทอร์เฟซแบบกำหนดเอง เช่น Button Slider และ Panel
 
 **ตัวอย่าง: การสร้างสไลเดอร์เพื่อปรับค่าการแสดงผล**
 
@@ -629,18 +596,18 @@ var controlPanel = ui.Panel({
 Map.add(controlPanel);
 ```
 
-### 5.5 การใช้เครื่องมือตรวจสอบ (Inspector Tool)
+### 4.5 การใช้เครื่องมือตรวจสอบ (Inspector Tool)
 
-เครื่องมือตรวจสอบช่วยให้คุณสามารถคลิกบนแผนที่เพื่อดูค่าพิกเซลหรือคุณสมบัติของข้อมูลที่แสดง
+เครื่องมือตรวจสอบช่วยให้เราสามารถคลิกบนแผนที่เพื่อดูค่าพิกเซลหรือคุณสมบัติของข้อมูลที่แสดง
 
 - เปิดใช้งานเครื่องมือตรวจสอบโดยคลิกที่ปุ่ม **Inspector** ใน Code Editor
 - คลิกบนแผนที่เพื่อดูข้อมูลในตำแหน่งนั้น
 
-### 5.6 การปรับแต่งแผนที่
+### 4.6 การปรับแต่งแผนที่
 
-#### 5.6.1 การตั้งค่ากึ่งกลางและระดับการซูมของแผนที่
+#### 4.6.1 การตั้งค่ากึ่งกลางและระดับการซูมของแผนที่
 
-คุณสามารถตั้งค่ากึ่งกลางและระดับการซูมของแผนที่โดยใช้ฟังก์ชัน `Map.setCenter()` หรือ `Map.centerObject()`
+เราสามารถตั้งค่ากึ่งกลางและระดับการซูมของแผนที่โดยใช้ฟังก์ชัน `Map.setCenter()` หรือ `Map.centerObject()`
 
 **ตัวอย่าง:**
 
@@ -654,9 +621,9 @@ Map.setCenter(100.5018, 13.7563, 10); // พิกัดของกรุงเ
 Map.centerObject(polygon, 12); // กึ่งกลางที่โพลิกอน, ระดับซูม 12
 ```
 
-#### 5.6.2 การเพิ่มเลเยอร์หลายชั้น
+#### 4.6.2 การเพิ่มเลเยอร์หลายชั้น
 
-คุณสามารถเพิ่มเลเยอร์หลายชั้นบนแผนที่และควบคุมลำดับการแสดงผลและความโปร่งแสง
+เราสามารถเพิ่มเลเยอร์หลายชั้นบนแผนที่และควบคุมลำดับการแสดงผลและความโปร่งแสง
 
 **ตัวอย่าง:**
 
@@ -665,9 +632,9 @@ Map.addLayer(image1, visParams1, 'Layer 1');
 Map.addLayer(image2, visParams2, 'Layer 2', true, 0.5); // ความโปร่งแสง 50%
 ```
 
-#### 5.6.3 การเปลี่ยนแผนที่ฐาน (Basemap)
+#### 4.6.3 การเปลี่ยนแผนที่ฐาน (Basemap)
 
-GEE อนุญาตให้คุณเปลี่ยนแผนที่ฐานเพื่อให้เหมาะกับการแสดงผล
+เราสามารถเปลี่ยนแผนที่ฐานเพื่อให้เหมาะกับการแสดงผล
 
 **ตัวอย่าง: การเปลี่ยนเป็นแผนที่ดาวเทียม**
 
@@ -677,9 +644,9 @@ Map.setOptions('SATELLITE');
 
 ตัวเลือกอื่น ๆ ได้แก่ `ROADMAP`, `TERRAIN`, `HYBRID`
 
-### 5.7 การสร้างภาพเคลื่อนไหว (Timelapse and Video)
+### 4.7 การสร้างภาพเคลื่อนไหว (Timelapse and Video)
 
-คุณสามารถสร้างภาพเคลื่อนไหวหรือวิดีโอจากกลุ่มภาพ
+เราสามารถสร้างภาพเคลื่อนไหวหรือวิดีโอจาก ImageCollection
 
 **ตัวอย่าง: การสร้าง URL วิดีโอ**
 
@@ -698,9 +665,9 @@ var videoUrl = finalCollection.getVideoThumbURL(videoArgs);
 print('Video URL:', videoUrl);
 ```
 
-### 5.8 การใช้ฟังก์ชันแสดงผลแบบกำหนดเอง
+### 4.8 การใช้ฟังก์ชันแสดงผลแบบกำหนดเอง
 
-คุณสามารถสร้างฟังก์ชันเพื่อปรับแต่งการแสดงผลตามความต้องการ
+เราสามารถสร้างฟังก์ชันเพื่อปรับแต่งการแสดงผลตามความต้องการ
 
 **ตัวอย่าง: ฟังก์ชันเพื่อสร้างภาพ RGB จากภาพ Sentinel-2**
 
@@ -722,7 +689,7 @@ var trueColorCollection = sentinelCollection.map(addTrueColor);
 Map.addLayer(trueColorCollection.first(), {}, 'Sentinel-2 True Color');
 ```
 
-### 5.9 การแสดงข้อมูลเวกเตอร์
+### 4.9 การแสดงข้อมูลเวกเตอร์
 
 สำหรับข้อมูลเวกเตอร์ เช่น `ee.FeatureCollection` คุณสามารถปรับแต่งการแสดงผลด้วยสไตล์ต่าง ๆ
 
@@ -739,7 +706,7 @@ var countryStyle = {
 Map.addLayer(countries.style(countryStyle), {}, 'Country Borders');
 ```
 
-### 5.10 การสร้างกราฟและแผนภูมิ
+### 4.10 การสร้างกราฟและแผนภูมิ
 
 GEE มีเครื่องมือในการสร้างกราฟและแผนภูมิเพื่อวิเคราะห์ข้อมูล
 
@@ -765,15 +732,413 @@ var chart = ui.Chart.image.series({
 print(chart);
 ```
 
-### 5.11 เคล็ดลับและแนวทางปฏิบัติที่ดีที่สุด
+### 4.11 เคล็ดลับและแนวทางปฏิบัติที่ดี
 
 - **เลือกพารามิเตอร์การแสดงผลที่เหมาะสม:** ปรับค่า `min` และ `max` ให้เหมาะสมกับข้อมูล
 - **ใช้จานสีที่เข้าใจง่าย:** เลือกจานสีที่สื่อความหมายและไม่สร้างความสับสน
-- **จัดการเลเยอร์อย่างมีประสิทธิภาพ:** ตั้งชื่
-
-อเลเยอร์อย่างชัดเจนและจัดลำดับความสำคัญของการแสดงผล
+- **จัดการเลเยอร์อย่างมีประสิทธิภาพ:** ตั้งชื่อเลเยอร์อย่างชัดเจนและจัดลำดับความสำคัญของการแสดงผล
 - **ทดลองกับการแสดงผลแบบต่าง ๆ:** ลองใช้แถบสีและพารามิเตอร์การแสดงผลที่แตกต่างกันเพื่อหาวิธีที่ดีที่สุดในการนำเสนอข้อมูล
-- **คำนึงถึงผู้ชม:** ปรับการแสดงผลให้เหมาะสมกับผู้ที่รับชม ไม่ว่าจะเป็นผู้เชี่ยวชาญหรือสาธารณชน
+- **คำนึงถึงผู้ใช้:** ปรับการแสดงผลให้เหมาะสมกับผู้ที่รับชม ไม่ว่าจะเป็นผู้เชี่ยวชาญหรือบุคลทั่วไป
+
+[กลับสู่สารบัญ](#สารบัญ)
+
+---
+
+## 5. การประมวลผลและวิเคราะห์ภาพ (Image Processing and Analysis)
+
+การประมวลผลและวิเคราะห์ภาพเป็นหัวใจสำคัญของการใช้งาน GEE เนื่องจากช่วยให้คุณสามารถสกัดข้อมูลที่มีความหมายจากภาพถ่ายดาวเทียมและข้อมูลราสเตอร์อื่น ๆ ในส่วนนี้ เราจะสำรวจเทคนิคและเครื่องมือต่าง ๆ สำหรับการประมวลผลและวิเคราะห์ภาพใน GEE อย่างละเอียด
+
+### 5.1 การคำนวณดัชนีสเปกตรัม (Spectral Indices)
+
+ดัชนีสเปกตรัมเป็นการคำนวณทางคณิตศาสตร์ที่รวมแถบสีต่าง ๆ เพื่อเน้นคุณสมบัติเฉพาะของพื้นผิวโลก
+
+#### 5.1.1 ดัชนีพืชพรรณแตกต่างปกติ (NDVI)
+
+NDVI ใช้ในการวัดสุขภาพและความหนาแน่นของพืชพรรณ โดยคำนวณจากแถบสี Near-Infrared (NIR) และ Red
+
+**สูตร:**
+
+\[
+\text{NDVI} = \frac{\text{NIR} - \text{Red}}{\text{NIR} + \text{Red}}
+\]
+
+**ตัวอย่าง: การคำนวณ NDVI จากภาพ Landsat 8**
+
+```javascript
+var image = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+             .filterDate('2020-01-01', '2020-12-31')
+             .filterBounds(geometry)
+             .first();
+
+var ndvi = image.normalizedDifference(['B5', 'B4']).rename('NDVI');
+Map.addLayer(ndvi, {min: -1, max: 1, palette: ['white', 'green']}, 'NDVI');
+```
+
+#### 5.1.2 ดัชนีพืชพรรณปรับปรุง (EVI)
+
+EVI เป็นดัชนีที่ปรับปรุงจาก NDVI โดยคำนึงถึงการสะท้อนแสงของพื้นดินและสภาพบรรยากาศ
+
+**สูตร:**
+
+\[
+\text{EVI} = G \times \frac{\text{NIR} - \text{Red}}{\text{NIR} + C_1 \times \text{Red} - C_2 \times \text{Blue} + L}
+\]
+
+โดยทั่วไปใช้ค่า \( G = 2.5 \), \( C_1 = 6 \), \( C_2 = 7.5 \), และ \( L = 1 \)
+
+**ตัวอย่าง: การคำนวณ EVI**
+
+```javascript
+function calculateEVI(image) {
+  var nir = image.select('B5');
+  var red = image.select('B4');
+  var blue = image.select('B2');
+  
+  var evi = image.expression(
+    '2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))',
+    {
+      'NIR': nir,
+      'RED': red,
+      'BLUE': blue
+    }
+  ).rename('EVI');
+  
+  return evi;
+}
+
+var eviImage = calculateEVI(image);
+Map.addLayer(eviImage, {min: -1, max: 1, palette: ['white', 'blue']}, 'EVI');
+```
+
+#### 5.1.3 ดัชนีอื่น ๆ
+
+- **ดัชนีความแตกต่างของน้ำ (NDWI):** ใช้ในการระบุพื้นที่น้ำ
+- **ดัชนีความแตกต่างของการเผาไหม้ (NBR):** ใช้ในการตรวจจับพื้นที่ไฟไหม้
+- **ดัชนีความแตกต่างของสิ่งปลูกสร้าง (NDBI):** ใช้ในการระบุพื้นที่เมือง
+
+**ตัวอย่าง: การคำนวณ NDWI**
+
+```javascript
+var ndwi = image.normalizedDifference(['B3', 'B5']).rename('NDWI');
+Map.addLayer(ndwi, {min: -1, max: 1, palette: ['white', 'blue']}, 'NDWI');
+```
+
+### 5.2 การกรองเมฆและการทำความสะอาดข้อมูล
+
+ภาพถ่ายดาวเทียมมักมีเมฆปกคลุม ซึ่งอาจรบกวนการวิเคราะห์ การกรองเมฆช่วยให้เราได้ภาพที่ชัดเจนมากขึ้น
+
+#### 5.2.1 การใช้แถบคุณภาพ (Quality Bands)
+
+ดาวเทียมบางชนิดมีแถบคุณภาพที่ระบุตำแหน่งของเมฆ
+
+**ตัวอย่าง: ฟังก์ชันการกรองเมฆสำหรับ Landsat 8**
+
+```javascript
+function maskL8sr(image) {
+  var qa = image.select('pixel_qa');
+  
+  // Bit 3 คือเมฆเงา (Cloud Shadow)
+  // Bit 5 คือเมฆ (Cloud)
+  var cloudShadowBitMask = 1 << 3;
+  var cloudsBitMask = 1 << 5;
+  
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+              .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  
+  return image.updateMask(mask);
+}
+
+var cloudFreeCollection = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+                             .filterDate('2020-01-01', '2020-12-31')
+                             .filterBounds(geometry)
+                             .map(maskL8sr);
+```
+
+#### 5.2.2 การใช้ฟังก์ชันการกรองเมฆสำหรับ Sentinel-2
+
+```javascript
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+  
+  // Bits 10 และ 11 คือเมฆและเมฆเงา
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+  
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+              .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+  
+  return image.updateMask(mask);
+}
+
+var cloudFreeCollection = ee.ImageCollection('COPERNICUS/S2')
+                             .filterDate('2020-01-01', '2020-12-31')
+                             .filterBounds(geometry)
+                             .map(maskS2clouds);
+```
+
+### 5.3 การประมวลผลอนุกรมเวลา (Time Series Analysis)
+
+การวิเคราะห์อนุกรมเวลาช่วยให้คุณสามารถติดตามการเปลี่ยนแปลงของพื้นที่ตามเวลา
+
+#### 5.3.1 การสร้างอนุกรมเวลา NDVI
+
+```javascript
+var ndviCollection = cloudFreeCollection.map(function(img) {
+  var ndvi = img.normalizedDifference(['B5', 'B4']).rename('NDVI');
+  return ndvi.set('system:time_start', img.get('system:time_start'));
+});
+
+var chart = ui.Chart.image.series({
+  imageCollection: ndviCollection,
+  region: geometry,
+  reducer: ee.Reducer.mean(),
+  scale: 30
+}).setOptions({
+  title: 'NDVI Time Series',
+  hAxis: {title: 'Date'},
+  vAxis: {title: 'NDVI'}
+});
+
+print(chart);
+```
+
+#### 5.3.2 การตรวจจับการเปลี่ยนแปลง (Change Detection)
+
+เราสามารถระบุพื้นที่ที่มีการเปลี่ยนแปลงอย่างมีนัยสำคัญระหว่างช่วงเวลาต่าง ๆ
+
+**ตัวอย่าง: การตรวจจับการเปลี่ยนแปลงของ NDVI**
+
+```javascript
+var ndviStart = cloudFreeCollection.filterDate('2020-01-01', '2020-06-30')
+                  .mean()
+                  .normalizedDifference(['B5', 'B4']);
+
+var ndviEnd = cloudFreeCollection.filterDate('2020-07-01', '2020-12-31')
+                .mean()
+                .normalizedDifference(['B5', 'B4']);
+
+var ndviChange = ndviEnd.subtract(ndviStart).rename('NDVI Change');
+
+Map.addLayer(ndviChange, {min: -0.5, max: 0.5, palette: ['red', 'white', 'green']}, 'NDVI Change');
+```
+
+### 5.4 การใช้ Reducers
+
+Reducers ใช้ในการสรุปข้อมูล เช่น การคำนวณค่าเฉลี่ย ค่าสูงสุด ค่าต่ำสุด ในพื้นที่หรือกลุ่มข้อมูล
+
+#### 5.4.1 การใช้ Reducers ในพื้นที่ (Reducing over Regions)
+
+**ตัวอย่าง: การคำนวณค่าเฉลี่ย NDVI ในพื้นที่เฉพาะ**
+
+```javascript
+var meanNdvi = ndvi.reduceRegion({
+  reducer: ee.Reducer.mean(),
+  geometry: polygon,
+  scale: 30,
+  maxPixels: 1e9
+});
+
+print('Mean NDVI:', meanNdvi.get('NDVI'));
+```
+
+#### 5.4.2 การใช้ Reducers ในกลุ่มภาพ (Reducing Image Collections)
+
+**ตัวอย่าง: การหาค่าสูงสุดของ NDVI ในกลุ่มภาพ**
+
+```javascript
+var maxNdvi = ndviCollection.max();
+Map.addLayer(maxNdvi, {min: 0, max: 1, palette: ['white', 'green']}, 'Max NDVI');
+```
+
+### 5.5 การจำแนกภาพ (Image Classification)
+
+การจำแนกภาพเป็นการจัดประเภทพิกเซลตามคุณสมบัติของสเปกตรัม
+
+#### 5.5.1 การจำแนกแบบมีผู้สอน (Supervised Classification)
+
+**ขั้นตอน:**
+
+1. สร้างชุดข้อมูลการฝึกอบรม (Training Data)
+2. เลือกแถบสีที่ใช้ในการจำแนก
+3. ฝึกอบรมตัวจำแนก (Classifier)
+4. ใช้ตัวจำแนกกับภาพ
+
+**ตัวอย่าง: การจำแนกประเภทการใช้ที่ดิน**
+
+```javascript
+// 1. สร้างชุดข้อมูลการฝึกอบรม
+var trainingPolygons = ee.FeatureCollection([
+  ee.Feature(polygon1, {'class': 0}), // พื้นที่น้ำ
+  ee.Feature(polygon2, {'class': 1}), // พื้นที่ป่า
+  ee.Feature(polygon3, {'class': 2})  // พื้นที่เมือง
+]);
+
+// 2. ตัวอย่างข้อมูลจากภาพ
+var training = image.sampleRegions({
+  collection: trainingPolygons,
+  properties: ['class'],
+  scale: 30
+});
+
+// 3. ฝึกอบรมตัวจำแนก
+var classifier = ee.Classifier.smileRandomForest(100).train({
+  features: training,
+  classProperty: 'class',
+  inputProperties: ['B2', 'B3', 'B4', 'B5', 'B6', 'B7']
+});
+
+// 4. ใช้ตัวจำแนกกับภาพ
+var classified = image.classify(classifier);
+
+// 5. แสดงผล
+Map.addLayer(classified, {min: 0, max: 2, palette: ['blue', 'green', 'red']}, 'Classified Image');
+```
+
+#### 5.5.2 การประเมินความถูกต้อง (Accuracy Assessment)
+
+**ตัวอย่าง: การคำนวณเมทริกซ์ความสับสน (Confusion Matrix)**
+
+```javascript
+// สร้างชุดข้อมูลทดสอบ
+var validation = validationImage.sampleRegions({
+  collection: validationPolygons,
+  properties: ['class'],
+  scale: 30
+});
+
+// ทำนายคลาสสำหรับชุดข้อมูลทดสอบ
+var validated = validation.classify(classifier);
+
+// คำนวณเมทริกซ์ความสับสน
+var testAccuracy = validated.errorMatrix('class', 'classification');
+print('Confusion Matrix:', testAccuracy);
+print('Overall Accuracy:', testAccuracy.accuracy());
+```
+
+### 5.6 การกรองและการแปลงภาพ (Filtering and Transformations)
+
+#### 5.6.1 การกรองภาพ (Image Filtering)
+
+เราสามารถใช้ฟิลเตอร์เพื่อปรับปรุงคุณภาพของภาพ เช่น การทำให้ภาพเรียบเนียน ลดสัญญาณรบกวน
+
+**ตัวอย่าง: การใช้ฟิลเตอร์แบบ Gaussian**
+
+```javascript
+var smoothed = image.convolve(ee.Kernel.gaussian({
+  radius: 2,
+  sigma: 1
+}));
+
+Map.addLayer(smoothed, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'Smoothed Image');
+```
+
+#### 5.6.2 การคำนวณหลักเชิงองค์ประกอบ (Principal Component Analysis - PCA)
+
+การทำ PCA ช่วยลดมิติของข้อมูลและเน้นคุณสมบัติที่สำคัญ
+
+**ตัวอย่าง: การทำ PCA บนภาพ**
+
+```javascript
+// เลือกแถบสีที่สนใจ
+var bands = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
+
+// สร้างชุดข้อมูลสำหรับ PCA
+var region = geometry.buffer(10000); // กำหนดพื้นที่ที่สนใจ
+
+var scale = 30;
+
+var sample = image.select(bands).sample({
+  region: region,
+  scale: scale,
+  numPixels: 5000
+});
+
+// คำนวณสถิติการโคแวเรียนซ์
+var covar = sample.toArray().reduceRegion({
+  reducer: ee.Reducer.covariance(),
+  geometry: region,
+  scale: scale,
+  maxPixels: 1e9
+});
+
+var covarArray = ee.Array(covar.get('array'));
+
+// คำนวณค่า eigen
+var eigens = covarArray.eigen();
+
+// ได้ค่า eigenvalues และ eigenvectors
+var eigenValues = eigens.slice(1, 0, 1);
+var eigenVectors = eigens.slice(1, 1);
+
+// แปลงภาพเป็นรูปแบบอาเรย์
+var arrayImage = image.select(bands).toArray();
+
+// คำนวณ PCA
+var principalComponents = ee.Image(eigenVectors)
+  .matrixMultiply(arrayImage.toArray(1))
+  .arrayProject([0])
+  .arrayFlatten([['PC1', 'PC2', 'PC3', 'PC4', 'PC5', 'PC6']]);
+
+Map.addLayer(principalComponents.select('PC1'), {min: -2, max: 2}, 'Principal Component 1');
+```
+
+### 5.7 การหลอมข้อมูลภาพหลายแหล่ง (Data Fusion)
+
+เราสามารถหลอมข้อมูลข้อมูลจากแหล่งต่าง ๆ เพื่อเพิ่มข้อมูลที่มีประโยชน์
+
+**ตัวอย่าง: การหลอมข้อมูลภาพ Sentinel-1 และ Sentinel-2**
+
+```javascript
+var s2Image = ee.ImageCollection('COPERNICUS/S2')
+                .filterDate('2020-01-01', '2020-12-31')
+                .filterBounds(geometry)
+                .first();
+
+var s1Image = ee.ImageCollection('COPERNICUS/S1_GRD')
+                .filterDate('2020-01-01', '2020-12-31')
+                .filterBounds(geometry)
+                .filter(ee.Filter.eq('instrumentMode', 'IW'))
+                .filter(ee.Filter.eq('orbitProperties_pass', 'ASCENDING'))
+                .filter(ee.Filter.eq('resolution', 'H'))
+                .select('VV')
+                .mean();
+
+var fusedImage = s2Image.addBands(s1Image.rename('VV'));
+
+Map.addLayer(fusedImage.select('VV'), {min: -20, max: 0}, 'Sentinel-1 VV');
+```
+
+### 5.8 การประมวลผลข้อมูลภูมิประเทศ
+
+เราสามารถคำนวณข้อมูลภูมิประเทศเช่น ความสูง ความลาดชัน ทิศทาง
+
+**ตัวอย่าง: การคำนวณความลาดชันและทิศทาง**
+
+```javascript
+var dem = ee.Image('USGS/SRTMGL1_003');
+
+var terrain = ee.Algorithms.Terrain(dem);
+
+var slope = terrain.select('slope');
+var aspect = terrain.select('aspect');
+
+Map.addLayer(slope, {min: 0, max: 60}, 'Slope');
+Map.addLayer(aspect, {min: 0, max: 360}, 'Aspect');
+```
+
+### 5.9 เคล็ดลับและแนวทางปฏิบัติที่ดีที่สุด
+
+- **เข้าใจคุณสมบัติของดาวเทียมแต่ละชนิด:** แถบสี ความละเอียด เวลาการโคจร
+- **ใช้ฟังก์ชันการแมปเพื่อประมวลผลกลุ่มภาพอย่างมีประสิทธิภาพ**
+- **ตรวจสอบและจัดการค่าที่ขาดหาย (NoData) และค่าผิดปกติ**
+- **ใช้การแสดงผลที่เหมาะสมเพื่อเน้นข้อมูลที่ต้องการ**
+- **ทำความเข้าใจกับข้อจำกัดของข้อมูล เช่น เมฆปกคลุม ความละเอียดเชิงพื้นที่**
+
+### 5.10 การทำงานกับข้อมูลขนาดใหญ่
+
+- **ใช้การกรองเชิงพื้นที่และเวลาเพื่อลดปริมาณข้อมูล**
+- **ใช้ฟังก์ชัน `clip()` เพื่อจำกัดพื้นที่ของภาพ**
+- **ระวังการใช้ฟังก์ชันที่ต้องการการคำนวณสูง เช่น `getInfo()` หรือ `reduceRegion()` ในพื้นที่ใหญ่
 
 [กลับสู่สารบัญ](#สารบัญ)
 
