@@ -758,10 +758,6 @@ NDVI ใช้ในการวัดสุขภาพและความห
 
 **สูตร:**
 
-\[
-\text{NDVI} = \frac{\text{NIR} - \text{Red}}{\text{NIR} + \text{Red}}
-\]
-
 $$
 NDVI = \frac{NIR - Red}{NIR + Red}
 $$
@@ -784,9 +780,9 @@ EVI เป็นดัชนีที่ปรับปรุงจาก NDVI �
 
 **สูตร:**
 
-\[
-\text{EVI} = G \times \frac{\text{NIR} - \text{Red}}{\text{NIR} + C_1 \times \text{Red} - C_2 \times \text{Blue} + L}
-\]
+$$
+EVI = G \times \frac{NIR - Red}{NIR + C_1 \times Red - C_2 \times Blue + L}
+$$
 
 โดยทั่วไปใช้ค่า \( G = 2.5 \), \( C_1 = 6 \), \( C_2 = 7.5 \), และ \( L = 1 \)
 
