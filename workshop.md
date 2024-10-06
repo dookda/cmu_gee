@@ -58,19 +58,7 @@ Google Earth Engine เป็นแพลตฟอร์มบนคลาวด
 
 ![แผนภาพ Code Editor](https://developers.google.com/static/earth-engine/images/Code_editor_diagram.png)
 
-### การแนะนำ JavaScript API
-
-- GEE ใช้ JavaScript เป็นหลักสำหรับการสคริปต์ใน Code Editor
-- การมีความเข้าใจพื้นฐานเกี่ยวกับไวยากรณ์ JavaScript จะเป็นประโยชน์
-- ฟังก์ชัน GEE มีคำนำหน้า `ee` แสดงถึงอ็อบเจ็กต์ Earth Engine
-
-[กลับสู่สารบัญ](#สารบัญ)
-
----
-
-## 3. ความเข้าใจ JavaScript สำหรับ GEE และการทำงานระหว่าง Client-Server
-
-### บทนำสู่ JavaScript ใน GEE
+### การแนะนำ JavaScript สำหรับ GEE และการทำงานระหว่าง Client-Server
 
 Google Earth Engine ใช้ JavaScript เป็นภาษาสคริปต์หลักใน Code Editor การมีความเข้าใจพื้นฐานเกี่ยวกับ JavaScript จะช่วยให้คุณสามารถพัฒนาสคริปต์ที่มีประสิทธิภาพและยืดหยุ่นได้
 
@@ -105,7 +93,7 @@ Google Earth Engine ใช้ JavaScript เป็นภาษาสคริป
   var isEqual = x === y;
   ```
   
-- **การควบคุมการไหล (Control Flow):** if-else, for-loop, while-loop
+- **การควบคุมการการทำงาน (Control Flow):** if-else, for-loop, while-loop
   ```javascript
   if (x > y) {
     // ทำบางอย่าง
@@ -124,14 +112,14 @@ Google Earth Engine ใช้ JavaScript เป็นภาษาสคริป
 
 #### ฝั่งเซิร์ฟเวอร์ (Server-side)
 
-- การดำเนินการส่วนใหญ่ใน GEE เกิดขึ้นบนเซิร์ฟเวอร์ของ Google
+- การดำเนินการส่วนใหญ่ใน GEE เกิดขึ้นบนเซิร์ฟเวอร์ของ Google ซึ่งฟังก์ชัน GEE มีคำนำหน้า `ee` แสดงถึงอ็อบเจ็กต์ของ Earth Engine
 - อ็อบเจ็กต์ Earth Engine เช่น `ee.Image`, `ee.Geometry`, `ee.FeatureCollection` เป็นอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์
-- การดำเนินการบนอ็อบเจ็กต์เหล่านี้เป็นแบบเลื่อนเวลา (Lazy Evaluation) และไม่เกิดขึ้นจนกว่าจะถูกเรียกใช้
+- การดำเนินการบนอ็อบเจ็กต์เหล่านี้เป็นแบบเลื่อนเวลา (Lazy Evaluation) และไม่เกิดขึ้นจนกว่าจะถูกเรียกใช้ [อ่านเพิ่มเติม](https://medium.com/scb-techx/%E0%B8%97%E0%B8%B3%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B9%83%E0%B8%88%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%9A%E0%B8%9A-lazy-evaluation-%E0%B9%83%E0%B8%99-pyspark-1d71bc33b831)
 
 #### ฝั่งลูกข่าย (Client-side)
 
 - ตัวแปรและฟังก์ชัน JavaScript มาตรฐานอยู่บนฝั่งลูกข่าย
-- การควบคุมการไหลและการประมวลผลข้อมูลที่ไม่ใช่ Earth Engine เกิดขึ้นบนฝั่งลูกข่าย
+- คำสั่งที่ควบคุมการทำงานและการประมวลผลข้อมูลที่ไม่ใช่ Earth Engine เกิดขึ้นบนฝั่งลูกข่าย
 - ค่า Client-side สามารถเข้าถึงและประมวลผลได้ทันที
 
 #### การสื่อสารระหว่าง Client และ Server
@@ -157,7 +145,7 @@ filteredCollection.size().evaluate(function(count) {
 });
 ```
 
-### แนวทางปฏิบัติที่ดีที่สุด
+### แนวทางปฏิบัติที่ดี
 
 - **หลีกเลี่ยงการใช้ `getInfo()`:** ใช้ `evaluate()` เพื่อป้องกันการหยุดทำงานของสคริปต์
 - **เข้าใจความแตกต่างของอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์และลูกข่าย:** อย่าพยายามใช้ค่าฝั่งเซิร์ฟเวอร์ในบริบทที่ต้องการค่าฝั่งลูกข่าย
@@ -196,57 +184,229 @@ imageCount.evaluate(function(count) {
 });
 ```
 
-### สรุป
-
-การเข้าใจการทำงานระหว่างฝั่งลูกข่ายและเซิร์ฟเวอร์ใน GEE เป็นสิ่งสำคัญสำหรับการเขียนสคริปต์ที่มีประสิทธิภาพและไม่มีข้อผิดพลาด การแยกแยะว่าเมื่อใดที่ข้อมูลหรือฟังก์ชันอยู่บนฝั่งใดจะช่วยให้คุณสามารถจัดการและประมวลผลข้อมูลได้อย่างถูกต้อง
-
 [กลับสู่สารบัญ](#สารบัญ)
 
 ---
 
 ## 3. การทำงานกับชุดข้อมูล
 
-### การสำรวจคลังข้อมูล
+การทำงานกับชุดข้อมูลเป็นส่วนสำคัญของการใช้งาน GEE เนื่องจาก GEE มีคลังข้อมูลเชิงภูมิศาสตร์ขนาดใหญ่ที่สามารถนำมาใช้ในการวิเคราะห์และวิจัย ในส่วนนี้ เราจะสำรวจวิธีการค้นหา นำเข้า และจัดการชุดข้อมูลใน GEE อย่างละเอียด
 
-- เข้าถึง [คลังข้อมูล GEE](https://developers.google.com/earth-engine/datasets/) สำหรับรายการชุดข้อมูลที่มีอยู่ครบถ้วน
-- ชุดข้อมูลรวมถึงภาพถ่ายดาวเทียม (เช่น Landsat, Sentinel) ข้อมูลสภาพอากาศ ข้อมูลภูมิประเทศ และอื่น ๆ
+### 3.1 การสำรวจคลังข้อมูล (Data Catalog)
 
-### การนำเข้าชุดข้อมูล
+GEE มีคลังข้อมูล (Data Catalog) ขนาดใหญ่ที่รวบรวมชุดข้อมูลเชิงภูมิศาสตร์จากแหล่งต่าง ๆ ทั่วโลก ชุดข้อมูลเหล่านี้รวมถึง:
 
-#### ภาพและกลุ่มภาพ
+- **ภาพถ่ายดาวเทียม:** เช่น Landsat, Sentinel, MODIS
+- **ข้อมูลสภาพภูมิอากาศ:** เช่น อุณหภูมิ ปริมาณน้ำฝน
+- **ข้อมูลการใช้ที่ดินและการครอบคลุมพื้นดิน:** เช่น Global Land Cover
+- **ข้อมูลเชิงสถิติและประชากรศาสตร์:** เช่น ข้อมูลประชากร
+- **ข้อมูลภูมิประเทศ:** เช่น แบบจำลองระดับความสูงดิจิทัล (DEM)
 
-- **Image (ภาพ):** ภาพราสเตอร์เดี่ยว
-- **Image Collection (กลุ่มภาพ):** ชุดของภาพ (เช่น ภาพทั้งหมดจาก Landsat 8)
+#### วิธีการเข้าถึงคลังข้อมูล
 
-**ตัวอย่าง: การนำเข้ากลุ่มภาพ Landsat 8**
+- ไปที่ [คลังข้อมูล GEE](https://developers.google.com/earth-engine/datasets/) เพื่อสำรวจชุดข้อมูลที่มีอยู่
+- ใน Code Editor แท็บ **Docs** จะมีรายการชุดข้อมูลที่สามารถค้นหาและนำมาใช้ได้
+- คุณสามารถค้นหาชุดข้อมูลโดยใช้คำสำคัญหรือกรองตามประเภทข้อมูล
+
+### 3.2 การนำเข้าชุดข้อมูล
+
+ใน GEE ชุดข้อมูลแบ่งออกเป็นสองประเภทหลัก:
+
+- **ภาพและกลุ่มภาพ (Image and Image Collections)**
+- **กลุ่มคุณลักษณะ (Feature Collections)**
+
+#### 3.2.1 Image and Image Collections
+
+- **Image (ee.Image):** เป็นภาพราสเตอร์เดี่ยว ซึ่งอาจเป็นภาพถ่ายดาวเทียม ภาพแผนที่ หรือข้อมูลเชิงพื้นที่อื่น ๆ
+- **Image Collections (ee.ImageCollection):** เป็นชุดของภาพที่มีความเกี่ยวข้องกัน เช่น ภาพทั้งหมดจากดาวเทียม Landsat 8 ในช่วงเวลาหนึ่ง
+
+**ตัวอย่าง: การนำเข้า Image Collections ของ Landsat 8 Surface Reflectance**
 
 ```javascript
 var landsat8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR');
 ```
 
-#### กลุ่มคุณลักษณะ
+**การดูรายละเอียดของข้อมูล Image Collections**
 
-- ชุดข้อมูลเวกเตอร์ที่มีคุณลักษณะทางเรขาคณิตและคุณสมบัติที่เกี่ยวข้อง
+เราสามารถตรวจสอบข้อมูลเมตาของ Image Collections ได้โดยใช้ฟังก์ชัน `print()`:
 
-**ตัวอย่าง: การนำเข้าชุดข้อมูลประเทศทั่วโลก**
+```javascript
+print('ข้อมูล Image Collections ของ Landsat 8:', landsat8);
+```
+
+เมื่อรันคำสั่งนี้ เราจะเห็นข้อมูลเกี่ยวกับกลุ่มภาพ เช่น จำนวนภาพ ช่วงเวลาของข้อมูล และคุณสมบัติอื่น ๆ
+
+#### 3.2.2 กลุ่มคุณลักษณะ
+
+- **FeatureCollection (ee.FeatureCollection):** เป็นชุดของคุณลักษณะเชิงภูมิศาสตร์ที่มีเรขาคณิต (Geometry) และคุณสมบัติ (Property) ที่เกี่ยวข้อง เช่น ขอบเขตประเทศ เส้นทางแม่น้ำ จุดสถานที่สำคัญ
+
+**ตัวอย่าง: การนำเข้าชุดข้อมูลขอบเขตประเทศ**
 
 ```javascript
 var countries = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');
 ```
 
-### การกรองและเลือกข้อมูล
-
-- **การกรองเชิงพื้นที่:** ใช้ `.filterBounds(geometry)` เพื่อเลือกข้อมูลภายในพื้นที่
-- **การกรองตามเวลา:** ใช้ `.filterDate('YYYY-MM-DD', 'YYYY-MM-DD')` เพื่อเลือกข้อมูลภายในช่วงวันที่
-
-**ตัวอย่าง: การกรองภาพ Landsat ในพื้นที่และช่วงเวลา**
+**การสำรวจข้อมูล FeatureCollection**
 
 ```javascript
-var geometry = ee.Geometry.Point([100.5018, 13.7563]); // พิกัดกรุงเทพฯ
-var filteredCollection = landsat8
-  .filterBounds(geometry)
-  .filterDate('2020-01-01', '2020-12-31');
+print('ข้อมูล FeatureCollection ประเทศ:', countries);
 ```
+
+### 3.3 การกรองและเลือกข้อมูล
+
+การกรองข้อมูลช่วยให้สามารถเลือกข้อมูลที่ต้องการสำหรับการวิเคราะห์ โดยลดปริมาณข้อมูลที่ไม่จำเป็น
+
+#### 3.3.1 การกรองตามช่วงเวลา (Temporal Filtering)
+
+ใช้ฟังก์ชัน `.filterDate()` เพื่อเลือกภาพในช่วงเวลาที่กำหนด
+
+**ตัวอย่าง: การกรองภาพ Landsat 8 ในปี 2023**
+
+```javascript
+var filteredByDate = landsat8.filterDate('2023-01-01', '2023-12-31');
+```
+
+#### 3.3.2 การกรองเชิงพื้นที่ (Spatial Filtering)
+
+ใช้ฟังก์ชัน `.filterBounds()` เพื่อเลือกภาพที่ครอบคลุมพื้นที่ที่กำหนด
+
+**ตัวอย่าง: การกรองภาพที่ครอบคลุมพื้นที่กรุงเทพฯ**
+
+```javascript
+var bangkok = ee.Geometry.Point([100.5018, 13.7563]);
+var filteredByLocation = filteredByDate.filterBounds(bangkok);
+```
+
+#### 3.3.3 การกรองตามคุณสมบัติ (Property Filtering)
+
+คุณสามารถกรองข้อมูลตามคุณสมบัติของภาพ เช่น เมฆปกคลุม ความชัดเจนของภาพ เป็นต้น
+
+**ตัวอย่าง: การกรองภาพที่มีเมฆปกคลุมน้อยกว่า 10%**
+
+```javascript
+var filteredByCloud = filteredByLocation.filter(ee.Filter.lt('CLOUD_COVER', 10));
+```
+
+#### 3.3.4 การรวมการกรองหลายแบบ
+
+คุณสามารถรวมการกรองหลายแบบเพื่อเลือกภาพที่ตรงกับเงื่อนไขทั้งหมด
+
+```javascript
+var finalCollection = landsat8
+  .filterDate('2020-01-01', '2020-12-31')
+  .filterBounds(bangkok)
+  .filter(ee.Filter.lt('CLOUD_COVER', 10));
+```
+
+### 3.4 การเลือกและจัดการแบนด์ (Bands)
+
+ภาพถ่ายดาวเทียมมักมีแบนด์ (Bands) หลายแถบที่แสดงถึงช่วงความยาวคลื่นต่าง ๆ เราสามารถเลือกแบนด์ที่ต้องการใช้ในการวิเคราะห์
+
+**ตัวอย่าง: การเลือกแบนด์จากภาพ**
+
+```javascript
+var image = finalCollection.first();
+var selectedBands = image.select(['B2', 'B3', 'B4']); // แบนด์ ของช่วงคลื่นสีน้ำเงิน เขียว แดง
+```
+
+### 3.5 การประมวลผลข้อมูลเมตา (Metadata)
+
+แต่ละภาพหรือคุณลักษณะใน GEE มีข้อมูลเมตาที่เกี่ยวข้อง คุณสามารถเข้าถึงและใช้ข้อมูลเหล่านี้ในการวิเคราะห์
+
+**ตัวอย่าง: การเข้าถึงข้อมูลเมตาของภาพ**
+
+```javascript
+var acquisitionDate = image.get('DATE_ACQUIRED');
+print('วันที่ถ่ายภาพ:', acquisitionDate);
+
+var cloudCover = image.get('CLOUD_COVER');
+print('เมฆปกคลุม (%):', cloudCover);
+```
+
+### 3.6 การทำงานกับ Image Collections
+
+#### 3.6.1 การคำนวณ Composite Images
+
+เราสามารถรวมภาพหลาย ๆ ภาพเข้าด้วยกันเพื่อสร้างภาพประกอบที่มีคุณภาพดีกว่า
+
+**ตัวอย่าง: การสร้างค่าเฉลี่ยจาก Composite Images**
+
+```javascript
+var composite = finalCollection.mean();
+Map.addLayer(composite, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'Composite Image');
+```
+
+#### 3.6.2 การลดข้อมูลภาพ (Image Collection Reduction)
+
+ใช้ฟังก์ชันลด (Reducers) เพื่อสรุปข้อมูลจากกลุ่มภาพ เช่น ค่าเฉลี่ย ค่าสูงสุด ค่าต่ำสุด
+
+**ตัวอย่าง: การหาค่าสูงสุดของ NDVI ในปี 2020**
+
+```javascript
+var ndviCollection = finalCollection.map(function(image) {
+  var ndvi = image.normalizedDifference(['B5', 'B4']).rename('NDVI');
+  return ndvi.copyProperties(image, image.propertyNames());
+});
+
+var maxNdvi = ndviCollection.qualityMosaic('NDVI');
+Map.addLayer(maxNdvi, {min: 0, max: 1, palette: ['white', 'green']}, 'Max NDVI');
+```
+
+### 3.7 การผสานชุดข้อมูล (Data Fusion)
+
+การผสานชุดข้อมูลช่วยให้เราสามารถรวมข้อมูลจากแหล่งต่าง ๆ เพื่อการวิเคราะห์ที่ครอบคลุมมากขึ้น
+
+**ตัวอย่าง: การรวมข้อมูลภูมิประเทศกับภาพดาวเทียม**
+
+```javascript
+var dem = ee.Image('USGS/SRTMGL1_003');
+var imageWithDem = image.addBands(dem.rename('elevation'));
+```
+
+### 3.8 การสร้างชุดข้อมูลใหม่
+
+เราสามารถสร้างชุดข้อมูลใหม่ โดยการคำนวณหรือประมวลผลจากชุดข้อมูลที่มีอยู่
+
+**ตัวอย่าง: การคำนวณดัชนีความแตกต่างของน้ำ (NDWI)**
+
+```javascript
+var ndwi = image.normalizedDifference(['B3', 'B5']).rename('NDWI');
+Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
+```
+
+### 3.9 การจัดเก็บและแชร์ชุดข้อมูล
+
+#### 3.9.1 การนำเข้าชุดข้อมูลส่วนบุคคล
+
+เราสามารถอัปโหลดชุดข้อมูลไปยัง GEE Assets เพื่อใช้ในการวิเคราะห์
+
+- **การอัปโหลด Shapefile หรือ GeoJSON:** ไปที่แท็บ **Assets** ใน Code Editor แล้วคลิก **New** เพื่ออัปโหลดไฟล์
+- **การอัปโหลดภาพราสเตอร์:** สามารถอัปโหลดภาพ GeoTIFF
+
+**ตัวอย่าง: การนำเข้าไฟล์ Shapefile**
+
+1. แปลง Shapefile เป็นรูปแบบ GeoJSON หรือ KML (หากจำเป็น)
+2. อัปโหลดไฟล์ไปยัง Assets
+3. ใช้ในสคริปต์:
+
+![asset](./img/asset.png)
+
+```javascript
+var myFeatureCollection = ee.FeatureCollection('users/yourusername/yourassetname');
+```
+
+#### 3.9.2 การแชร์ชุดข้อมูล
+
+- คุณสามารถแชร์ Assets กับผู้ใช้ GEE คนอื่น ๆ โดยตั้งค่าการอนุญาต (Permissions)
+- คลิกขวาที่ Asset ในแท็บ **Assets** แล้วเลือก **Share**
+
+### 3.10 เคล็ดลับและแนวทางปฏิบัติที่ดีที่สุด
+
+- **ใช้การกรองให้มากที่สุดเท่าที่เป็นไปได้:** เพื่อลดปริมาณข้อมูลและเพิ่มประสิทธิภาพ
+- **ตรวจสอบข้อมูลเมตา:** เพื่อเข้าใจคุณสมบัติของภาพและความเหมาะสมในการใช้งาน
+- **ทำความเข้าใจกับแถบสีของภาพดาวเทียมต่าง ๆ:** แต่ละดาวเทียมมีแถบสีที่แตกต่างกัน
+- **ใช้ฟังก์ชันการแมป (Map Functions):** เพื่อประมวลผลกลุ่มภาพอย่างมีประสิทธิภาพ
+- **จัดการและตั้งชื่อตัวแปรอย่างชัดเจน:** เพื่อความเข้าใจและการบำรุงรักษาโค้ด
 
 [กลับสู่สารบัญ](#สารบัญ)
 
@@ -287,40 +447,295 @@ Map.addLayer(ndvi, {min: -1, max: 1, palette: ['blue', 'white', 'green']}, 'NDVI
 
 ---
 
-## 5. การประมวลผลและวิเคราะห์ภาพ
+## 5. เทคนิคการแสดงผล
 
-### การคำนวณดัชนี (เช่น NDVI)
+การแสดงผลข้อมูลเชิงภูมิศาสตร์เป็นส่วนสำคัญในการวิเคราะห์และสื่อสารผลลัพธ์ใน Google Earth Engine (GEE) ในส่วนนี้ เราจะสำรวจเทคนิคต่าง ๆ ในการแสดงผลข้อมูลบนแผนที่ การปรับแต่งการแสดงผล และการสร้างเครื่องมือช่วยในการแสดงผล
 
-- **ดัชนีพืชพรรณแตกต่างปกติ (NDVI):** บ่งชี้สุขภาพของพืชพรรณ
+### 5.1 การแสดงข้อมูลบนแผนที่
 
-**ตัวอย่าง: การคำนวณ NDVI**
+GEE อนุญาตให้คุณแสดงข้อมูลเชิงภูมิศาสตร์บนแผนที่ใน Code Editor โดยใช้ฟังก์ชัน `Map.addLayer()` ซึ่งมีรูปแบบดังนี้:
+
+```javascript
+Map.addLayer(ชั้นข้อมูล, พารามิเตอร์การแสดงผล, 'ชื่อชั้นข้อมูล', แสดงผล, เลเยอร์อินเด็กซ์);
+```
+
+- **ชั้นข้อมูล:** สามารถเป็น `ee.Image`, `ee.Geometry`, `ee.Feature`, หรือ `ee.FeatureCollection`
+- **พารามิเตอร์การแสดงผล (visParams):** วัตถุที่กำหนดวิธีการแสดงผลของข้อมูล
+- **ชื่อชั้นข้อมูล:** ชื่อที่จะแสดงในแผงเลเยอร์
+- **แสดงผล (visibility):** ตัวแปร Boolean ที่กำหนดว่าจะให้แสดงชั้นข้อมูลหรือไม่ (ค่าเริ่มต้นคือ `true`)
+- **เลเยอร์อินเด็กซ์ (layerOpacity):** ค่าโปร่งแสงของชั้นข้อมูล (0 ถึง 1)
+
+**ตัวอย่าง: การแสดงภาพดาวเทียม Landsat 8**
+
+```javascript
+var image = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+             .filterDate('2020-01-01', '2020-12-31')
+             .filterBounds(geometry)
+             .first();
+
+Map.centerObject(geometry, 12);
+Map.addLayer(image, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'True Color Image');
+```
+
+### 5.2 การใช้พารามิเตอร์การแสดงผล (Visualization Parameters)
+
+พารามิเตอร์การแสดงผลช่วยให้คุณสามารถปรับแต่งวิธีการแสดงผลของข้อมูลบนแผนที่
+
+#### 5.2.1 การเลือกแถบสี (Bands)
+
+สำหรับภาพหลายแถบสี คุณสามารถเลือกแถบสีที่ต้องการแสดงผลได้
+
+**ตัวอย่าง: การแสดงภาพอินฟราเรดเท็จ**
+
+```javascript
+Map.addLayer(image, {bands: ['B5', 'B4', 'B3'], min: 0, max: 3000}, 'False Color Image');
+```
+
+#### 5.2.2 การกำหนดช่วงค่าขั้นต่ำและสูงสุด (Min and Max)
+
+กำหนดค่าขั้นต่ำ (`min`) และค่าสูงสุด (`max`) สำหรับการสเกลค่าพิกเซล
+
+**ตัวอย่าง: การปรับค่าขั้นต่ำและสูงสุด**
+
+```javascript
+Map.addLayer(image, {bands: ['B4', 'B3', 'B2'], min: 500, max: 3500}, 'Adjusted True Color');
+```
+
+#### 5.2.3 การใช้จานสี (Palette)
+
+สำหรับภาพที่มีแถบสีเดียว คุณสามารถกำหนดจานสีเพื่อแสดงค่าต่าง ๆ ด้วยสีที่แตกต่างกัน
+
+**ตัวอย่าง: การแสดง NDVI ด้วยจานสี**
 
 ```javascript
 var ndvi = image.normalizedDifference(['B5', 'B4']).rename('NDVI');
+
+var ndviParams = {
+  min: -1,
+  max: 1,
+  palette: ['blue', 'white', 'green']
+};
+
+Map.addLayer(ndvi, ndviParams, 'NDVI');
 ```
 
-### การกรองเมฆ
+### 5.3 การสร้างคำอธิบายสี (Legend)
 
-- ใช้แถบการประเมินคุณภาพเพื่อระบุและกรองเมฆ
+แม้ว่า GEE จะไม่มีฟังก์ชันสร้างคำอธิบายสีในตัว แต่คุณสามารถสร้างคำอธิบายสีแบบกำหนดเองโดยใช้โมดูล `ui`
 
-**ตัวอย่าง: ฟังก์ชันการกรองเมฆสำหรับ Landsat 8**
+**ตัวอย่าง: การสร้างคำอธิบายสีสำหรับ NDVI**
 
 ```javascript
-function maskL8sr(image) {
-  var qa = image.select('pixel_qa');
-  var cloudShadowBitMask = 1 << 3;
-  var cloudsBitMask = 1 << 5;
-  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
-                .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
-  return image.updateMask(mask);
+// ฟังก์ชันสร้างคำอธิบายสี
+function createLegend(title, palette, min, max) {
+  var legend = ui.Panel({
+    style: {
+      position: 'bottom-left',
+      padding: '8px 15px'
+    }
+  });
+
+  // สร้างหัวเรื่อง
+  var legendTitle = ui.Label({
+    value: title,
+    style: {fontWeight: 'bold', fontSize: '18px'}
+  });
+  legend.add(legendTitle);
+
+  // สร้างกรอบสี
+  var makeRow = function(color, name) {
+    var colorBox = ui.Label('', {
+      backgroundColor: color,
+      padding: '8px',
+      margin: '0 0 4px 0'
+    });
+
+    var description = ui.Label(name, {margin: '0 0 4px 6px'});
+
+    return ui.Panel({
+      widgets: [colorBox, description],
+      layout: ui.Panel.Layout.Flow('horizontal')
+    });
+  };
+
+  // สร้างรายการสี
+  var labels = [min, (min+max)/2, max];
+  for (var i = 0; i < palette.length; i++) {
+    legend.add(makeRow(palette[i], labels[i].toFixed(2)));
+  }
+
+  Map.add(legend);
 }
 
-var cloudFreeCollection = filteredCollection.map(maskL8sr);
+// เรียกใช้ฟังก์ชันเพื่อสร้างคำอธิบายสี
+createLegend('NDVI Legend', ['blue', 'white', 'green'], -1, 1);
 ```
 
-### การวิเคราะห์อนุกรมเวลา
+### 5.4 การใช้แผงควบคุมผู้ใช้ (User Interface Panels)
 
-- วิเคราะห์การเปลี่ยนแปลงตามเวลาผ่านการแมปฟังก์ชันบนกลุ่มภาพ
+GEE มีโมดูล `ui` ที่ช่วยให้คุณสามารถสร้างอินเทอร์เฟซผู้ใช้แบบกำหนดเอง เช่น ปุ่ม สไลเดอร์ และแผงควบคุม
+
+**ตัวอย่าง: การสร้างสไลเดอร์เพื่อปรับค่าการแสดงผล**
+
+```javascript
+var visParams = {
+  bands: ['B4', 'B3', 'B2'],
+  min: 0,
+  max: 3000
+};
+
+var imageLayer = ui.Map.Layer(image, visParams, 'Adjustable Image');
+Map.layers().add(imageLayer);
+
+var minSlider = ui.Slider({
+  min: 0,
+  max: 3000,
+  value: 0,
+  step: 100,
+  onChange: function(value) {
+    visParams.min = value;
+    imageLayer.setVisParams(visParams);
+  }
+});
+
+var maxSlider = ui.Slider({
+  min: 0,
+  max: 3000,
+  value: 3000,
+  step: 100,
+  onChange: function(value) {
+    visParams.max = value;
+    imageLayer.setVisParams(visParams);
+  }
+});
+
+var controlPanel = ui.Panel({
+  widgets: [
+    ui.Label('Adjust Visualization Parameters'),
+    ui.Label('Min Value'),
+    minSlider,
+    ui.Label('Max Value'),
+    maxSlider
+  ],
+  style: {position: 'top-right'}
+});
+
+Map.add(controlPanel);
+```
+
+### 5.5 การใช้เครื่องมือตรวจสอบ (Inspector Tool)
+
+เครื่องมือตรวจสอบช่วยให้คุณสามารถคลิกบนแผนที่เพื่อดูค่าพิกเซลหรือคุณสมบัติของข้อมูลที่แสดง
+
+- เปิดใช้งานเครื่องมือตรวจสอบโดยคลิกที่ปุ่ม **Inspector** ใน Code Editor
+- คลิกบนแผนที่เพื่อดูข้อมูลในตำแหน่งนั้น
+
+### 5.6 การปรับแต่งแผนที่
+
+#### 5.6.1 การตั้งค่ากึ่งกลางและระดับการซูมของแผนที่
+
+คุณสามารถตั้งค่ากึ่งกลางและระดับการซูมของแผนที่โดยใช้ฟังก์ชัน `Map.setCenter()` หรือ `Map.centerObject()`
+
+**ตัวอย่าง:**
+
+```javascript
+Map.setCenter(100.5018, 13.7563, 10); // พิกัดของกรุงเทพฯ, ระดับซูม 10
+```
+
+หรือ
+
+```javascript
+Map.centerObject(polygon, 12); // กึ่งกลางที่โพลิกอน, ระดับซูม 12
+```
+
+#### 5.6.2 การเพิ่มเลเยอร์หลายชั้น
+
+คุณสามารถเพิ่มเลเยอร์หลายชั้นบนแผนที่และควบคุมลำดับการแสดงผลและความโปร่งแสง
+
+**ตัวอย่าง:**
+
+```javascript
+Map.addLayer(image1, visParams1, 'Layer 1');
+Map.addLayer(image2, visParams2, 'Layer 2', true, 0.5); // ความโปร่งแสง 50%
+```
+
+#### 5.6.3 การเปลี่ยนแผนที่ฐาน (Basemap)
+
+GEE อนุญาตให้คุณเปลี่ยนแผนที่ฐานเพื่อให้เหมาะกับการแสดงผล
+
+**ตัวอย่าง: การเปลี่ยนเป็นแผนที่ดาวเทียม**
+
+```javascript
+Map.setOptions('SATELLITE');
+```
+
+ตัวเลือกอื่น ๆ ได้แก่ `ROADMAP`, `TERRAIN`, `HYBRID`
+
+### 5.7 การสร้างภาพเคลื่อนไหว (Timelapse and Video)
+
+คุณสามารถสร้างภาพเคลื่อนไหวหรือวิดีโอจากกลุ่มภาพ
+
+**ตัวอย่าง: การสร้าง URL วิดีโอ**
+
+```javascript
+var videoArgs = {
+  dimensions: 720,
+  region: geometry,
+  framesPerSecond: 10,
+  crs: 'EPSG:3857',
+  min: 0,
+  max: 3000,
+  bands: ['B4', 'B3', 'B2']
+};
+
+var videoUrl = finalCollection.getVideoThumbURL(videoArgs);
+print('Video URL:', videoUrl);
+```
+
+### 5.8 การใช้ฟังก์ชันแสดงผลแบบกำหนดเอง
+
+คุณสามารถสร้างฟังก์ชันเพื่อปรับแต่งการแสดงผลตามความต้องการ
+
+**ตัวอย่าง: ฟังก์ชันเพื่อสร้างภาพ RGB จากภาพ Sentinel-2**
+
+```javascript
+function addTrueColor(image) {
+  return image.visualize({
+    bands: ['B4', 'B3', 'B2'],
+    min: 0,
+    max: 3000
+  });
+}
+
+var sentinelCollection = ee.ImageCollection('COPERNICUS/S2')
+                          .filterDate('2020-01-01', '2020-12-31')
+                          .filterBounds(geometry);
+
+var trueColorCollection = sentinelCollection.map(addTrueColor);
+
+Map.addLayer(trueColorCollection.first(), {}, 'Sentinel-2 True Color');
+```
+
+### 5.9 การแสดงข้อมูลเวกเตอร์
+
+สำหรับข้อมูลเวกเตอร์ เช่น `ee.FeatureCollection` คุณสามารถปรับแต่งการแสดงผลด้วยสไตล์ต่าง ๆ
+
+**ตัวอย่าง: การแสดงขอบเขตประเทศด้วยสีแดงและความหนาเส้น 2 พิกเซล**
+
+```javascript
+var countries = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');
+
+var countryStyle = {
+  color: 'red',
+  width: 2
+};
+
+Map.addLayer(countries.style(countryStyle), {}, 'Country Borders');
+```
+
+### 5.10 การสร้างกราฟและแผนภูมิ
+
+GEE มีเครื่องมือในการสร้างกราฟและแผนภูมิเพื่อวิเคราะห์ข้อมูล
 
 **ตัวอย่าง: การสร้างกราฟอนุกรมเวลา NDVI**
 
@@ -335,10 +750,24 @@ var chart = ui.Chart.image.series({
   region: geometry,
   reducer: ee.Reducer.mean(),
   scale: 30
-}).setOptions({title: 'NDVI Time Series'});
+}).setOptions({
+  title: 'NDVI Time Series',
+  hAxis: {title: 'Date'},
+  vAxis: {title: 'NDVI'}
+});
 
 print(chart);
 ```
+
+### 5.11 เคล็ดลับและแนวทางปฏิบัติที่ดีที่สุด
+
+- **เลือกพารามิเตอร์การแสดงผลที่เหมาะสม:** ปรับค่า `min` และ `max` ให้เหมาะสมกับข้อมูล
+- **ใช้จานสีที่เข้าใจง่าย:** เลือกจานสีที่สื่อความหมายและไม่สร้างความสับสน
+- **จัดการเลเยอร์อย่างมีประสิทธิภาพ:** ตั้งชื่
+
+อเลเยอร์อย่างชัดเจนและจัดลำดับความสำคัญของการแสดงผล
+- **ทดลองกับการแสดงผลแบบต่าง ๆ:** ลองใช้แถบสีและพารามิเตอร์การแสดงผลที่แตกต่างกันเพื่อหาวิธีที่ดีที่สุดในการนำเสนอข้อมูล
+- **คำนึงถึงผู้ชม:** ปรับการแสดงผลให้เหมาะสมกับผู้ที่รับชม ไม่ว่าจะเป็นผู้เชี่ยวชาญหรือสาธารณชน
 
 [กลับสู่สารบัญ](#สารบัญ)
 
