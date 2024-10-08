@@ -439,7 +439,7 @@ Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
 1. แปลง Shapefile เป็นรูปแบบ GeoJSON หรือ KML (หากจำเป็น)
 2. อัปโหลดไฟล์ไปยัง Assets
 
-![ข้อมูลขอบเขตจังหวัดเชียงใหม่](./docs/cm_province.zip)
+([ข้อมูลขอบเขตจังหวัดเชียงใหม่](./docs/cm_province.zip))
 
 ตัวอย่างการอัพโหลด shapefile
 
