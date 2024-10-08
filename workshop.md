@@ -1245,7 +1245,7 @@ Export.image.toDrive({
   folder: '_GEE',
   fileNamePrefix: 'filename',
   region: polygon,
-  scale: 12.5,
+  scale: 30,
   crs: 'EPSG:4326',
   fileFormat:'GeoTIFF',
   maxPixels: 1e13
