@@ -133,3 +133,41 @@ Map.addLayer(flooded, { palette: "0000FF" }, 'Flooded areas');
 
 
 
+a = {
+    "name": "สมชาย",
+    "age": 28,
+    "married": false,
+    "hobbies": ["อ่านหนังสือ", "เล่นดนตรี", "เดินทาง"],
+    "address": {
+        "street": "123 ถนนหลัก",
+        "city": "กรุงเทพมหานคร",
+        "zipcode": "10100"
+    }
+}
+
+a = {
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [100.5018, 13.7563]
+    },
+    "properties": {
+        "name": "กรุงเทพมหานคร",
+        "population": 8281000
+    }
+}
+
+a = {
+    "type": "Feature",
+    "geometry": {
+        "type": "LineString",
+        "coordinates": [
+            [100.5018, 13.7563],
+            [100.5231, 13.7367],
+            [100.5450, 13.7240]
+        ]
+    },
+    "properties": {
+        "route": "เส้นทางรถไฟฟ้า"
+    }
+}

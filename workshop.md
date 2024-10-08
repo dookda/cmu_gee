@@ -145,9 +145,9 @@ filteredCollection.size().evaluate(function(count) {
 
 ### แนวทางปฏิบัติที่ดี
 
-- **หลีกเลี่ยงการใช้ `getInfo()` ควรใช้ `evaluate()` เพื่อป้องกันการหยุดทำงานของสคริปต์
-- **เข้าใจความแตกต่างของอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์และลูกข่าย อย่าพยายามใช้ค่าฝั่งเซิร์ฟเวอร์ในบริบทที่ต้องการค่าฝั่งลูกข่าย
-- **ใช้การแมปฟังก์ชันบนอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์ เช่น การใช้ `map()` บน `ee.ImageCollection`
+- หลีกเลี่ยงการใช้ `getInfo()` ควรใช้ `evaluate()` เพื่อป้องกันการหยุดทำงานของสคริปต์
+- เข้าใจความแตกต่างของอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์และลูกข่าย อย่าพยายามใช้ค่าฝั่งเซิร์ฟเวอร์ในบริบทที่ต้องการค่าฝั่งลูกข่าย
+- ใช้การแมปฟังก์ชันบนอ็อบเจ็กต์ฝั่งเซิร์ฟเวอร์ เช่น การใช้ `map()` บน `ee.ImageCollection`
 
 ### ตัวอย่างเพิ่มเติม
 
@@ -180,6 +180,51 @@ imageCount.evaluate(function(count) {
     print('ไม่มีภาพในคอลเลกชัน');
   }
 });
+```
+
+**ทดลอง:**
+```js
+var a = "hello";
+var b = ee.String("world");
+print(typeof(a), typeof(b))
+
+function greet(name) {
+  return 'Hello, ' + name;
+}
+
+var c = greet("Poon");
+print(c);
+
+var x = 5;
+var y = 4;
+
+var sum = x + y;
+var isEqual = x === y;
+
+if (x > y) {
+  print("x > y");
+} else {
+  print("x < y");
+}
+
+for (var i = 0; i < 10; i++) {
+  print(i);
+}
+
+var polygon = ee.Geometry.Polygon([
+  [
+    [98.89147187028489, 18.853624853147792],
+    [98.89147187028489, 18.715809744071084],
+    [99.08922577653489, 18.715809744071084],
+    [99.08922577653489, 18.853624853147792]
+  ]
+]);
+
+Map.centerObject(polygon, 12);
+Map.addLayer(polygon, {color: 'blue'}, 'Chiang mai');
+
+var area = polygon.area(); 
+print('area (m2):', area);
 ```
 
 [กลับสู่สารบัญ](#สารบัญ)
@@ -218,21 +263,41 @@ GEE มีคลังข้อมูล (Data Catalog) ขนาดใหญ่
 - **Image (ee.Image):** เป็นภาพราสเตอร์เดี่ยว ซึ่งอาจเป็นภาพถ่ายดาวเทียม ภาพแผนที่ หรือข้อมูลเชิงพื้นที่อื่น ๆ
 - **Image Collections (ee.ImageCollection):** เป็นชุดของภาพที่มีความเกี่ยวข้องกัน เช่น ภาพทั้งหมดจากดาวเทียม Landsat 8 ในช่วงเวลาหนึ่ง
 
-**ตัวอย่าง: การนำเข้า Image Collections ของ Landsat 8 Surface Reflectance**
+**ทดลอง: ** การนำเข้า Image 
 
-```javascript
-var landsat8 = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR');
+```js
+var visParams = {
+  bands: ['B4', 'B3', 'B2'],
+  min: 0,
+  max: 3000,
+};
+
+var image = ee.Image('COPERNICUS/S2_SR/20240104T035141_20240104T035408_T47QMA');
+Map.centerObject(image, 10);
+Map.addLayer(image, visParams, 'Sentinel-2 Image', 0);
 ```
 
-**การดูรายละเอียดของข้อมูล Image Collections**
+**ทดลอง: ** การนำเข้า Image Collections 
+
+```js
+var collection = ee.ImageCollection('COPERNICUS/S2_SR')
+  .filterBounds(polygon)                          // Filter by location
+  .filterDate('2024-02-01', '2024-02-28')         // Filter by date range
+  //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)); // Filter by cloud cover
+
+
+var imageCollection = collection.first();
+Map.centerObject(polygon, 12);
+Map.addLayer(imageCollection, visParams, 'Sentinel-2 ImageCollection');
+```
 
 เราสามารถตรวจสอบข้อมูลเมตาของ Image Collections ได้โดยใช้ฟังก์ชัน `print()`:
+**ทดลอง: ** ตรวจสอบข้อมูลเมตาของ Image Collections
 
 ```javascript
-print('ข้อมูล Image Collections ของ Landsat 8:', landsat8);
+print('Number of images:', collection.size());
+print('Sentinel-2 ImageCollection:', collection);
 ```
-
-เมื่อรันคำสั่งนี้ เราจะเห็นข้อมูลเกี่ยวกับกลุ่มภาพ เช่น จำนวนภาพ ช่วงเวลาของข้อมูล และคุณสมบัติอื่น ๆ
 
 #### 3.2.2 Feature Collections
 
@@ -1423,8 +1488,7 @@ var after_filtered = after.focal_mean(smoothing_radius, 'circle', 'meters');
 var difference_threshold = -5.5;
 var difference_db = after_filtered.subtract(before_filtered);
 var difference_binary = difference_db.lte(difference_threshold);
-var flood_raw_mask = flood.updateMask(flood);
-
+var flood_raw_mask = difference_db.updateMask(difference_binary);
 // นำข้อมูลอื่นมาช่วยลบข้อมูล
 var swater = ee.Image('JRC/GSW1_0/GlobalSurfaceWater').select('seasonality');
 var swater_mask = swater.gte(5).updateMask(swater.gte(5));
