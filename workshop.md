@@ -151,7 +151,7 @@ filteredCollection.size().evaluate(function(count) {
 
 ### ตัวอย่างเพิ่มเติม
 
-**ตัวอย่าง: การคำนวณพื้นที่ของโพลิกอน**
+ตัวอย่าง: การคำนวณพื้นที่ของโพลิกอน
 
 ```javascript
 var area = polygon.area(); // ค่า area เป็นฝั่งเซิร์ฟเวอร์ (ee.Number)
@@ -163,7 +163,7 @@ area.evaluate(function(val) {
 });
 ```
 
-**ตัวอย่าง: การใช้ค่าฝั่งเซิร์ฟเวอร์ในฟังก์ชันฝั่งลูกข่าย**
+ตัวอย่าง: การใช้ค่าฝั่งเซิร์ฟเวอร์ในฟังก์ชันฝั่งลูกข่าย
 
 ```javascript
 var imageCount = filteredCollection.size();
@@ -263,7 +263,7 @@ GEE มีคลังข้อมูล (Data Catalog) ขนาดใหญ่
 - **Image (ee.Image):** เป็นภาพราสเตอร์เดี่ยว ซึ่งอาจเป็นภาพถ่ายดาวเทียม ภาพแผนที่ หรือข้อมูลเชิงพื้นที่อื่น ๆ
 - **Image Collections (ee.ImageCollection):** เป็นชุดของภาพที่มีความเกี่ยวข้องกัน เช่น ภาพทั้งหมดจากดาวเทียม Landsat 8 ในช่วงเวลาหนึ่ง
 
-**ทดลอง: ** การนำเข้า Image 
+**ทดลอง:** การนำเข้า Image 
 
 ```js
 var visParams = {
@@ -277,7 +277,7 @@ Map.centerObject(image, 10);
 Map.addLayer(image, visParams, 'Sentinel-2 Image', 0);
 ```
 
-**ทดลอง: ** การนำเข้า Image Collections 
+**ทดลอง:** การนำเข้า Image Collections 
 
 ```js
 var collection = ee.ImageCollection('COPERNICUS/S2_SR')
@@ -292,7 +292,7 @@ Map.addLayer(imageCollection, visParams, 'Sentinel-2 ImageCollection');
 ```
 
 เราสามารถตรวจสอบข้อมูลเมตาของ Image Collections ได้โดยใช้ฟังก์ชัน `print()`:
-**ทดลอง: ** ตรวจสอบข้อมูลเมตาของ Image Collections
+**ทดลอง:** ตรวจสอบข้อมูลเมตาของ Image Collections
 
 ```javascript
 print('Number of images:', collection.size());
