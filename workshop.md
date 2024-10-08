@@ -182,7 +182,7 @@ imageCount.evaluate(function(count) {
 });
 ```
 
-<mark>**ทดลอง:**</mark>
+<mark>**ทดลอง:** javascript</mark>
 ```js
 var a = "hello";
 var b = ee.String("world");
@@ -257,7 +257,7 @@ GEE มีคลังข้อมูล (Data Catalog) ขนาดใหญ่
 
 - **FeatureCollection (ee.FeatureCollection):** เป็นชุดของเรขาคณิต (Geometry) และคุณสมบัติ (Property) ทางด้านภูมิศาสตร์​ เช่น ขอบเขตประเทศ เส้นทางแม่น้ำ จุดสถานที่สำคัญ
 
-<mark>**ทดลอง:** การนำเข้าชุดข้อมูลขอบเขตประเทศ</mark>
+<mark>**ทดลอง:** การนำเข้าชุดข้อมูลขอบเขตประเทศ </mark>
 
 ```javascript
 var countries = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');
@@ -287,6 +287,8 @@ print('Country Names:', countryNames);
 
 - **Image (ee.Image):** เป็นภาพราสเตอร์เดี่ยว ซึ่งอาจเป็นภาพถ่ายดาวเทียม ภาพแผนที่ หรือข้อมูลเชิงพื้นที่อื่น ๆ
 - **Image Collections (ee.ImageCollection):** เป็นชุดของภาพที่มีความเกี่ยวข้องกัน เช่น ภาพทั้งหมดจากดาวเทียม Landsat 8 ในช่วงเวลาหนึ่ง
+
+![image vs imagecollection](./docs/assets/imagecollection.png)
 
 <mark>**ทดลอง:** การนำเข้า Image </mark>
 
