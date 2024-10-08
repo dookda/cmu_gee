@@ -764,40 +764,7 @@ var countryStyle = {
 Map.addLayer(countries.style(countryStyle), {}, 'Country Borders');
 ```
 
-### 4.10 การสร้างกราฟและแผนภูมิ
-
-GEE มีเครื่องมือในการสร้างกราฟและแผนภูมิเพื่อวิเคราะห์ข้อมูล
-
-<mark>**ทดลอง:** การสร้างกราฟอนุกรมเวลา NDVI</mark>
-
-```javascript
-var imageCollection = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
-                        .filterDate('2023-01-01', '2023-05-30')
-                        .filterBounds(polygon)
-                        .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',20));
-
-print(imageCollection.size())
-                                
-var ndviCollection = imageCollection.map(function(img) {
-  var ndvi = img.normalizedDifference(['B5', 'B4']).rename('NDVI');
-  return ndvi.set('system:time_start', img.get('system:time_start'));
-});
-
-var chart = ui.Chart.image.series({
-  imageCollection: ndviCollection,
-  region: polygon,
-  reducer: ee.Reducer.mean(),
-  scale: 30
-}).setOptions({
-  title: 'NDVI Time Series',
-  hAxis: {title: 'Date'},
-  vAxis: {title: 'NDVI'}
-});
-
-print(chart);
-```
-
-### 4.11 แนวทางปฏิบัติที่ดี
+### 4.10 แนวทางปฏิบัติที่ดี
 
 - **เลือกพารามิเตอร์การแสดงผลที่เหมาะสม:** ปรับค่า `min` และ `max` ให้เหมาะสมกับข้อมูล
 - **ใช้จานสีที่เข้าใจง่าย:** เลือกจานสีที่สื่อความหมายและไม่สร้างความสับสน
@@ -947,16 +914,26 @@ var cloudFreeCollection = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
 
 #### 5.3.1 การสร้างอนุกรมเวลา NDVI
 
-<mark>**ทดลอง:** การสร้างอนุกรมเวลา NDVI </mark>
+GEE มีเครื่องมือในการสร้างกราฟและแผนภูมิเพื่อวิเคราะห์ข้อมูล
+
+<mark>**ทดลอง:** การสร้างกราฟอนุกรมเวลา NDVI</mark>
+
 ```javascript
-var ndviCollection = cloudFreeCollection.map(function(img) {
+var imageCollection = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+                        .filterDate('2023-01-01', '2023-05-30')
+                        .filterBounds(polygon)
+                        .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',20));
+
+print(imageCollection.size())
+                                
+var ndviCollection = imageCollection.map(function(img) {
   var ndvi = img.normalizedDifference(['B5', 'B4']).rename('NDVI');
   return ndvi.set('system:time_start', img.get('system:time_start'));
 });
 
 var chart = ui.Chart.image.series({
   imageCollection: ndviCollection,
-  region: geometry,
+  region: polygon,
   reducer: ee.Reducer.mean(),
   scale: 30
 }).setOptions({
