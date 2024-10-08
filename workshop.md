@@ -128,14 +128,14 @@ Google Earth Engine ใช้ JavaScript เป็นภาษาสคริป
 
 #### ตัวอย่างการทำงานระหว่าง Client-Server
 
-**ตัวอย่าง: การใช้ `getInfo()` (ไม่แนะนำ)**
+ตัวอย่าง: การใช้ `getInfo()` (ไม่แนะนำ)
 
 ```javascript
 var count = filteredCollection.size().getInfo();
 print('จำนวนภาพ:', count); // ค่า count เป็น Client-side
 ```
 
-**ตัวอย่าง: การใช้ `evaluate()` (แนะนำ)**
+ตัวอย่าง: การใช้ `evaluate()` (แนะนำ)
 
 ```javascript
 filteredCollection.size().evaluate(function(count) {
@@ -182,7 +182,7 @@ imageCount.evaluate(function(count) {
 });
 ```
 
-**ทดลอง:**
+<mark>**ทดลอง:**</mark>
 ```js
 var a = "hello";
 var b = ee.String("world");
@@ -434,7 +434,7 @@ Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
 - **การอัปโหลด Shapefile หรือ GeoJSON:** ไปที่แท็บ **Assets** ใน Code Editor แล้วคลิ๊ก **New** เพื่ออัปโหลดไฟล์
 - **การอัปโหลดภาพราสเตอร์:** สามารถอัปโหลดภาพ GeoTIFF
 
-**ตัวอย่าง: การนำเข้าไฟล์ Shapefile**
+ตัวอย่าง: การนำเข้าไฟล์ Shapefile
 
 1. แปลง Shapefile เป็นรูปแบบ GeoJSON หรือ KML (หากจำเป็น)
 2. อัปโหลดไฟล์ไปยัง Assets
