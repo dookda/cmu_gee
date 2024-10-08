@@ -768,7 +768,7 @@ Map.addLayer(countries.style(countryStyle), {}, 'Country Borders');
 
 GEE มีเครื่องมือในการสร้างกราฟและแผนภูมิเพื่อวิเคราะห์ข้อมูล
 
-ตัวอย่าง: การสร้างกราฟอนุกรมเวลา NDVI
+<mark>**ทดลอง:** การสร้างกราฟอนุกรมเวลา NDVI</mark>
 
 ```javascript
 var imageCollection = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
