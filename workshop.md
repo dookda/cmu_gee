@@ -283,15 +283,14 @@ Map.addLayer(image, visParams, 'Sentinel-2 Image', 0);
 var collection = ee.ImageCollection('COPERNICUS/S2_SR')
   .filterBounds(polygon)                          // Filter by location
   .filterDate('2024-02-01', '2024-02-28')         // Filter by date range
-  //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)); // Filter by cloud cover
-
 
 var imageCollection = collection.first();
 Map.centerObject(polygon, 12);
 Map.addLayer(imageCollection, visParams, 'Sentinel-2 ImageCollection');
 ```
 
-เราสามารถตรวจสอบข้อมูลเมตาของ Image Collections ได้โดยใช้ฟังก์ชัน `print()`:
+เราสามารถตรวจสอบข้อมูลเมตาของ Image Collections ได้โดยใช้ฟังก์ชัน `print()`
+
 **ทดลอง:** ตรวจสอบข้อมูลเมตาของ Image Collections
 
 ```javascript
@@ -303,16 +302,25 @@ print('Sentinel-2 ImageCollection:', collection);
 
 - **FeatureCollection (ee.FeatureCollection):** เป็นชุดของเรขาคณิต (Geometry) และคุณสมบัติ (Property) ทางด้านภูมิศาสตร์​ เช่น ขอบเขตประเทศ เส้นทางแม่น้ำ จุดสถานที่สำคัญ
 
-**ตัวอย่าง: การนำเข้าชุดข้อมูลขอบเขตประเทศ**
+**ทดลอง:** การนำเข้าชุดข้อมูลขอบเขตประเทศ
 
 ```javascript
 var countries = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');
+var thailand = countries.filter(ee.Filter.eq('country_na', 'Thailand'));
+
+Map.centerObject(thailand, 6);
+Map.addLayer(thailand.style({
+  color: 'red',           // Outline color
+  fillColor: '00000000',  // Transparent fill
+  width: 2                // Line width
+}), {}, 'Thailand');
 ```
 
-**การแสดงรายละเอียดข้อมูล FeatureCollection**
+**ทดลอง:** การแสดงรายละเอียดข้อมูล FeatureCollection
 
 ```javascript
-print('ข้อมูล FeatureCollection ประเทศ:', countries);
+var countryNames = countries.aggregate_array('country_na').distinct().sort();
+print('Country Names:', countryNames);
 ```
 
 ### 3.3 การกรองและเลือกข้อมูล
@@ -323,21 +331,29 @@ print('ข้อมูล FeatureCollection ประเทศ:', countries);
 
 ใช้ฟังก์ชัน `.filterDate()` เพื่อเลือกภาพในช่วงเวลาที่กำหนด
 
-**ตัวอย่าง: การกรองภาพ Landsat 8 ในปี 2023**
+ตัวอย่าง: การกรองภาพ Landsat 8 ในปี 2023
 
 ```javascript
-var filteredByDate = landsat8.filterDate('2023-01-01', '2023-12-31');
+var collection = ee.ImageCollection('COPERNICUS/S2_SR')
+var filteredByDate = collection.filterDate('2024-02-01', '2024-02-28');
 ```
 
 #### 3.3.2 การกรองเชิงพื้นที่ (Spatial Filtering)
 
 ใช้ฟังก์ชัน `.filterBounds()` เพื่อเลือกภาพที่ครอบคลุมพื้นที่ที่กำหนด
 
-**ตัวอย่าง: การกรองภาพที่ครอบคลุมพื้นที่กรุงเทพฯ**
+ตัวอย่าง: การกรองภาพที่ครอบคลุมพื้นที่กรุงเทพฯ
 
 ```javascript
-var bangkok = ee.Geometry.Point([100.5018, 13.7563]);
-var filteredByLocation = filteredByDate.filterBounds(bangkok);
+var polygon = ee.Geometry.Polygon([
+  [
+    [98.89147187028489, 18.853624853147792],
+    [98.89147187028489, 18.715809744071084],
+    [99.08922577653489, 18.715809744071084],
+    [99.08922577653489, 18.853624853147792]
+  ]
+]);
+var filteredByLocation = filteredByDate.filterBounds(polygon);
 ```
 
 #### 3.3.3 การกรองตามคุณสมบัติ (Property Filtering)
@@ -354,10 +370,13 @@ var filteredByCloud = filteredByLocation.filter(ee.Filter.lt('CLOUD_COVER', 10))
 
 เราสามารถรวมการกรองหลายแบบเพื่อเลือกภาพที่ตรงกับเงื่อนไขทั้งหมด
 
+**ทดลอง:**
+
 ```javascript
-var finalCollection = landsat8
-  .filterDate('2020-01-01', '2020-12-31')
-  .filterBounds(bangkok)
+var collection = ee.ImageCollection('COPERNICUS/S2_SR')
+var imageCollection = collection
+  .filterDate('2024-02-01', '2024-02-28')
+  .filterBounds(polygon)
   .filter(ee.Filter.lt('CLOUD_COVER', 10));
 ```
 
