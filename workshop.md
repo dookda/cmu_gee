@@ -379,7 +379,7 @@ var collection = ee.ImageCollection('COPERNICUS/S2_SR')
 var imageCollection = collection
   .filterDate('2024-02-01', '2024-02-28')
   .filterBounds(polygon)
-  .filter(ee.Filter.lt('CLOUD_COVER', 10));
+  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 10));
 ```
 
 ### 3.4 การเลือกและจัดการแบนด์ (Bands)
