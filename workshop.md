@@ -51,13 +51,13 @@ Google Earth Engine เป็นแพลตฟอร์มบนคลาวด
 
 - **แท็บ Scripts:** จัดการและจัดระเบียบสคริปต์ของคุณ
 - **แท็บ Docs:** เข้าถึงเอกสาร ตัวอย่าง และข้อมูลชุดข้อมูล
-- **แท็บ Assets:** ดูและจัดการชุดข้อมูลที่คุณอัปโหลด
+- **แท็บ Assets:** ดูและจัดการชุดข้อมูลที่เราอัปโหลด
 
 ![แผนภาพ Code Editor](https://developers.google.com/static/earth-engine/images/Code_editor_diagram.png)
 
 ### การแนะนำ JavaScript สำหรับ GEE และการทำงานระหว่าง Client-Server
 
-Google Earth Engine ใช้ JavaScript เป็นภาษาสคริปต์หลักใน Code Editor การมีความเข้าใจพื้นฐานเกี่ยวกับ JavaScript จะช่วยให้คุณสามารถพัฒนาสคริปต์ที่มีประสิทธิภาพและยืดหยุ่นได้
+Google Earth Engine ใช้ JavaScript เป็นภาษาสคริปต์หลักใน Code Editor การมีความเข้าใจพื้นฐานเกี่ยวกับ JavaScript จะช่วยให้เราสามารถพัฒนาสคริปต์ที่มีประสิทธิภาพและยืดหยุ่นได้
 
 #### พื้นฐานของ JavaScript ที่สำคัญสำหรับ GEE
 
@@ -280,8 +280,8 @@ print('Country Names:', countryNames);
 
 ใน GEE ชุดข้อมูล Raster แบ่งออกเป็นสองประเภทหลัก:
 
-- **ภาพและคอลเลกชันภาพ (Image and Image Collections)**
-- **กลุ่มข้อมูลเวคเตอร์ (Feature Collections)**
+- Image and Image Collections
+- Feature Collections
 
 #### 3.2.2 Image and Image Collections
 
