@@ -312,9 +312,8 @@ Map.addLayer(image, visParams, 'Sentinel-2 Image', 0);
 
 ```js
 var collection = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
-                      .filterDate('2024-01-01', '2024-02-28')
-                      .filterBounds(polygon)
-                      .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',20));
+                      // .filterDate('2024-01-01', '2024-02-28')
+                      // .filterBounds(polygon);
 
 print('Number of images:', collection.size());
 Map.centerObject(polygon, 12);
@@ -381,11 +380,13 @@ var filteredByCloud = filteredByLocation.filter(ee.Filter.lt('CLOUD_COVER', 10))
 <mark>**ทดลอง:** การรวมการกรองหลายแบบ</mark>
 
 ```javascript
-var collection = ee.ImageCollection('COPERNICUS/S2_SR')
+var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
 var imageCollection = collection
-  .filterDate('2024-02-01', '2024-02-28')
+  .filterDate('2024-01-01', '2024-02-28')
   .filterBounds(polygon)
-  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 10));
+  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20));
+
+print('Number of images:', collection.size());
 ```
 
 ### 3.4 การเลือกและจัดการแบนด์ (Bands)
@@ -424,11 +425,11 @@ print('เมฆปกคลุม (%):', cloudCover);
 
 เราสามารถสร้างชุดข้อมูลใหม่โดยการคำนวณหรือประมวลผลจากชุดข้อมูลที่มีอยู่
 
-ตัวอย่าง: การคำนวณดัชนีความแตกต่างของน้ำ (NDWI)
+<mark>**ทดลอง:** การคำนวณดัชนีความแตกต่างของน้ำ (NDWI)<mark>
 
 ```javascript
 var ndwi = image.normalizedDifference(['B3', 'B5']).rename('NDWI');
-Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
+Map.addLayer(ndwi, {min: -0.2, max: 0, palette: ['blue', 'white']}, 'NDWI');
 ```
 
 ### 3.7 การจัดเก็บและแชร์ชุดข้อมูล
@@ -456,8 +457,16 @@ Map.addLayer(ndwi, {min: -1, max: 1, palette: ['blue', 'white']}, 'NDWI');
 ตัวอย่างการใช้งาน
 
 ```javascript
-var myFeatureCollection = ee.FeatureCollection('users/sakdahomhuan/cm_pro_4326');
+var cm = ee.FeatureCollection('users/sakdahomhuan/cm_pro_4326');
 ```
+
+<mark>**ทดลอง:** การเข้าถึงข้อมูลเมตาของภาพ<mark>
+
+```js
+var ndwi = collection.median().normalizedDifference(['B3', 'B5']).rename('NDWI');
+Map.addLayer(ndwi.clip(cm), {min: -0.2, max: 0, palette: ['blue', 'white']}, 'NDWI');
+```
+
 
 #### 3.7.2 การแชร์ชุดข้อมูล
 
@@ -985,7 +994,10 @@ Reducers ใช้ในการสรุปข้อมูล เช่น ก
 
 ![reduceRegion](https://developers.google.com/static/earth-engine/images/Reduce_region_diagram.png)
 
+<mark>**ทดลอง:**  หาค่าเฉลี่ย NDVI</mark>
+
 ```javascript
+// อย่าลืมเปลี่ยนชื่อ band NDVI ด้วย rename('NDVI')
 var meanNdvi = ndvi.reduceRegion({
   reducer: ee.Reducer.mean(),
   geometry: polygon,
@@ -1007,165 +1019,7 @@ var maxNdvi = ndviCollection.max();
 Map.addLayer(maxNdvi, {min: 0, max: 1, palette: ['white', 'green']}, 'Max NDVI');
 ```
 
-### 5.5 การจำแนกภาพ (Image Classification)
-
-การจำแนกภาพเป็นการจัดประเภทพิกเซลตามคุณสมบัติของสเปกตรัม
-
-#### 5.5.1 การจำแนกแบบมีผู้สอน (Supervised Classification)
-
-**ขั้นตอน:**
-
-1. สร้างชุดข้อมูลการฝึกอบรม (Training Data)
-2. เลือกแถบสีที่ใช้ในการจำแนก
-3. ฝึกอบรมตัวจำแนก (Classifier)
-4. ใช้ตัวจำแนกกับภาพ
-
-ตัวอย่าง: การจำแนกประเภทการใช้ที่ดิน
-
-```javascript
-// 1. สร้างชุดข้อมูลการฝึกอบรม
-var trainingPolygons = ee.FeatureCollection([
-  ee.Feature(polygon1, {'class': 0}), // พื้นที่น้ำ
-  ee.Feature(polygon2, {'class': 1}), // พื้นที่ป่า
-  ee.Feature(polygon3, {'class': 2})  // พื้นที่เมือง
-]);
-
-// 2. ตัวอย่างข้อมูลจากภาพ
-var training = image.sampleRegions({
-  collection: trainingPolygons,
-  properties: ['class'],
-  scale: 30
-});
-
-// 3. ฝึกอบรมตัวจำแนก
-var classifier = ee.Classifier.smileRandomForest(100).train({
-  features: training,
-  classProperty: 'class',
-  inputProperties: ['B2', 'B3', 'B4', 'B5', 'B6', 'B7']
-});
-
-// 4. ใช้ตัวจำแนกกับภาพ
-var classified = image.classify(classifier);
-
-// 5. แสดงผล
-Map.addLayer(classified, {min: 0, max: 2, palette: ['blue', 'green', 'red']}, 'Classified Image');
-```
-
-#### 5.5.2 การประเมินความถูกต้อง (Accuracy Assessment)
-
-ตัวอย่าง: การคำนวณเมทริกซ์ความสับสน (Confusion Matrix)
-
-```javascript
-// สร้างชุดข้อมูลทดสอบ
-var validation = validationImage.sampleRegions({
-  collection: validationPolygons,
-  properties: ['class'],
-  scale: 30
-});
-
-// ทำนายคลาสสำหรับชุดข้อมูลทดสอบ
-var validated = validation.classify(classifier);
-
-// คำนวณเมทริกซ์ความสับสน
-var testAccuracy = validated.errorMatrix('class', 'classification');
-print('Confusion Matrix:', testAccuracy);
-print('Overall Accuracy:', testAccuracy.accuracy());
-```
-
-### 5.6 การกรองและการแปลงภาพ (Filtering and Transformations)
-
-#### 5.6.1 การกรองภาพ (Image Filtering)
-
-เราสามารถใช้ฟิลเตอร์เพื่อปรับปรุงคุณภาพของภาพ เช่น การทำให้ภาพเรียบเนียน ลดสัญญาณรบกวน
-
-ตัวอย่าง: การใช้ฟิลเตอร์แบบ Gaussian
-
-```javascript
-var smoothed = image.convolve(ee.Kernel.gaussian({
-  radius: 2,
-  sigma: 1
-}));
-
-Map.addLayer(smoothed, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'Smoothed Image');
-```
-
-#### 5.6.2 การคำนวณหลักเชิงองค์ประกอบ (Principal Component Analysis - PCA)
-
-การทำ PCA ช่วยลดมิติของข้อมูลและเน้นคุณสมบัติที่สำคัญ
-
-ตัวอย่าง: การทำ PCA บนภาพ
-
-```javascript
-// เลือกแถบสีที่สนใจ
-var bands = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
-
-// สร้างชุดข้อมูลสำหรับ PCA
-var region = geometry.buffer(10000); // กำหนดพื้นที่ที่สนใจ
-
-var scale = 30;
-
-var sample = image.select(bands).sample({
-  region: region,
-  scale: scale,
-  numPixels: 5000
-});
-
-// คำนวณสถิติการโคแวเรียนซ์
-var covar = sample.toArray().reduceRegion({
-  reducer: ee.Reducer.covariance(),
-  geometry: region,
-  scale: scale,
-  maxPixels: 1e9
-});
-
-var covarArray = ee.Array(covar.get('array'));
-
-// คำนวณค่า eigen
-var eigens = covarArray.eigen();
-
-// ได้ค่า eigenvalues และ eigenvectors
-var eigenValues = eigens.slice(1, 0, 1);
-var eigenVectors = eigens.slice(1, 1);
-
-// แปลงภาพเป็นรูปแบบอาเรย์
-var arrayImage = image.select(bands).toArray();
-
-// คำนวณ PCA
-var principalComponents = ee.Image(eigenVectors)
-  .matrixMultiply(arrayImage.toArray(1))
-  .arrayProject([0])
-  .arrayFlatten([['PC1', 'PC2', 'PC3', 'PC4', 'PC5', 'PC6']]);
-
-Map.addLayer(principalComponents.select('PC1'), {min: -2, max: 2}, 'Principal Component 1');
-```
-
-### 5.7 การหลอมข้อมูลภาพหลายแหล่ง (Data Fusion)
-
-เราสามารถหลอมข้อมูลข้อมูลจากแหล่งต่าง ๆ เพื่อเพิ่มข้อมูลที่มีประโยชน์
-
-ตัวอย่าง: การหลอมข้อมูลภาพ Sentinel-1 และ Sentinel-2
-
-```javascript
-var s2Image = ee.ImageCollection('COPERNICUS/S2')
-                .filterDate('2020-01-01', '2020-12-31')
-                .filterBounds(geometry)
-                .first();
-
-var s1Image = ee.ImageCollection('COPERNICUS/S1_GRD')
-                .filterDate('2020-01-01', '2020-12-31')
-                .filterBounds(geometry)
-                .filter(ee.Filter.eq('instrumentMode', 'IW'))
-                .filter(ee.Filter.eq('orbitProperties_pass', 'ASCENDING'))
-                .filter(ee.Filter.eq('resolution', 'H'))
-                .select('VV')
-                .mean();
-
-var fusedImage = s2Image.addBands(s1Image.rename('VV'));
-
-Map.addLayer(fusedImage.select('VV'), {min: -20, max: 0}, 'Sentinel-1 VV');
-```
-
-### 5.8 การประมวลผลข้อมูลภูมิประเทศ
+### 5.5 การประมวลผลข้อมูลภูมิประเทศ
 
 เราสามารถคำนวณข้อมูลภูมิประเทศเช่น ความสูง ความลาดชัน ทิศทาง
 
@@ -1178,10 +1032,10 @@ var terrain = ee.Algorithms.Terrain(dem);
 
 var slope = terrain.select('slope');
 
-Map.addLayer(slope, {palatte:['green', 'orange'], min: 0, max: 60}, 'Slope');
+Map.addLayer(slope, {palette:['green', 'orange'], min: 0, max: 60}, 'Slope');
 ```
 
-### 5.9 เคล็ดลับและแนวทางปฏิบัติที่ดี
+### 5.6 เคล็ดลับและแนวทางปฏิบัติที่ดี
 
 - **เข้าใจคุณสมบัติของดาวเทียมแต่ละชนิด:** แถบสี ความละเอียด เวลาการโคจร
 - **ใช้ฟังก์ชันการแมปเพื่อประมวลผลกลุ่มภาพอย่างมีประสิทธิภาพ**
@@ -1357,3 +1211,19 @@ Map.addLayer(flood_raw_mask, { palette: 'blue' }, 'Flooded (raw)', 0);
 Map.addLayer(flooded, { palette: 'blue' }, 'Flooded Areas', 1);
 
 ```
+
+## 8. ตัวอย่างกรณีศึกษาและการประยุกต์ใช้
+
+### คำนวณเชื้อเพลิง
+
+- https://earthengine-380405.projects.earthengine.app/view/npp
+
+### วิเคราะห์ร่องรอยการเผาไหม้
+
+- https://earthengine-380405.projects.earthengine.app/view/udburnscar
+
+- https://earthengine-380405.projects.earthengine.app/view/burnscar
+
+### สภาวะหุบเมืองกับคุณภาพอากาศ
+
+- https://earthengine-380405.projects.earthengine.app/view/mejiusc
