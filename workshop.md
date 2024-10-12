@@ -103,6 +103,37 @@ Google Earth Engine ใช้ JavaScript เป็นภาษาสคริป
   }
   ```
 
+<mark>**ทดลอง:** การนำเข้า Image </mark>
+
+```javascript
+  var a = "hello";
+  var b = ee.String("world");
+  print(typeof(a), typeof(b))
+
+  function greet(name) {
+    return 'Hello, ' + name;
+  }
+
+  var c = greet("Poon");
+  print(c);
+
+  var x = 5;
+  var y = 4;
+
+  var sum = x + y;
+  var isEqual = x === y;
+
+  if (x > y) {
+    print("x > y");
+  } else {
+    print("x < y");
+  }
+
+  for (var i = 0; i < 10; i++) {
+    print(i);
+  }
+```
+
 ### การทำงานระหว่าง Client และ Server ใน GEE
 
 หนึ่งในแนวคิดที่สำคัญในการเขียนสคริปต์ GEE คือความเข้าใจเกี่ยวกับการทำงานระหว่างฝั่งลูกข่าย (Client-side) และฝั่งเซิร์ฟเวอร์ (Server-side)
@@ -184,33 +215,6 @@ imageCount.evaluate(function(count) {
 
 <mark>**ทดลอง:** javascript</mark>
 ```js
-var a = "hello";
-var b = ee.String("world");
-print(typeof(a), typeof(b))
-
-function greet(name) {
-  return 'Hello, ' + name;
-}
-
-var c = greet("Poon");
-print(c);
-
-var x = 5;
-var y = 4;
-
-var sum = x + y;
-var isEqual = x === y;
-
-if (x > y) {
-  print("x > y");
-} else {
-  print("x < y");
-}
-
-for (var i = 0; i < 10; i++) {
-  print(i);
-}
-
 var polygon = ee.Geometry.Polygon([
   [
     [98.89147187028489, 18.853624853147792],
