@@ -1214,16 +1214,16 @@ Map.addLayer(flooded, { palette: 'blue' }, 'Flooded Areas', 1);
 
 ## 8. ตัวอย่างกรณีศึกษาและการประยุกต์ใช้
 
-### คำนวณเชื้อเพลิง
+#### คำนวณเชื้อเพลิง
 
 - https://earthengine-380405.projects.earthengine.app/view/npp
 
-### วิเคราะห์ร่องรอยการเผาไหม้ 
+#### วิเคราะห์ร่องรอยการเผาไหม้ 
 
 - https://earthengine-380405.projects.earthengine.app/view/udburnscar
 
 - https://earthengine-380405.projects.earthengine.app/view/burnscar
 
-### สภาวะหุบเมืองกับคุณภาพอากาศ (credit: ชญาดา วรรณา)
+#### สภาวะหุบเมืองกับคุณภาพอากาศ (credit: ชญาดา วรรณา)
 
 - https://earthengine-380405.projects.earthengine.app/view/mejiusc
