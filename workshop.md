@@ -1218,12 +1218,12 @@ Map.addLayer(flooded, { palette: 'blue' }, 'Flooded Areas', 1);
 
 - https://earthengine-380405.projects.earthengine.app/view/npp
 
-### วิเคราะห์ร่องรอยการเผาไหม้
+### วิเคราะห์ร่องรอยการเผาไหม้ 
 
 - https://earthengine-380405.projects.earthengine.app/view/udburnscar
 
 - https://earthengine-380405.projects.earthengine.app/view/burnscar
 
-### สภาวะหุบเมืองกับคุณภาพอากาศ
+### สภาวะหุบเมืองกับคุณภาพอากาศ (credit: ชญาดา วรรณา)
 
 - https://earthengine-380405.projects.earthengine.app/view/mejiusc
