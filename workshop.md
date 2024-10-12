@@ -103,36 +103,36 @@ Google Earth Engine ใช้ JavaScript เป็นภาษาสคริป
   }
   ```
 
-<mark>**ทดลอง:** การนำเข้า Image </mark>
+  <mark>**ทดลอง:** การเขียน JavaScript เบื้องต้น </mark>
 
-```javascript
-  var a = "hello";
-  var b = ee.String("world");
-  print(typeof(a), typeof(b))
+  ```javascript
+    var a = "hello";
+    var b = ee.String("world");
+    print(typeof(a), typeof(b))
 
-  function greet(name) {
-    return 'Hello, ' + name;
-  }
+    function greet(name) {
+      return 'Hello, ' + name;
+    }
 
-  var c = greet("Poon");
-  print(c);
+    var c = greet("Poon");
+    print(c);
 
-  var x = 5;
-  var y = 4;
+    var x = 5;
+    var y = 4;
 
-  var sum = x + y;
-  var isEqual = x === y;
+    var sum = x + y;
+    var isEqual = x === y;
 
-  if (x > y) {
-    print("x > y");
-  } else {
-    print("x < y");
-  }
+    if (x > y) {
+      print("x > y");
+    } else {
+      print("x < y");
+    }
 
-  for (var i = 0; i < 10; i++) {
-    print(i);
-  }
-```
+    for (var i = 0; i < 10; i++) {
+      print(i);
+    }
+  ```
 
 ### การทำงานระหว่าง Client และ Server ใน GEE
 
