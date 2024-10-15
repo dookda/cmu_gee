@@ -1382,3 +1382,15 @@ Map.addLayer(flooded, { palette: 'blue' }, 'Flooded Areas', 1);
 #### สภาวะหุบเมืองกับคุณภาพอากาศ (credit: ชญาดา วรรณา)
 
 - https://earthengine-380405.projects.earthengine.app/view/mejiusc
+
+#### อุณหภูมิพื้นผิวรายปี
+
+- https://earthengine-380405.projects.earthengine.app/view/udlst
+
+#### ดัชนีพื้ชพรรณและความชื้น
+
+- https://earthengine-380405.projects.earthengine.app/view/udfire-vi
+
+#### วิเคราะห์พื้นที่น้ำท่วม
+
+- https://earthengine-380405.projects.earthengine.app/view/flood-analysis
