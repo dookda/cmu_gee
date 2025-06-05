@@ -1,0 +1,4 @@
+### get ee api
+GET http://localhost:3000/api/ee
+
+### get ee api with query parameters

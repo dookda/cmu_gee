@@ -1,0 +1,24 @@
+{
+  "name": "gee",
+  "version": "1.0.0",
+  "description": "test gee in node js",
+  "keywords": [
+    "gee",
+    "in",
+    "nodejs"
+  ],
+  "license": "MIT",
+  "author": "sakda homhuan",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google/earthengine": "^1.5.18",
+    "express": "^5.1.0",
+    "google-auth-library": "^9.15.1",
+    "open": "^10.1.2"
+  }
+}
